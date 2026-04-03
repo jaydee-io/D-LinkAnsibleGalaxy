@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Ansible
+*.retry
+
+# Secrets
+*.vault
+vault_password*
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store

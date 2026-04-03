@@ -1,0 +1,17 @@
+namespace: dlink
+name: dgs1250
+version: 0.1.0
+readme: README.md
+description: Ansible Collection for D-Link DGS-1250 Series Smart Managed Switch administration
+license:
+  - GPL-2.0-or-later
+authors:
+  - Jérôme Dumesnil
+tags:
+  - networking
+  - dlink
+  - switch
+dependencies: {}
+repository: ""
+homepage: ""
+issues: ""
