@@ -142,14 +142,15 @@ from ansible.module_utils.basic import AnsibleModule
 
 try:
     from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import (
-        DGS1250Connection,
+        CONNECTION_ARGSPEC,
         HAS_PARAMIKO,
+        connection_from_params,
     )
 except ImportError:
     # Fallback for running outside collection context (unit tests, etc.)
     import sys, os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
-    from dgs1250 import DGS1250Connection, HAS_PARAMIKO
+    from dgs1250 import CONNECTION_ARGSPEC, HAS_PARAMIKO, connection_from_params
 
 
 # ---------------------------------------------------------------------------
@@ -268,30 +269,21 @@ def _parse_power(output):
 # ---------------------------------------------------------------------------
 
 def main():
+    argument_spec = dict(**CONNECTION_ARGSPEC)
+    argument_spec["component"] = dict(
+        type="str",
+        choices=["fan", "power", "temperature"],
+        default=None,
+    )
+
     module = AnsibleModule(
-        argument_spec=dict(
-            host=dict(type="str", required=True),
-            username=dict(type="str", required=True),
-            password=dict(type="str", required=True, no_log=True),
-            port=dict(type="int", default=22),
-            timeout=dict(type="int", default=30),
-            component=dict(
-                type="str",
-                choices=["fan", "power", "temperature"],
-                default=None,
-            ),
-        ),
+        argument_spec=argument_spec,
         supports_check_mode=True,
     )
 
     if not HAS_PARAMIKO:
         module.fail_json(msg="paramiko is required: pip install paramiko")
 
-    host = module.params["host"]
-    username = module.params["username"]
-    password = module.params["password"]
-    port = module.params["port"]
-    timeout = module.params["timeout"]
     component = module.params["component"]
 
     command = "show environment"
@@ -299,7 +291,7 @@ def main():
         command += " " + component
 
     try:
-        with DGS1250Connection(host, username, password, port, timeout) as conn:
+        with connection_from_params(module.params) as conn:
             raw_output = conn.send_command(command)
     except Exception as e:
         module.fail_json(msg="SSH connection or command failed: %s" % str(e))

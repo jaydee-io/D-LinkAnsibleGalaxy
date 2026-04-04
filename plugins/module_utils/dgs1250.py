@@ -86,3 +86,27 @@ class DGS1250Connection:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.disconnect()
+
+
+# ---------------------------------------------------------------------------
+# Shared Ansible module helpers
+# ---------------------------------------------------------------------------
+
+CONNECTION_ARGSPEC = dict(
+    host=dict(type="str", required=True),
+    username=dict(type="str", required=True),
+    password=dict(type="str", required=True, no_log=True),
+    port=dict(type="int", default=22),
+    timeout=dict(type="int", default=30),
+)
+
+
+def connection_from_params(params):
+    """Create a DGS1250Connection from Ansible module params."""
+    return DGS1250Connection(
+        host=params["host"],
+        username=params["username"],
+        password=params["password"],
+        port=params["port"],
+        timeout=params["timeout"],
+    )
