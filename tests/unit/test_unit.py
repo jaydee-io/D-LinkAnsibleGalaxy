@@ -1,6 +1,6 @@
 """Unit tests for unit module parsers."""
 
-from unit import _parse_model, _parse_unit_info, _parse_memory
+from unit import _parse_model, _parse_unit_info, _parse_uptime, _parse_memory
 
 SAMPLE_OUTPUT = """
        Model Descr                            Model Name
@@ -28,7 +28,26 @@ def test_parse_unit_info():
     unit = _parse_unit_info(SAMPLE_OUTPUT)
     assert unit["serial_number"] == "DGS1250102030"
     assert unit["status"] == "ok"
-    assert unit["uptime"] == "0DT0H38M59S"
+    assert unit["uptime"] == {"days": 0, "hours": 0, "minutes": 38, "seconds": 59}
+    assert unit["uptime_raw"] == 2339
+
+
+def test_parse_uptime():
+    uptime, total = _parse_uptime("3DT2H38M59S")
+    assert uptime == {"days": 3, "hours": 2, "minutes": 38, "seconds": 59}
+    assert total == 3 * 86400 + 2 * 3600 + 38 * 60 + 59
+
+
+def test_parse_uptime_zero():
+    uptime, total = _parse_uptime("0DT0H0M0S")
+    assert uptime == {"days": 0, "hours": 0, "minutes": 0, "seconds": 0}
+    assert total == 0
+
+
+def test_parse_uptime_invalid():
+    uptime, total = _parse_uptime("invalid")
+    assert uptime == {"days": 0, "hours": 0, "minutes": 0, "seconds": 0}
+    assert total == 0
 
 
 def test_parse_memory():

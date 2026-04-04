@@ -68,9 +68,29 @@ unit:
       type: str
       sample: "ok"
     uptime:
-      description: System uptime in DdTHhMmSs format.
-      type: str
-      sample: "0DT0H38M59S"
+      description: System uptime broken down into days, hours, minutes and seconds.
+      type: dict
+      contains:
+        days:
+          description: Number of days.
+          type: int
+          sample: 0
+        hours:
+          description: Number of hours.
+          type: int
+          sample: 0
+        minutes:
+          description: Number of minutes.
+          type: int
+          sample: 38
+        seconds:
+          description: Number of seconds.
+          type: int
+          sample: 59
+    uptime_raw:
+      description: Total uptime in seconds.
+      type: int
+      sample: 2339
 memory:
   description: Memory usage for DRAM and FLASH.
   returned: always
@@ -141,6 +161,28 @@ def _parse_model(output):
     return result
 
 
+def _parse_uptime(raw_uptime):
+    """
+    Parse a DdTHhMmSs uptime string into a dict and total seconds.
+
+    Example: "3DT2H38M59S" -> {"days": 3, "hours": 2, "minutes": 38, "seconds": 59}, 268739
+    """
+    uptime = {"days": 0, "hours": 0, "minutes": 0, "seconds": 0}
+    m = re.match(r"(\d+)DT(\d+)H(\d+)M(\d+)S", raw_uptime)
+    if m:
+        uptime["days"] = int(m.group(1))
+        uptime["hours"] = int(m.group(2))
+        uptime["minutes"] = int(m.group(3))
+        uptime["seconds"] = int(m.group(4))
+    total = (
+        uptime["days"] * 86400
+        + uptime["hours"] * 3600
+        + uptime["minutes"] * 60
+        + uptime["seconds"]
+    )
+    return uptime, total
+
+
 def _parse_unit_info(output):
     """
     Parse the unit info section.
@@ -150,7 +192,7 @@ def _parse_unit_info(output):
     ---------------------------------  ---------  -----------------
      DGS1250102030                      ok         0DT0H38M59S
     """
-    result = {"serial_number": "", "status": "", "uptime": ""}
+    result = {"serial_number": "", "status": "", "uptime": {"days": 0, "hours": 0, "minutes": 0, "seconds": 0}, "uptime_raw": 0}
     in_section = False
 
     for line in output.splitlines():
@@ -166,7 +208,7 @@ def _parse_unit_info(output):
         if m:
             result["serial_number"] = m.group(1).strip()
             result["status"] = m.group(2).strip()
-            result["uptime"] = m.group(3).strip()
+            result["uptime"], result["uptime_raw"] = _parse_uptime(m.group(3).strip())
             break
 
     return result
