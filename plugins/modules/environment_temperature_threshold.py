@@ -9,34 +9,13 @@ DOCUMENTATION = r"""
 module: environment_temperature_threshold
 short_description: Configure environment temperature thresholds on a D-Link DGS-1250 switch
 description:
-  - Configures the C(environment temperature threshold thermal) command on a D-Link DGS-1250 switch via SSH.
+  - Configures the C(environment temperature threshold thermal) command on a D-Link DGS-1250 switch.
   - Sets or resets high and low temperature thresholds for environment monitoring.
   - Corresponds to CLI command described in chapter 2-15 of the DGS-1250 CLI Reference Guide.
 version_added: "0.1.0"
 author:
   - Jérôme Dumesnil
 options:
-  host:
-    description: IP address or hostname of the switch.
-    required: true
-    type: str
-  username:
-    description: SSH username.
-    required: true
-    type: str
-  password:
-    description: SSH password.
-    required: true
-    type: str
-    no_log: true
-  port:
-    description: SSH port.
-    type: int
-    default: 22
-  timeout:
-    description: SSH connection timeout in seconds.
-    type: int
-    default: 30
   state:
     description:
       - Whether to set (C(present)) or reset to default (C(absent)) the thresholds.
@@ -56,8 +35,8 @@ options:
       - Must be smaller than C(high).
     type: int
 notes:
-  - Requires C(paramiko) on the Ansible controller (C(pip install paramiko)).
-  - The switch must be reachable via SSH from the Ansible controller.
+  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command requires Global Configuration Mode.
   - The low threshold must be smaller than the high threshold.
 """
@@ -65,17 +44,11 @@ notes:
 EXAMPLES = r"""
 - name: Set temperature thresholds
   dlink.dgs1250.environment_temperature_threshold:
-    host: 192.168.1.1
-    username: admin
-    password: admin
     high: 100
     low: 20
 
 - name: Reset temperature thresholds to default
   dlink.dgs1250.environment_temperature_threshold:
-    host: 192.168.1.1
-    username: admin
-    password: admin
     state: absent
 """
 
@@ -94,15 +67,11 @@ commands:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import (
-        CONNECTION_ARGSPEC,
-        HAS_PARAMIKO,
-        connection_from_params,
-    )
+    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import run_commands
 except ImportError:
     import sys, os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
-    from dgs1250 import CONNECTION_ARGSPEC, HAS_PARAMIKO, connection_from_params
+    from dgs1250 import run_commands
 
 
 # ---------------------------------------------------------------------------
@@ -135,18 +104,14 @@ def _build_command(state, high, low):
 # ---------------------------------------------------------------------------
 
 def main():
-    argument_spec = dict(**CONNECTION_ARGSPEC)
-    argument_spec["state"] = dict(type="str", choices=["present", "absent"], default="present")
-    argument_spec["high"] = dict(type="int")
-    argument_spec["low"] = dict(type="int")
-
     module = AnsibleModule(
-        argument_spec=argument_spec,
+        argument_spec=dict(
+            state=dict(type="str", choices=["present", "absent"], default="present"),
+            high=dict(type="int"),
+            low=dict(type="int"),
+        ),
         supports_check_mode=True,
     )
-
-    if not HAS_PARAMIKO:
-        module.fail_json(msg="paramiko is required: pip install paramiko")
 
     state = module.params["state"]
     high = module.params["high"]
@@ -172,12 +137,9 @@ def main():
         return
 
     try:
-        with connection_from_params(module.params) as conn:
-            raw_output = ""
-            for cmd in commands:
-                raw_output += conn.send_command(cmd) + "\n"
+        raw_output = run_commands(module, commands)
     except Exception as e:
-        module.fail_json(msg="SSH connection or command failed: %s" % str(e))
+        module.fail_json(msg="Command failed: %s" % str(e))
 
     module.exit_json(changed=True, raw_output=raw_output, commands=commands)
 

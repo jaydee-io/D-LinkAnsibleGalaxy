@@ -9,45 +9,21 @@ DOCUMENTATION = r"""
 module: unit
 short_description: Display system unit information of a D-Link DGS-1250 switch
 description:
-  - Executes the C(show unit) CLI command on a D-Link DGS-1250 switch via SSH.
+  - Executes the C(show unit) CLI command on a D-Link DGS-1250 switch.
   - Returns structured data for model, serial number, status, uptime, and memory usage.
   - Corresponds to CLI command described in chapter 2-11 of the DGS-1250 CLI Reference Guide.
 version_added: "0.1.0"
 author:
   - Jérôme Dumesnil
-options:
-  host:
-    description: IP address or hostname of the switch.
-    required: true
-    type: str
-  username:
-    description: SSH username.
-    required: true
-    type: str
-  password:
-    description: SSH password.
-    required: true
-    type: str
-    no_log: true
-  port:
-    description: SSH port.
-    type: int
-    default: 22
-  timeout:
-    description: SSH connection timeout in seconds.
-    type: int
-    default: 30
+options: {}
 notes:
-  - Requires C(paramiko) on the Ansible controller (C(pip install paramiko)).
-  - The switch must be reachable via SSH from the Ansible controller.
+  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
 """
 
 EXAMPLES = r"""
 - name: Get unit information
   dlink.dgs1250.unit:
-    host: 192.168.1.1
-    username: admin
-    password: admin
   register: unit_info
 
 - name: Display model name
@@ -56,9 +32,6 @@ EXAMPLES = r"""
 
 - name: Fail if unit status is not ok
   dlink.dgs1250.unit:
-    host: 192.168.1.1
-    username: admin
-    password: admin
   register: unit_info
   failed_when: unit_info.unit.status != 'ok'
 """
@@ -126,15 +99,11 @@ import re
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import (
-        CONNECTION_ARGSPEC,
-        HAS_PARAMIKO,
-        connection_from_params,
-    )
+    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import run_command
 except ImportError:
     import sys, os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
-    from dgs1250 import CONNECTION_ARGSPEC, HAS_PARAMIKO, connection_from_params
+    from dgs1250 import run_command
 
 
 # ---------------------------------------------------------------------------
@@ -246,28 +215,22 @@ def _parse_memory(output):
 
 def main():
     module = AnsibleModule(
-        argument_spec=dict(**CONNECTION_ARGSPEC),
+        argument_spec=dict(),
         supports_check_mode=True,
     )
 
-    if not HAS_PARAMIKO:
-        module.fail_json(msg="paramiko is required: pip install paramiko")
-
     try:
-        with connection_from_params(module.params) as conn:
-            raw_output = conn.send_command("show unit")
+        raw_output = run_command(module, "show unit")
     except Exception as e:
-        module.fail_json(msg="SSH connection or command failed: %s" % str(e))
+        module.fail_json(msg="Command failed: %s" % str(e))
 
-    result = dict(
+    module.exit_json(
         changed=False,
         raw_output=raw_output,
         model=_parse_model(raw_output),
         unit=_parse_unit_info(raw_output),
         memory=_parse_memory(raw_output),
     )
-
-    module.exit_json(**result)
 
 
 if __name__ == "__main__":

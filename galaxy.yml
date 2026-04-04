@@ -11,7 +11,8 @@ tags:
   - networking
   - dlink
   - switch
-dependencies: {}
+dependencies:
+  ansible.netcommon: ">=2.0.0"
 repository: ""
 homepage: ""
 issues: ""
