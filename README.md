@@ -80,6 +80,22 @@ all:
 | `environment_temperature_threshold` | Configure temperature thresholds (high/low) | § 2-15 |
 | `memory_utilization` | Display DRAM and FLASH memory usage | § 2-16 |
 | `privilege` | Display current privilege level | § 2-17 |
+| `dot1x_clear_counters` | Clear 802.1X counters on all or specific interfaces | § 3-1 |
+| `dot1x_control_direction` | Configure 802.1X traffic control direction (both/in) on a port | § 3-2 |
+| `dot1x_default` | Reset 802.1X parameters to defaults on a port | § 3-3 |
+| `dot1x_port_control` | Configure port authorization state (auto/force-authorized/force-unauthorized) | § 3-4 |
+| `dot1x_forward_pdu` | Enable or disable 802.1X PDU forwarding on a port | § 3-5 |
+| `dot1x_initialize` | Initialize 802.1X authenticator state machine on a port or MAC address | § 3-6 |
+| `dot1x_max_req` | Configure maximum EAP request retransmissions (1-10) on a port | § 3-7 |
+| `dot1x_pae_authenticator` | Enable or disable 802.1X PAE authenticator on a port | § 3-8 |
+| `dot1x_re_authenticate` | Re-authenticate 802.1X on a port or MAC address | § 3-9 |
+| `dot1x_system_auth_control` | Enable or disable 802.1X authentication globally | § 3-10 |
+| `dot1x_timeout` | Configure 802.1X timers (server-timeout, supp-timeout, tx-period) on a port | § 3-11 |
+| `dot1x_show` | Display 802.1X global or interface configuration | § 3-12 |
+| `dot1x_show_diagnostics` | Display 802.1X diagnostics counters per interface | § 3-13 |
+| `dot1x_show_statistics` | Display 802.1X EAPOL frame statistics per interface | § 3-14 |
+| `dot1x_show_session_statistics` | Display 802.1X session statistics per interface | § 3-15 |
+| `dot1x_snmp_traps` | Enable or disable 802.1X SNMP traps | § 3-16 |
 
 ## Usage example
 
