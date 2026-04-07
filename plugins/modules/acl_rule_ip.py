@@ -45,32 +45,32 @@ options:
     choices: [present, absent]
     default: present
 notes:
-  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
     C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command requires entering the IP Access-list Configuration Mode.
 """
 
 EXAMPLES = r"""
 - name: Add permit rule for TCP to network 10.20.0.0
-  dlink.dgs1250.acl_rule_ip:
+  jaydee_io.dlink_dgs1250.acl_rule_ip:
     acl_name: Strict-Control
     extended: true
     rule: "permit tcp any 10.20.0.0 0.0.255.255"
 
 - name: Add permit rule with sequence number
-  dlink.dgs1250.acl_rule_ip:
+  jaydee_io.dlink_dgs1250.acl_rule_ip:
     acl_name: Strict-Control
     extended: true
     rule: "5 permit tcp any 10.30.0.0 0.0.255.255"
 
 - name: Add permit rule for ICMP
-  dlink.dgs1250.acl_rule_ip:
+  jaydee_io.dlink_dgs1250.acl_rule_ip:
     acl_name: Strict-Control
     extended: true
     rule: "permit icmp any any"
 
 - name: Remove rule by sequence number
-  dlink.dgs1250.acl_rule_ip:
+  jaydee_io.dlink_dgs1250.acl_rule_ip:
     acl_name: Strict-Control
     extended: true
     sequence: 10
@@ -92,7 +92,7 @@ commands:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import (
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import (
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:

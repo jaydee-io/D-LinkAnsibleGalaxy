@@ -46,31 +46,31 @@ options:
     choices: [present, absent]
     default: present
 notes:
-  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
     C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command runs in Interface Configuration Mode.
 """
 
 EXAMPLES = r"""
 - name: Set all three timers on port 1
-  dlink.dgs1250.dot1x_timeout:
+  jaydee_io.dlink_dgs1250.dot1x_timeout:
     interface: eth1/0/1
     server_timeout: 15
     supp_timeout: 15
     tx_period: 10
 
 - name: Set only tx-period on port 1
-  dlink.dgs1250.dot1x_timeout:
+  jaydee_io.dlink_dgs1250.dot1x_timeout:
     interface: eth1/0/1
     tx_period: 10
 
 - name: Reset all timers to defaults on port 1
-  dlink.dgs1250.dot1x_timeout:
+  jaydee_io.dlink_dgs1250.dot1x_timeout:
     interface: eth1/0/1
     state: absent
 
 - name: Reset only tx-period to default on port 1
-  dlink.dgs1250.dot1x_timeout:
+  jaydee_io.dlink_dgs1250.dot1x_timeout:
     interface: eth1/0/1
     tx_period: 0
     state: absent
@@ -91,7 +91,7 @@ commands:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import (
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import (
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:

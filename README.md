@@ -15,7 +15,7 @@ Ansible Galaxy collection for administering D-Link DGS-1250 Series Gigabit Ether
 ## Installation
 
 ```bash
-ansible-galaxy collection install dlink.dgs1250
+ansible-galaxy collection install jaydee_io.dlink_dgs1250
 ```
 
 ## Inventory
@@ -32,7 +32,7 @@ sw2 ansible_host=192.168.1.2
 
 [switches:vars]
 ansible_connection=ansible.netcommon.network_cli
-ansible_network_os=dlink.dgs1250.dgs1250
+ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250
 ansible_user=admin
 ansible_password=admin
 ansible_port=22
@@ -51,7 +51,7 @@ all:
           ansible_host: 192.168.1.2
       vars:
         ansible_connection: ansible.netcommon.network_cli
-        ansible_network_os: dlink.dgs1250.dgs1250
+        ansible_network_os: jaydee_io.dlink_dgs1250.dgs1250
         ansible_user: admin
         ansible_password: admin
         ansible_port: 22
@@ -62,7 +62,7 @@ all:
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `ansible_connection` | yes | Must be `ansible.netcommon.network_cli` |
-| `ansible_network_os` | yes | Must be `dlink.dgs1250.dgs1250` |
+| `ansible_network_os` | yes | Must be `jaydee_io.dlink_dgs1250.dgs1250` |
 | `ansible_host` | yes | IP address or hostname of the switch |
 | `ansible_user` | yes | SSH username |
 | `ansible_password` | yes | SSH password |
@@ -132,7 +132,7 @@ all:
   gather_facts: false
   tasks:
     - name: Get environment status
-      dlink.dgs1250.environment:
+      jaydee_io.dlink_dgs1250.environment:
       register: env
 
     - name: Show temperatures
@@ -140,7 +140,7 @@ all:
         var: env.temperatures
 
     - name: Get CPU utilization
-      dlink.dgs1250.cpu_utilization:
+      jaydee_io.dlink_dgs1250.cpu_utilization:
       register: cpu
 
     - name: Warn if CPU is high
@@ -149,7 +149,7 @@ all:
       when: cpu.five_seconds_percent > 80
 
     - name: Get unit information
-      dlink.dgs1250.unit:
+      jaydee_io.dlink_dgs1250.unit:
       register: unit_info
 
     - name: Show uptime
@@ -157,7 +157,7 @@ all:
         msg: "Uptime: {{ unit_info.unit.uptime.days }}d {{ unit_info.unit.uptime.hours }}h"
 
     - name: Set temperature thresholds
-      dlink.dgs1250.environment_temperature_threshold:
+      jaydee_io.dlink_dgs1250.environment_temperature_threshold:
         high: 100
         low: 20
 ```

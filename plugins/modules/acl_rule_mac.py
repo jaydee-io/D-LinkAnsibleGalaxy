@@ -40,7 +40,7 @@ options:
     choices: [present, absent]
     default: present
 notes:
-  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
     C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command requires entering the MAC Access-list Configuration Mode.
   - MAC access lists are always extended on the DGS-1250.
@@ -48,12 +48,12 @@ notes:
 
 EXAMPLES = r"""
 - name: Add permit rule for specific source MAC
-  dlink.dgs1250.acl_rule_mac:
+  jaydee_io.dlink_dgs1250.acl_rule_mac:
     acl_name: daily-profile
     rule: "permit 00:80:33:00:00:00 00:00:00:ff:ff:ff any"
 
 - name: Remove rule by sequence number
-  dlink.dgs1250.acl_rule_mac:
+  jaydee_io.dlink_dgs1250.acl_rule_mac:
     acl_name: daily-profile
     sequence: 10
     state: absent
@@ -74,7 +74,7 @@ commands:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import (
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import (
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:

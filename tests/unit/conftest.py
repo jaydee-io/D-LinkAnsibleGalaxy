@@ -27,10 +27,10 @@ for mod_name, mod_obj in [
 for mod in [
     "ansible_collections",
     "ansible_collections.dlink",
-    "ansible_collections.dlink.dgs1250",
-    "ansible_collections.dlink.dgs1250.plugins",
-    "ansible_collections.dlink.dgs1250.plugins.module_utils",
-    "ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250",
+    "ansible_collections.jaydee_io.dlink_dgs1250",
+    "ansible_collections.jaydee_io.dlink_dgs1250.plugins",
+    "ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils",
+    "ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250",
 ]:
     sys.modules.setdefault(mod, types.ModuleType(mod))
 

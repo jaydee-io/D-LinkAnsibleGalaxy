@@ -29,7 +29,7 @@ options:
       - Mutually exclusive with C(interfaces).
     type: str
 notes:
-  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
     C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command runs in Privileged EXEC Mode.
   - In multi-host mode, specify interfaces. In multi-auth mode, specify a MAC address.
@@ -37,12 +37,12 @@ notes:
 
 EXAMPLES = r"""
 - name: Initialize authenticator on port 1
-  dlink.dgs1250.dot1x_initialize:
+  jaydee_io.dlink_dgs1250.dot1x_initialize:
     interfaces:
       - eth1/0/1
 
 - name: Initialize authenticator for a MAC address
-  dlink.dgs1250.dot1x_initialize:
+  jaydee_io.dlink_dgs1250.dot1x_initialize:
     mac_address: "00-11-22-33-44-55"
 """
 
@@ -61,7 +61,7 @@ commands:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import (
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import (
         run_commands, MODE_PRIVILEGED,
     )
 except ImportError:

@@ -22,17 +22,17 @@ options:
       - If omitted, all access-group hardware counters are cleared.
     type: str
 notes:
-  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
     C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
 """
 
 EXAMPLES = r"""
 - name: Clear hardware counter for access-list 'abc'
-  dlink.dgs1250.acl_clear_hardware_counter:
+  jaydee_io.dlink_dgs1250.acl_clear_hardware_counter:
     name: abc
 
 - name: Clear all ACL hardware counters
-  dlink.dgs1250.acl_clear_hardware_counter:
+  jaydee_io.dlink_dgs1250.acl_clear_hardware_counter:
 """
 
 RETURN = r"""
@@ -50,7 +50,7 @@ commands:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import run_command
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import run_command
 except ImportError:
     import sys, os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))

@@ -29,23 +29,23 @@ options:
       - Only used when C(acl_type) is specified.
     type: str
 notes:
-  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
     C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
 """
 
 EXAMPLES = r"""
 - name: Show summary of all access lists
-  dlink.dgs1250.acl_show_access_list:
+  jaydee_io.dlink_dgs1250.acl_show_access_list:
   register: result
 
 - name: Show IP access list 'Strict-Control'
-  dlink.dgs1250.acl_show_access_list:
+  jaydee_io.dlink_dgs1250.acl_show_access_list:
     acl_type: ip
     name: Strict-Control
   register: result
 
 - name: Show all MAC access lists
-  dlink.dgs1250.acl_show_access_list:
+  jaydee_io.dlink_dgs1250.acl_show_access_list:
     acl_type: mac
   register: result
 """
@@ -80,7 +80,7 @@ import re
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import run_command
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import run_command
 except ImportError:
     import sys, os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))

@@ -34,7 +34,7 @@ options:
     choices: [present, absent]
     default: present
 notes:
-  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
     C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command requires Interface Configuration Mode.
   - Only one IP access list can be applied per interface; a new one overwrites the previous.
@@ -42,12 +42,12 @@ notes:
 
 EXAMPLES = r"""
 - name: Apply IP access list 'Strict-Control' to port 2
-  dlink.dgs1250.acl_ip_access_group:
+  jaydee_io.dlink_dgs1250.acl_ip_access_group:
     interface: eth1/0/2
     name: Strict-Control
 
 - name: Remove IP access group from port 2
-  dlink.dgs1250.acl_ip_access_group:
+  jaydee_io.dlink_dgs1250.acl_ip_access_group:
     interface: eth1/0/2
     name: Strict-Control
     state: absent
@@ -68,7 +68,7 @@ commands:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import (
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import (
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:

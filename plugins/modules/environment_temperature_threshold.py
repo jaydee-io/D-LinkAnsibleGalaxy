@@ -35,7 +35,7 @@ options:
       - Must be smaller than C(high).
     type: int
 notes:
-  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
     C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command requires Global Configuration Mode.
   - The low threshold must be smaller than the high threshold.
@@ -43,12 +43,12 @@ notes:
 
 EXAMPLES = r"""
 - name: Set temperature thresholds
-  dlink.dgs1250.environment_temperature_threshold:
+  jaydee_io.dlink_dgs1250.environment_temperature_threshold:
     high: 100
     low: 20
 
 - name: Reset temperature thresholds to default
-  dlink.dgs1250.environment_temperature_threshold:
+  jaydee_io.dlink_dgs1250.environment_temperature_threshold:
     state: absent
 """
 
@@ -67,7 +67,7 @@ commands:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import (
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import (
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:

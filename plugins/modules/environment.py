@@ -23,22 +23,22 @@ options:
     type: str
     choices: [fan, power, temperature]
 notes:
-  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
     C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
 """
 
 EXAMPLES = r"""
 - name: Get full environment status
-  dlink.dgs1250.environment:
+  jaydee_io.dlink_dgs1250.environment:
   register: env_status
 
 - name: Check fan status only
-  dlink.dgs1250.environment:
+  jaydee_io.dlink_dgs1250.environment:
     component: fan
   register: fan_status
 
 - name: Fail if any power module is not In-operation
-  dlink.dgs1250.environment:
+  jaydee_io.dlink_dgs1250.environment:
     component: power
   register: power_status
   failed_when: >
@@ -111,7 +111,7 @@ import re
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import run_command
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import run_command
 except ImportError:
     import sys, os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))

@@ -34,19 +34,19 @@ options:
     choices: [present, absent]
     default: present
 notes:
-  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
     C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command runs in Interface Configuration Mode.
 """
 
 EXAMPLES = r"""
 - name: Set max EAP retransmissions to 3 on port 1
-  dlink.dgs1250.dot1x_max_req:
+  jaydee_io.dlink_dgs1250.dot1x_max_req:
     interface: eth1/0/1
     times: 3
 
 - name: Reset to default (2) on port 1
-  dlink.dgs1250.dot1x_max_req:
+  jaydee_io.dlink_dgs1250.dot1x_max_req:
     interface: eth1/0/1
     state: absent
 """
@@ -66,7 +66,7 @@ commands:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import (
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import (
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:

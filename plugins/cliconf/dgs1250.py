@@ -23,7 +23,7 @@ class Cliconf(CliconfBase):
 
     def get_device_info(self):
         device_info = {}
-        device_info["network_os"] = "dlink.dgs1250.dgs1250"
+        device_info["network_os"] = "jaydee_io.dlink_dgs1250.dgs1250"
 
         reply = self.get("show version")
         if reply:

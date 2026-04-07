@@ -22,17 +22,17 @@ options:
       - If omitted, global 802.1X configuration is returned.
     type: str
 notes:
-  - This module requires C(ansible_network_os=dlink.dgs1250.dgs1250) and
+  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
     C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
 """
 
 EXAMPLES = r"""
 - name: Get global 802.1X configuration
-  dlink.dgs1250.dot1x_show:
+  jaydee_io.dlink_dgs1250.dot1x_show:
   register: dot1x_global
 
 - name: Get 802.1X configuration on port 1
-  dlink.dgs1250.dot1x_show:
+  jaydee_io.dlink_dgs1250.dot1x_show:
     interface: eth1/0/1
   register: dot1x_port
 """
@@ -102,7 +102,7 @@ import re
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.dlink.dgs1250.plugins.module_utils.dgs1250 import run_command
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import run_command
 except ImportError:
     import sys, os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
