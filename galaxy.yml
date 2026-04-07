@@ -13,6 +13,6 @@ tags:
   - switch
 dependencies:
   ansible.netcommon: ">=2.0.0"
-repository: ""
-homepage: ""
-issues: ""
+repository: https://github.com/jaydee-io/D-LinkAnsibleGalaxy
+homepage: https://github.com/jaydee-io/D-LinkAnsibleGalaxy
+issues: https://github.com/jaydee-io/D-LinkAnsibleGalaxy/issues
