@@ -70,6 +70,8 @@ all:
 
 ## Modules
 
+### Basic Switch Commands
+
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
 | `environment` | Display fan, temperature, and power status | § 2-10 |
@@ -80,6 +82,11 @@ all:
 | `environment_temperature_threshold` | Configure temperature thresholds (high/low) | § 2-15 |
 | `memory_utilization` | Display DRAM and FLASH memory usage | § 2-16 |
 | `privilege` | Display current privilege level | § 2-17 |
+
+### 802.1X Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
 | `dot1x_clear_counters` | Clear 802.1X counters on all or specific interfaces | § 3-1 |
 | `dot1x_control_direction` | Configure 802.1X traffic control direction (both/in) on a port | § 3-2 |
 | `dot1x_default` | Reset 802.1X parameters to defaults on a port | § 3-3 |
@@ -96,6 +103,26 @@ all:
 | `dot1x_show_statistics` | Display 802.1X EAPOL frame statistics per interface | § 3-14 |
 | `dot1x_show_session_statistics` | Display 802.1X session statistics per interface | § 3-15 |
 | `dot1x_snmp_traps` | Enable or disable 802.1X SNMP traps | § 3-16 |
+
+### Access Control List (ACL) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `acl_resequence` | Re-sequence ACL entries starting sequence and increment | § 4-1 |
+| `acl_hardware_counter` | Enable or disable ACL hardware packet counter | § 4-2 |
+| `acl_clear_hardware_counter` | Clear ACL hardware packet counters | § 4-3 |
+| `acl_ip_access_group` | Apply or remove an IP access list on an interface | § 4-4 |
+| `acl_ip_access_list` | Create or delete a standard/extended IP access list | § 4-5 |
+| `acl_ipv6_access_group` | Apply or remove an IPv6 access list on an interface | § 4-6 |
+| `acl_ipv6_access_list` | Create or delete a standard/extended IPv6 access list | § 4-7 |
+| `acl_list_remark` | Add or remove a remark on an ACL | § 4-8 |
+| `acl_mac_access_group` | Apply or remove a MAC access list on an interface | § 4-9 |
+| `acl_mac_access_list` | Create or delete a MAC access list | § 4-10 |
+| `acl_rule_ip` | Add or remove a permit/deny rule in an IP access list | § 4-11 |
+| `acl_rule_ipv6` | Add or remove a permit/deny rule in an IPv6 access list | § 4-12 |
+| `acl_rule_mac` | Add or remove a permit/deny rule in a MAC access list | § 4-13 |
+| `acl_show_access_group` | Display access group bindings per interface | § 4-14 |
+| `acl_show_access_list` | Display access list configuration and rules | § 4-15 |
 
 ## Usage example
 
