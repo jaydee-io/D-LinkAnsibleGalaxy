@@ -151,6 +151,13 @@ all:
 | `mgmt_password` | Set or remove line password (console/telnet/ssh) | § 5-23 |
 | `mgmt_clear_line` | Disconnect a user session by line ID | § 5-24 |
 
+### ARP Spoofing Prevention Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `arp_spoofing_prevention` | Configure ARP spoofing prevention entry (gateway IP/MAC/interface) | § 6-1 |
+| `arp_show_spoofing_prevention` | Display ARP spoofing prevention entries | § 6-2 |
+
 ## Usage example
 
 ```yaml
