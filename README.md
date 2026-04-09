@@ -246,6 +246,31 @@ all:
 |--------|-------------|---------------|
 | `command_logging` | Enable or disable command logging | § 12-1 |
 
+### Debug Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `debug_reboot_on_error` | Enable or disable reboot on fatal error | § 13-1 |
+| `debug_copy` | Copy debug information (error-log/tech-support) to a destination | § 13-2 |
+| `debug_clear_error_log` | Clear the error log | § 13-3 |
+| `debug_show_error_log` | Display error log information | § 13-4 |
+| `debug_show_tech_support` | Display technical support information | § 13-5 |
+
+### DHCP Auto-Configuration Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `autoconfig_enable` | Enable or disable DHCP auto-configuration | § 14-1 |
+| `autoconfig_show` | Display auto-configuration status | § 14-2 |
+
+### DHCP Client Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `dhcp_client_class_id` | Configure DHCP client vendor class identifier (Option 60) | § 15-1 |
+| `dhcp_client_client_id` | Configure DHCP client ID (MAC address of a VLAN interface) | § 15-2 |
+| `dhcp_client_lease` | Configure DHCP client lease time | § 15-3 |
+
 ## Usage example
 
 ```yaml
