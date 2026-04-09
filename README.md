@@ -124,6 +124,33 @@ all:
 | `acl_show_access_group` | Display access group bindings per interface | § 4-14 |
 | `acl_show_access_list` | Display access list configuration and rules | § 4-15 |
 
+### Administration Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `mgmt_access_class` | Restrict access via a line (console/telnet/ssh) with an IP ACL | § 5-1 |
+| `mgmt_enable_password` | Set or remove the enable password | § 5-3 |
+| `mgmt_ip_http_server` | Enable or disable the HTTP server | § 5-4 |
+| `mgmt_ip_http_secure_server` | Enable or disable the HTTPS server with optional SSL policy | § 5-5 |
+| `mgmt_ip_http_access_class` | Apply or remove an ACL on HTTP/HTTPS server | § 5-6 |
+| `mgmt_ip_http_service_port` | Set or reset the HTTP/HTTPS service port | § 5-7 |
+| `mgmt_ip_http_timeout` | Set or reset the HTTP session timeout | § 5-8 |
+| `mgmt_ip_telnet_server` | Enable or disable the Telnet server | § 5-9 |
+| `mgmt_ip_telnet_service_port` | Set or reset the Telnet service port | § 5-10 |
+| `mgmt_service_password_encryption` | Enable or disable password encryption service | § 5-12 |
+| `mgmt_show_terminal` | Display terminal settings (length, width, baud rate) | § 5-13 |
+| `mgmt_show_ip_telnet_server` | Display Telnet server status | § 5-14 |
+| `mgmt_show_ip_http_server` | Display HTTP server status | § 5-15 |
+| `mgmt_show_ip_http_secure_server` | Display HTTPS server status | § 5-16 |
+| `mgmt_show_users` | Display active user sessions | § 5-17 |
+| `mgmt_terminal_length` | Set terminal length (current session or default) | § 5-18 |
+| `mgmt_terminal_speed` | Set console terminal baud rate | § 5-19 |
+| `mgmt_session_timeout` | Set session idle timeout on a line | § 5-20 |
+| `mgmt_terminal_width` | Set terminal width (current session or default) | § 5-21 |
+| `mgmt_username` | Create or remove a user account | § 5-22 |
+| `mgmt_password` | Set or remove line password (console/telnet/ssh) | § 5-23 |
+| `mgmt_clear_line` | Disconnect a user session by line ID | § 5-24 |
+
 ## Usage example
 
 ```yaml
