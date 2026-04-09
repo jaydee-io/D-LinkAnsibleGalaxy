@@ -1,0 +1,19 @@
+"""Unit tests for ipv6_nd_ns_interval module command builder."""
+
+from ipv6_nd_ns_interval import _build_commands
+
+
+def test_present():
+    assert _build_commands("vlan1", 1000, "present") == [
+        "interface vlan1",
+        "ipv6 nd ns-interval 1000",
+        "exit",
+    ]
+
+
+def test_absent():
+    assert _build_commands("vlan1", None, "absent") == [
+        "interface vlan1",
+        "no ipv6 nd ns-interval",
+        "exit",
+    ]

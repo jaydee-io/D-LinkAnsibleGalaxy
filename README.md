@@ -210,6 +210,42 @@ all:
 | `ipv4_show_arp_timeout` | Display ARP timeout settings | § 9-6 |
 | `ipv4_show_ip_interface` | Display IP interface information | § 9-7 |
 
+### Basic IPv6 Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `ipv6_clear_neighbors` | Clear IPv6 neighbor cache entries (all or specific interface) | § 10-1 |
+| `ipv6_address` | Configure an IPv6 address on an interface (static or link-local) | § 10-2 |
+| `ipv6_address_eui64` | Configure an IPv6 address using EUI-64 interface ID | § 10-3 |
+| `ipv6_address_dhcp` | Configure DHCPv6 on an interface with optional rapid-commit | § 10-4 |
+| `ipv6_enable` | Enable or disable IPv6 processing on an interface | § 10-5 |
+| `ipv6_hop_limit` | Configure IPv6 hop limit on an interface | § 10-6 |
+| `ipv6_nd_managed_config_flag` | Enable or disable ND managed-config-flag in RA messages | § 10-7 |
+| `ipv6_nd_other_config_flag` | Enable or disable ND other-config-flag in RA messages | § 10-8 |
+| `ipv6_nd_prefix` | Configure IPv6 ND prefix with lifetimes and flags | § 10-9 |
+| `ipv6_nd_ra_interval` | Configure IPv6 ND router advertisement interval | § 10-10 |
+| `ipv6_nd_ra_lifetime` | Configure IPv6 ND router advertisement lifetime | § 10-11 |
+| `ipv6_nd_suppress_ra` | Enable or disable suppression of RA messages | § 10-12 |
+| `ipv6_nd_reachable_time` | Configure IPv6 ND reachable time | § 10-13 |
+| `ipv6_nd_ns_interval` | Configure IPv6 ND neighbor solicitation interval | § 10-14 |
+| `ipv6_neighbor` | Configure a static IPv6 neighbor cache entry | § 10-15 |
+| `ipv6_show_interface` | Display IPv6 interface information | § 10-16 |
+| `ipv6_show_neighbors` | Display IPv6 neighbor cache entries | § 10-17 |
+
+### Cable Diagnostics Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `cable_diag_test` | Run cable diagnostics test on an interface | § 11-1 |
+| `cable_diag_show` | Display cable diagnostics results | § 11-2 |
+| `cable_diag_clear` | Clear cable diagnostics results (all or specific interface) | § 11-3 |
+
+### Command Logging Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `command_logging` | Enable or disable command logging | § 12-1 |
+
 ## Usage example
 
 ```yaml
