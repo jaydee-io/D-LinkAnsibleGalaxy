@@ -158,6 +158,58 @@ all:
 | `arp_spoofing_prevention` | Configure ARP spoofing prevention entry (gateway IP/MAC/interface) | § 6-1 |
 | `arp_show_spoofing_prevention` | Display ARP spoofing prevention entries | § 6-2 |
 
+### Asymmetric VLAN Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `asymmetric_vlan` | Enable or disable asymmetric VLAN | § 7-1 |
+
+### AAA Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `aaa_accounting_network` | Configure AAA accounting network default method list | § 8-1 |
+| `aaa_authentication_enable` | Configure AAA authentication enable default method list | § 8-2 |
+| `aaa_authentication_dot1x` | Configure AAA authentication dot1x default method list | § 8-3 |
+| `aaa_authentication_login` | Configure AAA authentication login method list (default or named) | § 8-4 |
+| `aaa_authentication_mac_auth` | Configure AAA authentication mac-auth default method list | § 8-5 |
+| `aaa_group_server_radius` | Create or delete a RADIUS server group | § 8-6 |
+| `aaa_group_server_tacacs` | Create or delete a TACACS+ server group | § 8-7 |
+| `aaa_new_model` | Enable or disable AAA new-model | § 8-8 |
+| `aaa_server_radius_dynamic_author` | Enable or disable RADIUS dynamic authorization | § 8-9 |
+| `aaa_clear_counters_servers` | Clear AAA server counters (all, RADIUS, TACACS+, or server group) | § 8-10 |
+| `aaa_client` | Configure a RADIUS dynamic authorization client | § 8-11 |
+| `aaa_ip_http_auth_login` | Configure IP HTTP AAA login authentication method list | § 8-12 |
+| `aaa_ip_radius_source_interface` | Set or remove IP RADIUS source interface | § 8-13 |
+| `aaa_ip_tacacs_source_interface` | Set or remove IP TACACS source interface | § 8-14 |
+| `aaa_ipv6_radius_source_interface` | Set or remove IPv6 RADIUS source interface | § 8-15 |
+| `aaa_ipv6_tacacs_source_interface` | Set or remove IPv6 TACACS source interface | § 8-16 |
+| `aaa_login_authentication` | Configure login authentication on a line (console/telnet/ssh) | § 8-17 |
+| `aaa_port` | Configure RADIUS dynamic authorization listening port | § 8-18 |
+| `aaa_radius_attribute_32` | Configure RADIUS attribute 32 (NAS-Identifier) in Access-Request | § 8-19 |
+| `aaa_radius_attribute_4` | Configure RADIUS attribute 4 (NAS-IP-Address) | § 8-20 |
+| `aaa_radius_attribute_55` | Enable or disable RADIUS attribute 55 in Accounting-Request | § 8-21 |
+| `aaa_radius_deadtime` | Configure RADIUS server deadtime | § 8-22 |
+| `aaa_radius_server_host` | Configure a RADIUS server host with key and options | § 8-23 |
+| `aaa_server_radius` | Add or remove a server from a RADIUS group | § 8-24 |
+| `aaa_server_tacacs` | Add or remove a server from a TACACS+ group | § 8-25 |
+| `aaa_show` | Display AAA status (enabled/disabled) | § 8-26 |
+| `aaa_tacacs_server_host` | Configure a TACACS+ server host with key and options | § 8-27 |
+| `aaa_show_radius_statistics` | Display RADIUS server statistics | § 8-28 |
+| `aaa_show_tacacs_statistics` | Display TACACS+ server statistics | § 8-29 |
+
+### Basic IPv4 Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `ipv4_arp` | Configure a static ARP entry (IP to MAC mapping) | § 9-1 |
+| `ipv4_arp_timeout` | Configure ARP timeout on an interface | § 9-2 |
+| `ipv4_clear_arp_cache` | Clear ARP cache entries | § 9-3 |
+| `ipv4_ip_address` | Configure an IP address or DHCP on an interface | § 9-4 |
+| `ipv4_show_arp` | Display ARP table entries | § 9-5 |
+| `ipv4_show_arp_timeout` | Display ARP timeout settings | § 9-6 |
+| `ipv4_show_ip_interface` | Display IP interface information | § 9-7 |
+
 ## Usage example
 
 ```yaml
