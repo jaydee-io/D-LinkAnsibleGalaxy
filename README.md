@@ -271,6 +271,96 @@ all:
 | `dhcp_client_client_id` | Configure DHCP client ID (MAC address of a VLAN interface) | § 15-2 |
 | `dhcp_client_lease` | Configure DHCP client lease time | § 15-3 |
 
+### DHCP Relay Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `dhcp_relay_class` | Create or delete a DHCP relay class | § 16-1 |
+| `dhcp_relay_ip_dhcp_class` | Create or delete a DHCP class for relay agent info matching | § 16-2 |
+| `dhcp_relay_ip_dhcp_pool` | Create or delete a DHCP pool | § 16-3 |
+| `dhcp_relay_destination` | Configure relay destination server in a DHCP pool | § 16-4 |
+| `dhcp_relay_source` | Configure relay source address in a DHCP pool | § 16-5 |
+| `dhcp_relay_target` | Configure relay target in a DHCP pool | § 16-6 |
+| `dhcp_relay_info_check` | Enable or disable DHCP relay information check | § 16-7 |
+| `dhcp_relay_info_policy` | Configure DHCP relay information forwarding policy | § 16-8 |
+| `dhcp_relay_info_check_reply` | Enable or disable DHCP relay information check on replies | § 16-9 |
+| `dhcp_relay_info_option` | Enable or disable DHCP relay information option (Option 82) | § 16-10 |
+| `dhcp_relay_info_option_insert` | Enable or disable insertion of relay info on trusted ports | § 16-11 |
+| `dhcp_relay_info_policy_action` | Configure per-VLAN DHCP relay information policy action | § 16-12 |
+| `dhcp_relay_info_format_remote_id` | Configure DHCP relay remote-id format | § 16-13 |
+| `dhcp_relay_info_format_type_remote_id` | Configure DHCP relay remote-id format type | § 16-14 |
+| `dhcp_relay_info_format_circuit_id` | Configure DHCP relay circuit-id format | § 16-15 |
+| `dhcp_relay_info_format_type_circuit_id` | Configure DHCP relay circuit-id format type | § 16-16 |
+| `dhcp_relay_info_trust_all` | Enable or disable trust all ports for relay information | § 16-17 |
+| `dhcp_relay_info_trusted` | Configure trusted interface for DHCP relay | § 16-18 |
+| `dhcp_relay_local_relay_vlan` | Enable or disable DHCP local relay on VLANs | § 16-19 |
+| `dhcp_relay_option_hex` | Configure DHCP relay Option 82 hex value on a VLAN | § 16-20 |
+| `dhcp_relay_service_dhcp` | Enable or disable DHCP relay service | § 16-21 |
+| `dhcp_relay_show_trusted_sources` | Display trusted DHCP relay sources | § 16-22 |
+| `dhcp_relay_show_option_insert` | Display DHCP relay option insertion settings | § 16-23 |
+| `dhcp_relay_show_policy_action` | Display DHCP relay policy action settings | § 16-24 |
+
+### DHCP Snooping Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `dhcp_snooping_enable` | Enable or disable DHCP snooping | § 17-1 |
+| `dhcp_snooping_info_allow_untrusted` | Enable or disable DHCP snooping info allow-untrusted | § 17-2 |
+| `dhcp_snooping_database` | Configure DHCP snooping database URL or write-delay | § 17-3 |
+| `dhcp_snooping_clear_database_stats` | Clear DHCP snooping database statistics | § 17-4 |
+| `dhcp_snooping_clear_binding` | Clear DHCP snooping binding entries | § 17-5 |
+| `dhcp_snooping_renew_database` | Renew DHCP snooping database from a URL | § 17-6 |
+| `dhcp_snooping_binding` | Create a static DHCP snooping binding entry | § 17-7 |
+| `dhcp_snooping_limit_entries` | Configure DHCP snooping max entries per interface | § 17-8 |
+| `dhcp_snooping_limit_rate` | Configure DHCP snooping rate limit per interface | § 17-9 |
+| `dhcp_snooping_station_move_deny` | Enable or disable DHCP snooping station-move deny | § 17-10 |
+| `dhcp_snooping_trust` | Configure trusted interface for DHCP snooping | § 17-11 |
+| `dhcp_snooping_verify_mac` | Enable or disable MAC address verification | § 17-12 |
+| `dhcp_snooping_vlan` | Enable DHCP snooping on a VLAN | § 17-13 |
+| `dhcp_snooping_show` | Display DHCP snooping configuration | § 17-14 |
+| `dhcp_snooping_show_binding` | Display DHCP snooping binding table | § 17-15 |
+| `dhcp_snooping_show_database` | Display DHCP snooping database status | § 17-16 |
+| `dhcp_snooping_server_screen_profile` | Create or delete a DHCP server screen profile | § 17-17 |
+| `dhcp_snooping_server_screen_hw_addr` | Add or remove a hardware address in a server screen profile | § 17-18 |
+| `dhcp_snooping_server_screen` | Configure DHCP server screen on an interface | § 17-19 |
+| `dhcp_snooping_server_screen_log_buffer` | Configure DHCP server screen log buffer size | § 17-20 |
+| `dhcp_snooping_clear_server_screen_log` | Clear DHCP server screen log | § 17-21 |
+| `dhcp_snooping_snmp_traps` | Enable or disable DHCP server screen SNMP traps | § 17-22 |
+| `dhcp_snooping_show_server_screen_log` | Display DHCP server screen log | § 17-23 |
+
+### DHCPv6 Client Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `dhcpv6_client_clear` | Clear DHCPv6 client state on an interface | § 18-1 |
+| `dhcpv6_client_show` | Display DHCPv6 client information | § 18-2 |
+
+### DHCPv6 Guard Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `dhcpv6_guard_policy` | Create or delete a DHCPv6 guard policy | § 19-1 |
+| `dhcpv6_guard_device_role` | Configure device role in a DHCPv6 guard policy | § 19-2 |
+| `dhcpv6_guard_match_access_list` | Configure access list match in a DHCPv6 guard policy | § 19-3 |
+| `dhcpv6_guard_attach_policy` | Attach or detach a DHCPv6 guard policy on an interface | § 19-4 |
+| `dhcpv6_guard_show_policy` | Display DHCPv6 guard policy information | § 19-5 |
+
+### DHCPv6 Relay Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `dhcpv6_relay_destination` | Configure DHCPv6 relay destination address on an interface | § 20-1 |
+| `dhcpv6_relay_remote_id_format` | Configure DHCPv6 relay remote-id format sub-type | § 20-2 |
+| `dhcpv6_relay_remote_id_option` | Enable or disable DHCPv6 relay remote-id option (Option 37) | § 20-3 |
+| `dhcpv6_relay_remote_id_policy` | Configure DHCPv6 relay remote-id forwarding policy | § 20-4 |
+| `dhcpv6_relay_remote_id_profile` | Create or delete a DHCPv6 relay remote-id profile | § 20-5 |
+| `dhcpv6_relay_format_string` | Configure format string in a DHCPv6 relay profile | § 20-6 |
+| `dhcpv6_relay_mac_format` | Configure MAC address format for DHCPv6 relay profiles | § 20-7 |
+| `dhcpv6_relay_show_mac_format` | Display DHCPv6 relay MAC address format settings | § 20-8 |
+| `dhcpv6_relay_remote_id_udf` | Configure DHCPv6 relay remote-id UDF (ascii or hex) | § 20-9 |
+| `dhcpv6_relay_local_relay_vlan` | Enable or disable DHCPv6 local relay on VLANs | § 20-10 |
+| `dhcpv6_relay_show` | Display DHCPv6 settings or interface information | § 20-11 |
+
 ## Usage example
 
 ```yaml
