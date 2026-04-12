@@ -361,6 +361,66 @@ all:
 | `dhcpv6_relay_local_relay_vlan` | Enable or disable DHCPv6 local relay on VLANs | § 20-10 |
 | `dhcpv6_relay_show` | Display DHCPv6 settings or interface information | § 20-11 |
 
+### Chapter 21 - Digital Diagnostics Monitoring (DDM) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `ddm_show_interfaces_transceiver` | Display SFP/SFP+ transceiver monitoring parameters | § 21-1 |
+| `ddm_snmp_traps_transceiver_monitoring` | Enable or disable SNMP traps for transceiver monitoring | § 21-2 |
+| `ddm_transceiver_monitoring_action_shutdown` | Configure transceiver monitoring shutdown action on an interface | § 21-3 |
+| `ddm_transceiver_monitoring_bias_current` | Configure transceiver monitoring bias-current thresholds | § 21-4 |
+| `ddm_transceiver_monitoring_enable` | Enable or disable transceiver monitoring on an interface | § 21-5 |
+| `ddm_transceiver_monitoring_rx_power` | Configure transceiver monitoring RX power thresholds | § 21-6 |
+| `ddm_transceiver_monitoring_temperature` | Configure transceiver monitoring temperature thresholds | § 21-7 |
+| `ddm_transceiver_monitoring_tx_power` | Configure transceiver monitoring TX power thresholds | § 21-8 |
+| `ddm_transceiver_monitoring_voltage` | Configure transceiver monitoring voltage thresholds | § 21-9 |
+
+### Chapter 22 - D-Link Discovery Protocol (DDP) Client Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `ddp` | Enable or disable DDP client globally or on an interface | § 22-1 |
+| `ddp_report_timer` | Configure DDP report timer interval | § 22-2 |
+| `ddp_show` | Display DDP configuration | § 22-3 |
+
+### Chapter 23 - Domain Name System (DNS) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `dns_clear_host` | Clear dynamically learned host entries | § 23-1 |
+| `dns_ip_domain_lookup` | Enable or disable DNS domain name resolution | § 23-2 |
+| `dns_ip_host` | Configure static host name to IP address mapping | § 23-3 |
+| `dns_ip_name_server` | Configure DNS name server address | § 23-4 |
+| `dns_ip_name_server_timeout` | Configure DNS name server timeout | § 23-5 |
+| `dns_show_hosts` | Display DNS host configuration | § 23-6 |
+| `dns_show_ip_name_server` | Display DNS name server configuration | § 23-7 |
+
+### Chapter 24 - DoS Prevention Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `dos_prevention` | Enable or disable DoS prevention for a specific attack type | § 24-1 |
+| `dos_prevention_show` | Display DoS prevention status and drop counters | § 24-2 |
+| `dos_prevention_snmp_traps` | Enable or disable SNMP traps for DoS prevention | § 24-3 |
+
+### Chapter 25 - Dynamic ARP Inspection Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `dai_arp_access_list` | Create or remove an ARP access list | § 25-1 |
+| `dai_clear_arp_inspection_log` | Clear ARP inspection log buffer | § 25-2 |
+| `dai_clear_arp_inspection_statistics` | Clear Dynamic ARP Inspection statistics | § 25-3 |
+| `dai_ip_arp_inspection_filter_vlan` | Configure ARP access list for ARP inspection on a VLAN | § 25-4 |
+| `dai_ip_arp_inspection_limit` | Configure ARP inspection rate limit on an interface | § 25-5 |
+| `dai_ip_arp_inspection_log_buffer` | Configure ARP inspection log buffer size | § 25-6 |
+| `dai_ip_arp_inspection_trust` | Configure ARP inspection trust state on an interface | § 25-7 |
+| `dai_ip_arp_inspection_validate` | Configure ARP inspection additional validation checks | § 25-8 |
+| `dai_ip_arp_inspection_vlan` | Enable or disable Dynamic ARP Inspection for a VLAN | § 25-9 |
+| `dai_ip_arp_inspection_vlan_logging` | Configure ARP inspection logging for a VLAN | § 25-10 |
+| `dai_permit_deny` | Add a permit or deny ARP entry in an ARP access list | § 25-11 |
+| `dai_show_ip_arp_inspection` | Display Dynamic ARP Inspection status | § 25-12 |
+| `dai_show_ip_arp_inspection_log` | Display ARP inspection log buffer | § 25-13 |
+
 ## Usage example
 
 ```yaml
