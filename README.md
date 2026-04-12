@@ -421,6 +421,60 @@ all:
 | `dai_show_ip_arp_inspection` | Display Dynamic ARP Inspection status | § 25-12 |
 | `dai_show_ip_arp_inspection_log` | Display ARP inspection log buffer | § 25-13 |
 
+### Chapter 26 - Error Recovery Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `errdisable_recovery` | Configure error recovery for causes and interval | § 26-1 |
+| `show_errdisable_recovery` | Display error-disable recovery timer settings | § 26-2 |
+| `snmp_server_enable_traps_errdisable` | Enable SNMP notifications for error-disabled state | § 26-3 |
+
+### Chapter 27 - File System Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `delete_file` | Delete a file from the switch file system | § 27-1 |
+| `dir` | Display file system directory listing | § 27-2 |
+| `show_storage_media_info` | Display storage media information | § 27-3 |
+
+### Chapter 28 - Filter Database (FDB) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `clear_mac_address_table` | Clear dynamic MAC address table entries | § 28-1 |
+| `mac_address_table_aging_time` | Configure MAC address table aging time | § 28-2 |
+| `mac_address_table_learning` | Enable or disable MAC address learning on an interface | § 28-3 |
+| `mac_address_table_notification_change` | Configure MAC address notification function | § 28-4 |
+| `mac_address_table_static` | Add or remove static MAC address table entries | § 28-5 |
+| `multicast_filtering_mode` | Configure multicast packet handling mode for a VLAN | § 28-6 |
+| `show_mac_address_table` | Display MAC address table entries | § 28-7 |
+| `show_mac_address_table_aging_time` | Display MAC address table aging time | § 28-8 |
+| `show_mac_address_table_learning` | Display MAC address learning state | § 28-9 |
+| `show_mac_address_table_notification_change` | Display MAC address notification configuration | § 28-10 |
+| `show_multicast_filtering_mode` | Display multicast filtering mode for VLANs | § 28-11 |
+| `snmp_server_enable_traps_mac_notification_change` | Enable SNMP MAC notification traps | § 28-12 |
+| `snmp_trap_mac_notification_change` | Enable MAC address change notification trap on an interface | § 28-13 |
+
+### Chapter 29 - Gratuitous ARP Trap Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `snmp_server_enable_traps_gratuitous_arp` | Enable SNMP notifications for gratuitous ARP | § 29-1 |
+
+### Chapter 30 - Interface Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `clear_counters` | Clear counters for port interfaces | § 30-1 |
+| `interface_description` | Set or remove interface description | § 30-2 |
+| `show_counters` | Display interface statistic counters | § 30-5 |
+| `show_interfaces` | Display interface information | § 30-6 |
+| `show_interfaces_counters` | Display interface counters | § 30-7 |
+| `show_interfaces_status` | Display interface connection status | § 30-8 |
+| `show_interfaces_utilization` | Display interface port utilization | § 30-9 |
+| `show_interfaces_auto_negotiation` | Display interface auto-negotiation information | § 30-10 |
+| `show_interfaces_description` | Display interface description and link status | § 30-11 |
+
 ## Usage example
 
 ```yaml
