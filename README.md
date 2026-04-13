@@ -475,6 +475,58 @@ all:
 | `show_interfaces_auto_negotiation` | Display interface auto-negotiation information | § 30-10 |
 | `show_interfaces_description` | Display interface description and link status | § 30-11 |
 
+### Chapter 31 - IGMP Snooping Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `igmp_snooping_clear_statistics` | Clear IGMP snooping statistics | § 31-1 |
+| `igmp_snooping_enable` | Enable or disable IGMP snooping globally or on a VLAN | § 31-2 |
+| `igmp_snooping_fast_leave` | Configure IGMP snooping fast-leave on a VLAN | § 31-3 |
+| `igmp_snooping_last_member_query_interval` | Configure last member query interval on a VLAN | § 31-4 |
+| `igmp_snooping_mrouter` | Configure IGMP snooping multicast router ports on a VLAN | § 31-5 |
+| `igmp_snooping_querier` | Enable or disable IGMP snooping querier on a VLAN | § 31-6 |
+| `igmp_snooping_query_interval` | Configure IGMP snooping query interval on a VLAN | § 31-7 |
+| `igmp_snooping_query_max_response_time` | Configure query max response time on a VLAN | § 31-8 |
+| `igmp_snooping_query_version` | Configure IGMP snooping query version on a VLAN | § 31-9 |
+| `igmp_snooping_robustness_variable` | Configure robustness variable on a VLAN | § 31-10 |
+| `igmp_snooping_static_group` | Configure IGMP snooping static group on a VLAN | § 31-11 |
+| `igmp_snooping_minimum_version` | Configure minimum IGMP version on a VLAN | § 31-12 |
+| `show_igmp_snooping` | Display IGMP snooping information | § 31-13 |
+| `show_igmp_snooping_groups` | Display IGMP snooping group information | § 31-14 |
+| `show_igmp_snooping_mrouter` | Display IGMP snooping router port information | § 31-15 |
+| `show_igmp_snooping_static_group` | Display IGMP snooping static group information | § 31-16 |
+| `show_igmp_snooping_statistics` | Display IGMP snooping statistics | § 31-17 |
+
+### Chapter 32 - IP-MAC-Port Binding (IMPB) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `impb_clear_violation` | Clear IMPB violation entries | § 32-1 |
+| `impb_enable` | Enable or disable IMPB access control on an interface | § 32-2 |
+| `show_impb` | Display IMPB configuration or violation entries | § 32-3 |
+| `impb_snmp_traps` | Enable or disable SNMP traps for IMPB | § 32-4 |
+
+### Chapter 33 - IP Multicast (IPMC) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `show_ip_mroute_forwarding_cache` | Display IP multicast forwarding cache | § 33-1 |
+
+### Chapter 34 - IP Multicast Version 6 (IPMCv6) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `show_ipv6_mroute_forwarding_cache` | Display IPv6 multicast forwarding cache | § 34-1 |
+
+### Chapter 35 - IP Source Guard Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `ip_verify_source` | Enable or disable IP source guard on an interface | § 35-1 |
+| `ip_source_binding` | Configure IP source guard static binding entry | § 35-2 |
+| `show_ip_source_binding` | Display IP source guard binding entries | § 35-3 |
+| `show_ip_verify_source` | Display IP source guard hardware port ACL entries | § 35-4 |
+
 ## Usage example
 
 ```yaml
