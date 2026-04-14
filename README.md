@@ -527,6 +527,53 @@ all:
 | `show_ip_source_binding` | Display IP source guard binding entries | § 35-3 |
 | `show_ip_verify_source` | Display IP source guard hardware port ACL entries | § 35-4 |
 
+### Chapter 36 - IP Utility Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `ping` | Ping a remote host | § 36-1 |
+| `ping_access_class` | Configure ping access class | § 36-2 |
+
+### Chapter 37 - IPv6 Snooping Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `ipv6_snooping_policy` | Create or delete an IPv6 snooping policy | § 37-1 |
+| `ipv6_snooping_protocol` | Configure protocol snooping in an IPv6 snooping policy | § 37-2 |
+| `ipv6_snooping_limit_address_count` | Configure IPv6 snooping binding entry limit | § 37-3 |
+| `ipv6_snooping_attach_policy` | Attach an IPv6 snooping policy to a VLAN | § 37-4 |
+| `ipv6_snooping_station_move_deny` | Enable or disable IPv6 snooping station move deny | § 37-5 |
+| `show_ipv6_snooping_policy` | Display IPv6 snooping policy information | § 37-6 |
+
+### Chapter 38 - IPv6 Source Guard Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `ipv6_source_binding` | Configure a static IPv6 source binding entry | § 38-1 |
+| `ipv6_source_guard_policy` | Create or delete an IPv6 source guard policy | § 38-2 |
+| `ipv6_source_guard_deny_global_autoconfig` | Enable or disable deny global-autoconfig in an IPv6 source guard policy | § 38-3 |
+| `ipv6_source_guard_permit_link_local` | Enable or disable permit link-local in an IPv6 source guard policy | § 38-4 |
+| `ipv6_source_guard_attach_policy` | Attach an IPv6 source guard policy to an interface | § 38-5 |
+| `show_ipv6_source_guard_policy` | Display IPv6 source guard policy configuration | § 38-6 |
+| `show_ipv6_neighbor_binding` | Display IPv6 neighbor binding table | § 38-7 |
+
+### Chapter 39 - Jumbo Frame Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `max_rcv_frame_size` | Configure maximum receive frame size on an interface | § 39-1 |
+
+### Chapter 40 - Link Aggregation Control Protocol (LACP) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `channel_group` | Assign an interface to a channel group | § 40-1 |
+| `lacp_port_priority` | Configure LACP port priority on an interface | § 40-2 |
+| `lacp_timeout` | Configure LACP timeout on an interface | § 40-3 |
+| `lacp_system_priority` | Configure LACP system priority | § 40-4 |
+| `port_channel_load_balance` | Configure port-channel load balance algorithm | § 40-5 |
+| `show_channel_group` | Display channel group information | § 40-6 |
+
 ## Usage example
 
 ```yaml
