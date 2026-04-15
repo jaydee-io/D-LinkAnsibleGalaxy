@@ -574,6 +574,86 @@ all:
 | `port_channel_load_balance` | Configure port-channel load balance algorithm | § 40-5 |
 | `show_channel_group` | Display channel group information | § 40-6 |
 
+### Chapter 41 - Link Layer Discovery Protocol (LLDP) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `lldp_clear_counters` | Clear LLDP statistics counters | § 41-1 |
+| `lldp_clear_table` | Clear LLDP remote table | § 41-2 |
+| `lldp_dot1_tlv_select` | Configure LLDP IEEE 802.1 TLV selection on an interface | § 41-3 |
+| `lldp_dot3_tlv_select` | Configure LLDP IEEE 802.3 TLV selection on an interface | § 41-4 |
+| `lldp_fast_count` | Configure LLDP fast transmit count | § 41-5 |
+| `lldp_hold_multiplier` | Configure LLDP hold multiplier | § 41-6 |
+| `lldp_management_address` | Configure LLDP management address | § 41-7 |
+| `lldp_med_tlv_select` | Configure LLDP-MED TLV selection on an interface | § 41-8 |
+| `lldp_receive` | Enable or disable LLDP receive on an interface | § 41-9 |
+| `lldp_reinit` | Configure LLDP re-initialization delay | § 41-10 |
+| `lldp_run` | Enable or disable LLDP globally | § 41-11 |
+| `lldp_forward` | Enable or disable LLDP forwarding on an interface | § 41-12 |
+| `lldp_tlv_select` | Configure LLDP basic TLV selection on an interface | § 41-13 |
+| `lldp_transmit` | Enable or disable LLDP transmit on an interface | § 41-14 |
+| `lldp_tx_delay` | Configure LLDP transmit delay | § 41-15 |
+| `lldp_tx_interval` | Configure LLDP transmit interval | § 41-16 |
+| `lldp_snmp_traps` | Enable or disable LLDP SNMP traps globally | § 41-17 |
+| `lldp_notification_enable` | Enable or disable LLDP notification on an interface | § 41-18 |
+| `lldp_subtype` | Configure LLDP subtype for management address | § 41-19 |
+| `show_lldp` | Display LLDP configuration | § 41-20 |
+| `show_lldp_interface` | Display LLDP configuration for an interface | § 41-21 |
+| `show_lldp_local_interface` | Display LLDP local information for an interface | § 41-22 |
+| `show_lldp_management_address` | Display LLDP management address information | § 41-23 |
+| `show_lldp_neighbor_interface` | Display LLDP neighbor information for an interface | § 41-24 |
+| `show_lldp_traffic` | Display LLDP traffic statistics | § 41-25 |
+| `show_lldp_traffic_interface` | Display LLDP traffic statistics for an interface | § 41-26 |
+
+### Chapter 42 - Loopback Detection (LBD) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `loopback_detection_global` | Enable or disable loopback detection globally | § 42-1 |
+| `loopback_detection_interface` | Enable or disable loopback detection on an interface | § 42-2 |
+| `loopback_detection_interval` | Configure loopback detection interval | § 42-3 |
+| `loopback_detection_vlan` | Configure loopback detection on a VLAN | § 42-4 |
+| `show_loopback_detection` | Display loopback detection status | § 42-5 |
+| `loopback_detection_snmp_traps` | Enable or disable loopback detection SNMP traps | § 42-6 |
+
+### Chapter 43 - MAC-based Authentication Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `mac_auth_system_auth_control` | Enable or disable MAC authentication globally | § 43-1 |
+| `mac_auth_enable` | Enable or disable MAC authentication on an interface | § 43-2 |
+| `mac_auth_password` | Configure MAC authentication password | § 43-3 |
+| `mac_auth_username` | Configure MAC authentication username format | § 43-4 |
+| `mac_auth_snmp_traps` | Enable or disable MAC authentication SNMP traps | § 43-5 |
+
+### Chapter 44 - Mirror Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `monitor_session_destination` | Configure port monitor session destination | § 44-1 |
+| `monitor_session_source` | Configure port monitor session source | § 44-2 |
+| `show_monitor_session` | Display port monitor session configuration | § 44-3 |
+
+### Chapter 45 - MLD Snooping Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `mld_snooping_clear_statistics` | Clear MLD snooping statistics | § 45-1 |
+| `mld_snooping_enable` | Enable or disable MLD snooping globally or on a VLAN | § 45-2 |
+| `mld_snooping_fast_leave` | Enable or disable MLD snooping fast leave on a VLAN | § 45-3 |
+| `mld_snooping_last_listener_query_interval` | Configure MLD snooping last listener query interval | § 45-4 |
+| `mld_snooping_mrouter` | Configure MLD snooping multicast router port | § 45-5 |
+| `mld_snooping_querier` | Enable or disable MLD snooping querier on a VLAN | § 45-6 |
+| `mld_snooping_query_interval` | Configure MLD snooping query interval | § 45-7 |
+| `mld_snooping_query_max_response_time` | Configure MLD snooping query max response time | § 45-8 |
+| `mld_snooping_query_version` | Configure MLD snooping query version | § 45-9 |
+| `mld_snooping_robustness_variable` | Configure MLD snooping robustness variable | § 45-10 |
+| `mld_snooping_static_group` | Configure MLD snooping static group | § 45-11 |
+| `mld_snooping_minimum_version` | Enable or disable MLD snooping minimum version on a VLAN | § 45-12 |
+| `show_mld_snooping` | Display MLD snooping configuration | § 45-13 |
+| `show_mld_snooping_groups` | Display MLD snooping group information | § 45-14 |
+| `show_mld_snooping_mrouter` | Display MLD snooping multicast router port information | § 45-15 |
+
 ## Usage example
 
 ```yaml
