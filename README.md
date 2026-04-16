@@ -654,6 +654,62 @@ all:
 | `show_mld_snooping_groups` | Display MLD snooping group information | § 45-14 |
 | `show_mld_snooping_mrouter` | Display MLD snooping multicast router port information | § 45-15 |
 
+### Chapter 46 - MSTP Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `mstp_instance` | Map VLANs to an MST instance | § 46-1 |
+| `mstp_name` | Configure MST region name | § 46-2 |
+| `mstp_revision` | Configure MST configuration revision number | § 46-3 |
+| `show_spanning_tree_mst` | Display MSTP information | § 46-4 |
+| `mstp_interface` | Configure MSTP cost or port-priority on an interface | § 46-5 |
+| `mstp_max_hops` | Configure MSTP maximum hop count | § 46-7 |
+| `mstp_hello_time` | Configure MSTP hello-time on an interface | § 46-8 |
+| `mstp_priority` | Configure MSTP bridge priority | § 46-9 |
+
+### Chapter 47 - Neighbor Discovery (ND) Inspection Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `nd_inspection_policy` | Create or remove an ND inspection policy | § 47-1 |
+| `nd_inspection_validate_source_mac` | Enable or disable source MAC validation in an ND inspection policy | § 47-2 |
+| `nd_inspection_device_role` | Set device role in an ND inspection policy | § 47-3 |
+| `nd_inspection_attach_policy` | Apply an ND inspection policy to an interface | § 47-4 |
+| `show_nd_inspection_policy` | Display ND inspection policy information | § 47-5 |
+
+### Chapter 48 - Network Access Authentication Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `auth_guest_vlan` | Configure authentication guest VLAN on an interface | § 48-1 |
+| `auth_host_mode` | Configure authentication host-mode on an interface | § 48-2 |
+| `auth_periodic` | Enable or disable periodic re-authentication on an interface | § 48-3 |
+| `auth_timer_reauthentication` | Configure authentication re-authentication timer on an interface | § 48-4 |
+| `auth_timer_restart` | Configure authentication restart timer on an interface | § 48-5 |
+| `auth_username` | Configure a local authentication user | § 48-6 |
+| `auth_clear_sessions` | Clear authentication sessions | § 48-7 |
+| `auth_username_mac_format` | Configure MAC address format for authentication usernames | § 48-8 |
+| `auth_max_users` | Configure maximum authenticated users | § 48-9 |
+| `auth_mac_move_deny` | Enable or disable MAC move denial | § 48-10 |
+| `auth_authorization_disable` | Enable or disable authorization | § 48-11 |
+| `show_auth_sessions` | Display authentication sessions | § 48-12 |
+
+### Chapter 49 - Network Protocol Port Protection Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `network_protocol_port_protect` | Enable or disable network protocol port protection | § 49-1 |
+| `show_network_protocol_port_protect` | Display network protocol port protection status | § 49-2 |
+
+### Chapter 50 - Port Security Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `port_security_clear` | Clear auto-learned secured MAC addresses | § 50-1 |
+| `show_port_security` | Display port security settings | § 50-2 |
+| `port_security_snmp_traps` | Enable or disable SNMP traps for port security | § 50-3 |
+| `switchport_port_security` | Configure port security on an interface | § 50-4 |
+
 ## Usage example
 
 ```yaml
