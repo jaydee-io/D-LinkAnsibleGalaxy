@@ -868,6 +868,77 @@ all:
 | `snmp_server_user` | Create or remove an SNMP user | § 60-20 |
 | `snmp_server_view` | Create or remove an SNMP view entry | § 60-21 |
 
+### Chapter 61 - Spanning Tree Protocol (STP) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `clear_spanning_tree_detected_protocols` | Restart STP protocol migration | § 61-1 |
+| `show_spanning_tree` | Display STP/RSTP information | § 61-2 |
+| `show_spanning_tree_configuration_interface` | Display STP interface configuration | § 61-3 |
+| `snmp_server_enable_traps_stp` | Enable or disable SNMP STP traps | § 61-4 |
+| `spanning_tree_global_state` | Enable or disable STP globally | § 61-5 |
+| `spanning_tree_timers` | Configure STP timer values | § 61-6 |
+| `spanning_tree_state` | Enable or disable STP on an interface | § 61-7 |
+| `spanning_tree_cost` | Configure STP port path cost | § 61-8 |
+| `spanning_tree_guard_root` | Enable or disable STP root guard | § 61-9 |
+| `spanning_tree_link_type` | Configure STP link type | § 61-10 |
+| `spanning_tree_mode` | Configure STP mode (MSTP/RSTP/STP) | § 61-11 |
+| `spanning_tree_portfast` | Configure STP port fast mode | § 61-12 |
+| `spanning_tree_port_priority` | Configure STP port priority | § 61-13 |
+| `spanning_tree_priority` | Configure STP bridge priority | § 61-14 |
+| `spanning_tree_tcnfilter` | Enable or disable STP TCN filtering | § 61-15 |
+| `spanning_tree_tx_hold_count` | Configure STP transmit hold count | § 61-16 |
+| `spanning_tree_forward_bpdu` | Enable or disable STP BPDU forwarding | § 61-17 |
+
+### Chapter 62 - Storm Control Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `snmp_server_enable_traps_storm_control` | Enable or disable SNMP storm control traps | § 62-1 |
+| `storm_control` | Configure storm control thresholds and action | § 62-2 |
+| `storm_control_polling` | Configure storm control polling interval and retries | § 62-3 |
+| `show_storm_control` | Display storm control settings | § 62-4 |
+
+### Chapter 63 - Surveillance VLAN Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `surveillance_vlan` | Configure surveillance VLAN | § 63-1 |
+| `surveillance_vlan_aging` | Configure surveillance VLAN aging time | § 63-2 |
+| `surveillance_vlan_enable` | Enable or disable surveillance VLAN on an interface | § 63-3 |
+| `surveillance_vlan_mac_address` | Configure surveillance VLAN OUI | § 63-4 |
+| `surveillance_vlan_onvif_discover_port` | Configure ONVIF discover port | § 63-5 |
+| `surveillance_vlan_onvif_ipc_state` | Configure ONVIF IPC state | § 63-6 |
+| `surveillance_vlan_onvif_ipc_description` | Configure ONVIF IPC description | § 63-7 |
+| `surveillance_vlan_onvif_nvr_description` | Configure ONVIF NVR description | § 63-8 |
+| `surveillance_vlan_qos` | Configure surveillance VLAN CoS priority | § 63-9 |
+| `show_surveillance_vlan` | Display surveillance VLAN settings | § 63-10 |
+| `show_surveillance_vlan_onvif_ipc` | Display ONVIF IPC information | § 63-11 |
+| `show_surveillance_vlan_onvif_nvr` | Display ONVIF NVR information | § 63-12 |
+
+### Chapter 64 - Switch Port Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `duplex` | Configure duplex mode on an interface | § 64-1 |
+| `flowcontrol` | Configure flow control on an interface | § 64-2 |
+| `mdix` | Configure MDIX state on an interface | § 64-3 |
+| `speed` | Configure port speed on an interface | § 64-4 |
+
+### Chapter 65 - System File Management Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `boot_config` | Configure boot configuration file | § 65-1 |
+| `boot_image` | Configure boot image file | § 65-2 |
+| `clear_running_config` | Clear the running configuration | § 65-3 |
+| `reset_system` | Reset the system to factory defaults | § 65-4 |
+| `configure_replace` | Replace running configuration | § 65-5 |
+| `file_copy` | Copy files (TFTP upload/download, save config) | § 65-6 |
+| `show_boot` | Display boot settings | § 65-7 |
+| `show_running_config` | Display running configuration | § 65-8 |
+| `show_startup_config` | Display startup configuration | § 65-9 |
+
 ## Usage example
 
 ```yaml

@@ -1,0 +1,126 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2026, Jérôme Dumesnil
+# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: spanning_tree_timers
+short_description: Configure STP timer values on a D-Link DGS-1250 switch
+description:
+  - Configures the C(spanning-tree) timer CLI commands on a D-Link DGS-1250 switch.
+  - Sets hello-time, forward-time, or max-age timers.
+  - Corresponds to CLI command described in chapter 61-6 of the DGS-1250 CLI Reference Guide.
+version_added: "0.18.0"
+author:
+  - Jérôme Dumesnil
+options:
+  hello_time:
+    description:
+      - The hello time in seconds (1 to 2).
+    type: int
+  forward_time:
+    description:
+      - The forward delay time in seconds (4 to 30).
+    type: int
+  max_age:
+    description:
+      - The maximum BPDU age in seconds (6 to 40).
+    type: int
+  state:
+    description:
+      - C(present) to set the value, C(absent) to revert to default.
+    type: str
+    choices: [present, absent]
+    default: present
+notes:
+  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
+    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
+  - This command runs in Global Configuration Mode.
+"""
+
+EXAMPLES = r"""
+- name: Set STP hello time to 1 second
+  jaydee_io.dlink_dgs1250.spanning_tree_timers:
+    hello_time: 1
+
+- name: Set STP forward time and max age
+  jaydee_io.dlink_dgs1250.spanning_tree_timers:
+    forward_time: 16
+    max_age: 21
+
+- name: Reset all timers to default
+  jaydee_io.dlink_dgs1250.spanning_tree_timers:
+    hello_time: 2
+    state: absent
+"""
+
+RETURN = r"""
+raw_output:
+  description: Raw text output from the switch CLI command.
+  returned: always
+  type: str
+commands:
+  description: List of CLI commands sent to the switch.
+  returned: always
+  type: list
+  elements: str
+"""
+
+from ansible.module_utils.basic import AnsibleModule
+
+try:
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import (
+        run_commands, MODE_GLOBAL_CONFIG,
+    )
+except ImportError:
+    import sys, os
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
+
+
+def _build_commands(hello_time, forward_time, max_age, state):
+    commands = []
+    if state == "absent":
+        if hello_time is not None:
+            commands.append("no spanning-tree hello-time")
+        if forward_time is not None:
+            commands.append("no spanning-tree forward-time")
+        if max_age is not None:
+            commands.append("no spanning-tree max-age")
+    else:
+        if hello_time is not None:
+            commands.append("spanning-tree hello-time %d" % hello_time)
+        if forward_time is not None:
+            commands.append("spanning-tree forward-time %d" % forward_time)
+        if max_age is not None:
+            commands.append("spanning-tree max-age %d" % max_age)
+    return commands
+
+
+
+
+def main():
+    module = AnsibleModule(
+        argument_spec=dict(
+            hello_time=dict(type="int"),
+            forward_time=dict(type="int"),
+            max_age=dict(type="int"),
+            state=dict(type="str", choices=["present", "absent"], default="present"),
+        ),
+        supports_check_mode=True,
+    )
+    commands = _build_commands(module.params["hello_time"], module.params["forward_time"], module.params["max_age"], module.params["state"])
+    if module.check_mode:
+        module.exit_json(changed=True, commands=commands, raw_output="")
+        return
+    try:
+        raw_output = run_commands(module, commands, mode=MODE_GLOBAL_CONFIG)
+    except Exception as e:
+        module.fail_json(msg="Command failed: %s" % str(e))
+    module.exit_json(changed=True, raw_output=raw_output, commands=commands)
+
+
+if __name__ == "__main__":
+    main()
