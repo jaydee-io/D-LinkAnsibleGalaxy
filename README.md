@@ -791,6 +791,83 @@ all:
 | `show_rmon_statistics` | Display RMON Ethernet statistics | § 55-8 |
 | `snmp_server_enable_traps_rmon` | Enable or disable SNMP traps for RMON | § 55-9 |
 
+### Chapter 56 - Router Advertisement (RA) Guard Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `ipv6_nd_raguard_policy` | Create or remove an RA guard policy | § 56-1 |
+| `ipv6_nd_raguard_device_role` | Configure the device role in an RA guard policy | § 56-2 |
+| `ipv6_nd_raguard_match_access_list` | Filter RA messages by IPv6 access list in an RA guard policy | § 56-3 |
+| `ipv6_nd_raguard_attach_policy` | Apply an RA guard policy on an interface | § 56-4 |
+| `show_ipv6_nd_raguard_policy` | Display RA guard policy information | § 56-5 |
+
+### Chapter 57 - Safeguard Engine Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `clear_cpu_protect_counters` | Clear CPU protect counters | § 57-1 |
+| `cpu_protect_safeguard` | Enable or configure the Safeguard Engine | § 57-2 |
+| `cpu_protect_sub_interface` | Configure CPU protect rate limit by sub-interface | § 57-3 |
+| `cpu_protect_type` | Configure CPU protect rate limit by protocol type | § 57-4 |
+| `show_cpu_protect_safeguard` | Display Safeguard Engine settings | § 57-5 |
+| `show_cpu_protect_sub_interface` | Display CPU protect sub-interface settings | § 57-6 |
+| `show_cpu_protect_type` | Display CPU protect type settings | § 57-7 |
+| `snmp_server_enable_traps_safeguard_engine` | Enable or disable SNMP traps for Safeguard Engine | § 57-8 |
+
+### Chapter 58 - Secure Shell (SSH) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `crypto_key_generate` | Generate RSA or DSA key pair | § 58-1 |
+| `crypto_key_zeroize` | Delete RSA or DSA key pair | § 58-2 |
+| `ip_ssh_settings` | Configure SSH timeout and authentication retries | § 58-3 |
+| `ip_ssh_server` | Enable or disable the SSH server | § 58-4 |
+| `ip_ssh_service_port` | Configure the SSH service port | § 58-5 |
+| `show_crypto_key_mypubkey` | Display RSA or DSA public key | § 58-6 |
+| `show_ip_ssh` | Display SSH configuration settings | § 58-7 |
+| `show_ssh` | Display SSH server connections | § 58-8 |
+| `ssh_user_authentication_method` | Configure SSH authentication method for a user | § 58-9 |
+
+### Chapter 59 - Secure Sockets Layer (SSL) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `ssl_no_certificate` | Delete an imported certificate from a trust point | § 59-1 |
+| `crypto_pki_import_pem` | Import PEM certificates and keys to a trust point | § 59-2 |
+| `crypto_pki_trustpoint` | Create or remove a trust point | § 59-3 |
+| `crypto_pki_certificate_chain` | Enter Certificate Chain Configuration Mode | § 59-4 |
+| `crypto_pki_trustpoint_primary` | Set a trust point as primary | § 59-5 |
+| `show_crypto_pki_trustpoints` | Display trust point information | § 59-6 |
+| `show_ssl_service_policy` | Display SSL service policy | § 59-7 |
+| `ssl_service_policy` | Configure an SSL service policy | § 59-8 |
+| `crypto_pki_certificate_generate` | Generate a self-signed certificate | § 59-9 |
+
+### Chapter 60 - Simple Network Management Protocol (SNMP) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `show_snmp_trap_link_status` | Display per-interface link status trap state | § 60-1 |
+| `show_snmp_server` | Display SNMP server settings | § 60-2 |
+| `show_snmp_server_trap_sending` | Display per-port SNMP trap sending state | § 60-3 |
+| `snmp_server` | Enable or disable the SNMP agent | § 60-4 |
+| `snmp_server_contact` | Configure SNMP system contact information | § 60-5 |
+| `snmp_server_enable_traps` | Enable or disable SNMP trap sending globally | § 60-6 |
+| `snmp_server_enable_traps_snmp` | Enable or disable specific SNMP notification traps | § 60-7 |
+| `snmp_server_location` | Configure SNMP system location | § 60-8 |
+| `snmp_server_name` | Configure SNMP system name | § 60-9 |
+| `snmp_server_trap_sending` | Enable or disable SNMP trap sending on an interface | § 60-10 |
+| `snmp_server_service_port` | Configure the SNMP UDP port | § 60-11 |
+| `snmp_server_response_broadcast_request` | Enable or disable SNMP broadcast request response | § 60-12 |
+| `snmp_trap_link_status` | Enable or disable link-status traps on an interface | § 60-13 |
+| `show_snmp` | Display SNMP settings | § 60-14 |
+| `show_snmp_user` | Display SNMP user information | § 60-15 |
+| `snmp_server_community` | Configure SNMP community string | § 60-16 |
+| `snmp_server_engine_id` | Configure the SNMP engine ID | § 60-17 |
+| `snmp_server_group` | Configure an SNMP group | § 60-18 |
+| `snmp_server_host` | Configure an SNMP notification recipient | § 60-19 |
+| `snmp_server_user` | Create or remove an SNMP user | § 60-20 |
+| `snmp_server_view` | Create or remove an SNMP view entry | § 60-21 |
+
 ## Usage example
 
 ```yaml
