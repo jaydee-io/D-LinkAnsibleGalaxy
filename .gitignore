@@ -6,6 +6,9 @@ dist/
 build/
 .eggs/
 
+# Datasheet
+doc/
+
 # Tests
 .pytest_cache/
 .coverage

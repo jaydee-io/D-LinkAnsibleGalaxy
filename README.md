@@ -710,6 +710,87 @@ all:
 | `port_security_snmp_traps` | Enable or disable SNMP traps for port security | § 50-3 |
 | `switchport_port_security` | Configure port security on an interface | § 50-4 |
 
+### Chapter 51 - Power over Ethernet (PoE) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `poe_pd_description` | Configure PoE PD description on an interface | § 51-1 |
+| `poe_pd_legacy_support` | Enable or disable PoE legacy PD support | § 51-2 |
+| `poe_pd_priority` | Configure PoE PD priority on an interface | § 51-3 |
+| `poe_policy_preempt` | Enable or disable PoE policy preempt | § 51-4 |
+| `poe_power_inline` | Configure PoE power inline on an interface | § 51-5 |
+| `poe_usage_threshold` | Configure PoE usage threshold | § 51-6 |
+| `poe_snmp_traps` | Enable or disable PoE SNMP traps | § 51-7 |
+| `poe_clear_statistics` | Clear PoE statistics | § 51-8 |
+| `show_poe_power_inline` | Display PoE power inline status | § 51-9 |
+| `show_poe_power_module` | Display PoE power module status | § 51-10 |
+| `poe_pd_alive` | Configure PoE PD alive check on an interface | § 51-11 |
+| `show_poe_pd_alive` | Display PoE PD alive check status | § 51-12 |
+
+### Chapter 52 - Power Saving Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `dim_led` | Enable or disable LED dimming | § 52-1 |
+| `power_saving` | Enable or disable global power saving | § 52-2 |
+| `power_saving_eee` | Enable or disable Energy Efficient Ethernet on an interface | § 52-3 |
+| `power_saving_dim_led_time_range` | Configure the dim LED time range | § 52-4 |
+| `power_saving_hibernation_time_range` | Configure the hibernation time range | § 52-5 |
+| `power_saving_shutdown_time_range` | Configure the port shutdown time range | § 52-6 |
+| `show_power_saving` | Display power saving configuration | § 52-7 |
+
+### Chapter 53 - Protocol Independent Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `ip_route` | Configure a static IPv4 route | § 53-1 |
+| `ipv6_route` | Configure a static IPv6 route | § 53-2 |
+| `show_ip_route` | Display the IPv4 routing table | § 53-3 |
+| `show_ip_route_summary` | Display a summary of the IPv4 routing table | § 53-4 |
+| `show_ipv6_route` | Display the IPv6 routing table | § 53-5 |
+| `show_ipv6_route_summary` | Display a summary of the IPv6 routing table | § 53-6 |
+
+### Chapter 54 - Quality of Service (QoS) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `policy_map_class` | Attach a class map to a policy map | § 54-1 |
+| `class_map` | Create or modify a class-map | § 54-2 |
+| `class_map_match` | Configure match criteria inside a class-map | § 54-3 |
+| `mls_qos_cos` | Configure the default CoS value of an interface | § 54-4 |
+| `mls_qos_dscp_mutation` | Attach an ingress DSCP mutation map to an interface | § 54-5 |
+| `mls_qos_map_dscp_cos` | Configure the DSCP-to-CoS map on an interface | § 54-6 |
+| `mls_qos_map_dscp_mutation_global` | Define a named DSCP mutation map | § 54-7 |
+| `mls_qos_scheduler` | Configure the QoS scheduling mechanism on an interface | § 54-8 |
+| `mls_qos_trust` | Configure the trust state of an interface | § 54-9 |
+| `policy_map` | Create or remove a policy-map | § 54-10 |
+| `priority_queue_cos_map` | Define a CoS-to-queue map | § 54-11 |
+| `queue_rate_limit` | Configure the bandwidth for a CoS queue | § 54-12 |
+| `rate_limit` | Configure ingress or egress bandwidth limit on an interface | § 54-13 |
+| `service_policy` | Attach a service policy to an interface | § 54-14 |
+| `policy_map_set` | Configure the set action inside a policy-map class | § 54-15 |
+| `show_class_map` | Display class-map configuration | § 54-16 |
+| `show_mls_qos_interface` | Display port-level QoS configuration | § 54-17 |
+| `show_mls_qos_map_dscp_mutation` | Display the DSCP mutation map configuration | § 54-18 |
+| `show_mls_qos_queueing` | Display QoS queueing information | § 54-19 |
+| `show_policy_map` | Display the policy-map configuration | § 54-20 |
+| `wdrr_queue_bandwidth` | Set the WDRR queue quantum on an interface | § 54-21 |
+| `wrr_queue_bandwidth` | Set the WRR queue weights on an interface | § 54-22 |
+
+### Chapter 55 - Remote Network MONitoring (RMON) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `rmon_collection_stats` | Enable RMON statistics collection on an interface | § 55-1 |
+| `rmon_collection_history` | Enable RMON history statistics on an interface | § 55-2 |
+| `rmon_alarm` | Configure an RMON alarm entry | § 55-3 |
+| `rmon_event` | Configure an RMON event entry | § 55-4 |
+| `show_rmon_alarm` | Display the RMON alarm configuration | § 55-5 |
+| `show_rmon_events` | Display the RMON event table | § 55-6 |
+| `show_rmon_history` | Display RMON history statistics | § 55-7 |
+| `show_rmon_statistics` | Display RMON Ethernet statistics | § 55-8 |
+| `snmp_server_enable_traps_rmon` | Enable or disable SNMP traps for RMON | § 55-9 |
+
 ## Usage example
 
 ```yaml
