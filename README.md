@@ -939,6 +939,74 @@ all:
 | `show_running_config` | Display running configuration | § 65-8 |
 | `show_startup_config` | Display startup configuration | § 65-9 |
 
+### Chapter 66 - System Log Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `clear_logging` | Clear system log messages | § 66-1 |
+| `logging_buffered` | Configure logging to local buffer | § 66-2 |
+| `logging_discriminator` | Configure a logging discriminator | § 66-3 |
+| `logging_server` | Configure a SYSLOG server | § 66-4 |
+| `show_logging` | Display system log messages | § 66-5 |
+| `show_attack_logging` | Display attack log messages | § 66-6 |
+| `clear_attack_logging` | Clear attack log messages | § 66-7 |
+
+### Chapter 67 - Time and SNTP Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `clock_set` | Set the system clock | § 67-1 |
+| `clock_summer_time` | Configure daylight saving time | § 67-2 |
+| `clock_timezone` | Configure the time zone | § 67-3 |
+| `show_clock` | Display time and date | § 67-4 |
+| `show_sntp` | Display SNTP server information | § 67-5 |
+| `sntp_server` | Configure an SNTP server | § 67-6 |
+| `sntp_enable` | Enable or disable SNTP | § 67-7 |
+| `sntp_interval` | Configure SNTP polling interval | § 67-8 |
+
+### Chapter 68 - Time Range Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `time_range_periodic` | Configure a periodic time range | § 68-1 |
+| `show_time_range` | Display time range profiles | § 68-2 |
+| `time_range` | Create or delete a time range profile | § 68-3 |
+
+### Chapter 69 - Traffic Segmentation Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `show_traffic_segmentation_forward` | Display traffic segmentation | § 69-1 |
+| `traffic_segmentation_forward` | Configure traffic segmentation | § 69-2 |
+
+### Chapter 70 - Virtual LAN (VLAN) Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `vlan_acceptable_frame` | Configure acceptable frame types | § 70-1 |
+| `vlan_ingress_checking` | Enable or disable ingress checking | § 70-2 |
+| `show_vlan` | Display VLAN information | § 70-3 |
+| `vlan_switchport_access` | Configure access VLAN | § 70-4 |
+| `vlan_switchport_hybrid_allowed` | Configure hybrid port allowed VLANs | § 70-5 |
+| `vlan_switchport_hybrid_native` | Configure hybrid port native VLAN | § 70-6 |
+| `vlan_switchport_mode` | Configure VLAN port mode | § 70-7 |
+| `vlan_switchport_trunk_allowed` | Configure trunk port allowed VLANs | § 70-8 |
+| `vlan_switchport_trunk_native` | Configure trunk port native VLAN | § 70-9 |
+| `vlan` | Create or delete VLANs | § 70-10 |
+| `vlan_name` | Configure VLAN name | § 70-11 |
+
+### Chapter 71 - Voice VLAN Commands
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `voice_vlan` | Configure voice VLAN | § 71-1 |
+| `voice_vlan_aging` | Configure voice VLAN aging time | § 71-2 |
+| `voice_vlan_enable` | Enable or disable voice VLAN on an interface | § 71-3 |
+| `voice_vlan_mac_address` | Configure voice VLAN OUI | § 71-4 |
+| `voice_vlan_mode` | Configure voice VLAN learning mode | § 71-5 |
+| `voice_vlan_qos` | Configure voice VLAN CoS priority | § 71-6 |
+| `show_voice_vlan` | Display voice VLAN settings | § 71-7 |
+
 ## Usage example
 
 ```yaml
