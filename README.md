@@ -361,7 +361,7 @@ all:
 | `dhcpv6_relay_local_relay_vlan` | Enable or disable DHCPv6 local relay on VLANs | § 20-10 |
 | `dhcpv6_relay_show` | Display DHCPv6 settings or interface information | § 20-11 |
 
-### Chapter 21 - Digital Diagnostics Monitoring (DDM) Commands
+### Digital Diagnostics Monitoring (DDM) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -375,7 +375,7 @@ all:
 | `ddm_transceiver_monitoring_tx_power` | Configure transceiver monitoring TX power thresholds | § 21-8 |
 | `ddm_transceiver_monitoring_voltage` | Configure transceiver monitoring voltage thresholds | § 21-9 |
 
-### Chapter 22 - D-Link Discovery Protocol (DDP) Client Commands
+### D-Link Discovery Protocol (DDP) Client Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -383,7 +383,7 @@ all:
 | `ddp_report_timer` | Configure DDP report timer interval | § 22-2 |
 | `ddp_show` | Display DDP configuration | § 22-3 |
 
-### Chapter 23 - Domain Name System (DNS) Commands
+### Domain Name System (DNS) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -395,7 +395,7 @@ all:
 | `dns_show_hosts` | Display DNS host configuration | § 23-6 |
 | `dns_show_ip_name_server` | Display DNS name server configuration | § 23-7 |
 
-### Chapter 24 - DoS Prevention Commands
+### DoS Prevention Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -403,7 +403,7 @@ all:
 | `dos_prevention_show` | Display DoS prevention status and drop counters | § 24-2 |
 | `dos_prevention_snmp_traps` | Enable or disable SNMP traps for DoS prevention | § 24-3 |
 
-### Chapter 25 - Dynamic ARP Inspection Commands
+### Dynamic ARP Inspection Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -421,7 +421,7 @@ all:
 | `dai_show_ip_arp_inspection` | Display Dynamic ARP Inspection status | § 25-12 |
 | `dai_show_ip_arp_inspection_log` | Display ARP inspection log buffer | § 25-13 |
 
-### Chapter 26 - Error Recovery Commands
+### Error Recovery Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -429,7 +429,7 @@ all:
 | `show_errdisable_recovery` | Display error-disable recovery timer settings | § 26-2 |
 | `snmp_server_enable_traps_errdisable` | Enable SNMP notifications for error-disabled state | § 26-3 |
 
-### Chapter 27 - File System Commands
+### File System Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -437,7 +437,7 @@ all:
 | `dir` | Display file system directory listing | § 27-2 |
 | `show_storage_media_info` | Display storage media information | § 27-3 |
 
-### Chapter 28 - Filter Database (FDB) Commands
+### Filter Database (FDB) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -455,13 +455,13 @@ all:
 | `snmp_server_enable_traps_mac_notification_change` | Enable SNMP MAC notification traps | § 28-12 |
 | `snmp_trap_mac_notification_change` | Enable MAC address change notification trap on an interface | § 28-13 |
 
-### Chapter 29 - Gratuitous ARP Trap Commands
+### Gratuitous ARP Trap Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
 | `snmp_server_enable_traps_gratuitous_arp` | Enable SNMP notifications for gratuitous ARP | § 29-1 |
 
-### Chapter 30 - Interface Commands
+### Interface Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -475,7 +475,7 @@ all:
 | `show_interfaces_auto_negotiation` | Display interface auto-negotiation information | § 30-10 |
 | `show_interfaces_description` | Display interface description and link status | § 30-11 |
 
-### Chapter 31 - IGMP Snooping Commands
+### IGMP Snooping Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -497,7 +497,7 @@ all:
 | `show_igmp_snooping_static_group` | Display IGMP snooping static group information | § 31-16 |
 | `show_igmp_snooping_statistics` | Display IGMP snooping statistics | § 31-17 |
 
-### Chapter 32 - IP-MAC-Port Binding (IMPB) Commands
+### IP-MAC-Port Binding (IMPB) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -506,19 +506,19 @@ all:
 | `show_impb` | Display IMPB configuration or violation entries | § 32-3 |
 | `impb_snmp_traps` | Enable or disable SNMP traps for IMPB | § 32-4 |
 
-### Chapter 33 - IP Multicast (IPMC) Commands
+### IP Multicast (IPMC) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
 | `show_ip_mroute_forwarding_cache` | Display IP multicast forwarding cache | § 33-1 |
 
-### Chapter 34 - IP Multicast Version 6 (IPMCv6) Commands
+### IP Multicast Version 6 (IPMCv6) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
 | `show_ipv6_mroute_forwarding_cache` | Display IPv6 multicast forwarding cache | § 34-1 |
 
-### Chapter 35 - IP Source Guard Commands
+### IP Source Guard Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -527,14 +527,14 @@ all:
 | `show_ip_source_binding` | Display IP source guard binding entries | § 35-3 |
 | `show_ip_verify_source` | Display IP source guard hardware port ACL entries | § 35-4 |
 
-### Chapter 36 - IP Utility Commands
+### IP Utility Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
 | `ping` | Ping a remote host | § 36-1 |
 | `ping_access_class` | Configure ping access class | § 36-2 |
 
-### Chapter 37 - IPv6 Snooping Commands
+### IPv6 Snooping Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -545,7 +545,7 @@ all:
 | `ipv6_snooping_station_move_deny` | Enable or disable IPv6 snooping station move deny | § 37-5 |
 | `show_ipv6_snooping_policy` | Display IPv6 snooping policy information | § 37-6 |
 
-### Chapter 38 - IPv6 Source Guard Commands
+### IPv6 Source Guard Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -557,13 +557,13 @@ all:
 | `show_ipv6_source_guard_policy` | Display IPv6 source guard policy configuration | § 38-6 |
 | `show_ipv6_neighbor_binding` | Display IPv6 neighbor binding table | § 38-7 |
 
-### Chapter 39 - Jumbo Frame Commands
+### Jumbo Frame Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
 | `max_rcv_frame_size` | Configure maximum receive frame size on an interface | § 39-1 |
 
-### Chapter 40 - Link Aggregation Control Protocol (LACP) Commands
+### Link Aggregation Control Protocol (LACP) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -574,7 +574,7 @@ all:
 | `port_channel_load_balance` | Configure port-channel load balance algorithm | § 40-5 |
 | `show_channel_group` | Display channel group information | § 40-6 |
 
-### Chapter 41 - Link Layer Discovery Protocol (LLDP) Commands
+### Link Layer Discovery Protocol (LLDP) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -605,7 +605,7 @@ all:
 | `show_lldp_traffic` | Display LLDP traffic statistics | § 41-25 |
 | `show_lldp_traffic_interface` | Display LLDP traffic statistics for an interface | § 41-26 |
 
-### Chapter 42 - Loopback Detection (LBD) Commands
+### Loopback Detection (LBD) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -616,7 +616,7 @@ all:
 | `show_loopback_detection` | Display loopback detection status | § 42-5 |
 | `loopback_detection_snmp_traps` | Enable or disable loopback detection SNMP traps | § 42-6 |
 
-### Chapter 43 - MAC-based Authentication Commands
+### MAC-based Authentication Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -626,7 +626,7 @@ all:
 | `mac_auth_username` | Configure MAC authentication username format | § 43-4 |
 | `mac_auth_snmp_traps` | Enable or disable MAC authentication SNMP traps | § 43-5 |
 
-### Chapter 44 - Mirror Commands
+### Mirror Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -634,7 +634,7 @@ all:
 | `monitor_session_source` | Configure port monitor session source | § 44-2 |
 | `show_monitor_session` | Display port monitor session configuration | § 44-3 |
 
-### Chapter 45 - MLD Snooping Commands
+### MLD Snooping Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -654,7 +654,7 @@ all:
 | `show_mld_snooping_groups` | Display MLD snooping group information | § 45-14 |
 | `show_mld_snooping_mrouter` | Display MLD snooping multicast router port information | § 45-15 |
 
-### Chapter 46 - MSTP Commands
+### MSTP Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -667,7 +667,7 @@ all:
 | `mstp_hello_time` | Configure MSTP hello-time on an interface | § 46-8 |
 | `mstp_priority` | Configure MSTP bridge priority | § 46-9 |
 
-### Chapter 47 - Neighbor Discovery (ND) Inspection Commands
+### Neighbor Discovery (ND) Inspection Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -677,7 +677,7 @@ all:
 | `nd_inspection_attach_policy` | Apply an ND inspection policy to an interface | § 47-4 |
 | `show_nd_inspection_policy` | Display ND inspection policy information | § 47-5 |
 
-### Chapter 48 - Network Access Authentication Commands
+### Network Access Authentication Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -694,14 +694,14 @@ all:
 | `auth_authorization_disable` | Enable or disable authorization | § 48-11 |
 | `show_auth_sessions` | Display authentication sessions | § 48-12 |
 
-### Chapter 49 - Network Protocol Port Protection Commands
+### Network Protocol Port Protection Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
 | `network_protocol_port_protect` | Enable or disable network protocol port protection | § 49-1 |
 | `show_network_protocol_port_protect` | Display network protocol port protection status | § 49-2 |
 
-### Chapter 50 - Port Security Commands
+### Port Security Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -710,7 +710,7 @@ all:
 | `port_security_snmp_traps` | Enable or disable SNMP traps for port security | § 50-3 |
 | `switchport_port_security` | Configure port security on an interface | § 50-4 |
 
-### Chapter 51 - Power over Ethernet (PoE) Commands
+### Power over Ethernet (PoE) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -727,7 +727,7 @@ all:
 | `poe_pd_alive` | Configure PoE PD alive check on an interface | § 51-11 |
 | `show_poe_pd_alive` | Display PoE PD alive check status | § 51-12 |
 
-### Chapter 52 - Power Saving Commands
+### Power Saving Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -739,7 +739,7 @@ all:
 | `power_saving_shutdown_time_range` | Configure the port shutdown time range | § 52-6 |
 | `show_power_saving` | Display power saving configuration | § 52-7 |
 
-### Chapter 53 - Protocol Independent Commands
+### Protocol Independent Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -750,7 +750,7 @@ all:
 | `show_ipv6_route` | Display the IPv6 routing table | § 53-5 |
 | `show_ipv6_route_summary` | Display a summary of the IPv6 routing table | § 53-6 |
 
-### Chapter 54 - Quality of Service (QoS) Commands
+### Quality of Service (QoS) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -777,7 +777,7 @@ all:
 | `wdrr_queue_bandwidth` | Set the WDRR queue quantum on an interface | § 54-21 |
 | `wrr_queue_bandwidth` | Set the WRR queue weights on an interface | § 54-22 |
 
-### Chapter 55 - Remote Network MONitoring (RMON) Commands
+### Remote Network MONitoring (RMON) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -791,7 +791,7 @@ all:
 | `show_rmon_statistics` | Display RMON Ethernet statistics | § 55-8 |
 | `snmp_server_enable_traps_rmon` | Enable or disable SNMP traps for RMON | § 55-9 |
 
-### Chapter 56 - Router Advertisement (RA) Guard Commands
+### Router Advertisement (RA) Guard Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -801,7 +801,7 @@ all:
 | `ipv6_nd_raguard_attach_policy` | Apply an RA guard policy on an interface | § 56-4 |
 | `show_ipv6_nd_raguard_policy` | Display RA guard policy information | § 56-5 |
 
-### Chapter 57 - Safeguard Engine Commands
+### Safeguard Engine Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -814,7 +814,7 @@ all:
 | `show_cpu_protect_type` | Display CPU protect type settings | § 57-7 |
 | `snmp_server_enable_traps_safeguard_engine` | Enable or disable SNMP traps for Safeguard Engine | § 57-8 |
 
-### Chapter 58 - Secure Shell (SSH) Commands
+### Secure Shell (SSH) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -828,7 +828,7 @@ all:
 | `show_ssh` | Display SSH server connections | § 58-8 |
 | `ssh_user_authentication_method` | Configure SSH authentication method for a user | § 58-9 |
 
-### Chapter 59 - Secure Sockets Layer (SSL) Commands
+### Secure Sockets Layer (SSL) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -842,7 +842,7 @@ all:
 | `ssl_service_policy` | Configure an SSL service policy | § 59-8 |
 | `crypto_pki_certificate_generate` | Generate a self-signed certificate | § 59-9 |
 
-### Chapter 60 - Simple Network Management Protocol (SNMP) Commands
+### Simple Network Management Protocol (SNMP) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -868,7 +868,7 @@ all:
 | `snmp_server_user` | Create or remove an SNMP user | § 60-20 |
 | `snmp_server_view` | Create or remove an SNMP view entry | § 60-21 |
 
-### Chapter 61 - Spanning Tree Protocol (STP) Commands
+### Spanning Tree Protocol (STP) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -890,7 +890,7 @@ all:
 | `spanning_tree_tx_hold_count` | Configure STP transmit hold count | § 61-16 |
 | `spanning_tree_forward_bpdu` | Enable or disable STP BPDU forwarding | § 61-17 |
 
-### Chapter 62 - Storm Control Commands
+### Storm Control Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -899,7 +899,7 @@ all:
 | `storm_control_polling` | Configure storm control polling interval and retries | § 62-3 |
 | `show_storm_control` | Display storm control settings | § 62-4 |
 
-### Chapter 63 - Surveillance VLAN Commands
+### Surveillance VLAN Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -916,7 +916,7 @@ all:
 | `show_surveillance_vlan_onvif_ipc` | Display ONVIF IPC information | § 63-11 |
 | `show_surveillance_vlan_onvif_nvr` | Display ONVIF NVR information | § 63-12 |
 
-### Chapter 64 - Switch Port Commands
+### Switch Port Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -925,7 +925,7 @@ all:
 | `mdix` | Configure MDIX state on an interface | § 64-3 |
 | `speed` | Configure port speed on an interface | § 64-4 |
 
-### Chapter 65 - System File Management Commands
+### System File Management Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -939,7 +939,7 @@ all:
 | `show_running_config` | Display running configuration | § 65-8 |
 | `show_startup_config` | Display startup configuration | § 65-9 |
 
-### Chapter 66 - System Log Commands
+### System Log Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -951,7 +951,7 @@ all:
 | `show_attack_logging` | Display attack log messages | § 66-6 |
 | `clear_attack_logging` | Clear attack log messages | § 66-7 |
 
-### Chapter 67 - Time and SNTP Commands
+### Time and SNTP Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -964,7 +964,7 @@ all:
 | `sntp_enable` | Enable or disable SNTP | § 67-7 |
 | `sntp_interval` | Configure SNTP polling interval | § 67-8 |
 
-### Chapter 68 - Time Range Commands
+### Time Range Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -972,14 +972,14 @@ all:
 | `show_time_range` | Display time range profiles | § 68-2 |
 | `time_range` | Create or delete a time range profile | § 68-3 |
 
-### Chapter 69 - Traffic Segmentation Commands
+### Traffic Segmentation Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
 | `show_traffic_segmentation_forward` | Display traffic segmentation | § 69-1 |
 | `traffic_segmentation_forward` | Configure traffic segmentation | § 69-2 |
 
-### Chapter 70 - Virtual LAN (VLAN) Commands
+### Virtual LAN (VLAN) Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
@@ -995,7 +995,7 @@ all:
 | `vlan` | Create or delete VLANs | § 70-10 |
 | `vlan_name` | Configure VLAN name | § 70-11 |
 
-### Chapter 71 - Voice VLAN Commands
+### Voice VLAN Commands
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
