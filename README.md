@@ -474,6 +474,7 @@ all:
 | `show_interfaces_utilization` | Display interface port utilization | § 30-9 |
 | `show_interfaces_auto_negotiation` | Display interface auto-negotiation information | § 30-10 |
 | `show_interfaces_description` | Display interface description and link status | § 30-11 |
+| `show_interfaces_gbic` | Display GBIC/SFP status information | § 30-12 |
 
 ### IGMP Snooping Commands
 
@@ -653,6 +654,8 @@ all:
 | `show_mld_snooping` | Display MLD snooping configuration | § 45-13 |
 | `show_mld_snooping_groups` | Display MLD snooping group information | § 45-14 |
 | `show_mld_snooping_mrouter` | Display MLD snooping multicast router port information | § 45-15 |
+| `show_mld_snooping_static_group` | Display MLD snooping static group information | § 45-16 |
+| `show_mld_snooping_statistics` | Display MLD snooping statistics | § 45-17 |
 
 ### MSTP Commands
 
