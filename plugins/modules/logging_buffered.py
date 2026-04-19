@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jérôme Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -14,7 +14,7 @@ description:
   - Corresponds to CLI command described in chapter 66-2 of the DGS-1250 CLI Reference Guide.
 version_added: "0.19.0"
 author:
-  - Jérôme Dumesnil
+  - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options:
@@ -75,8 +75,10 @@ try:
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
 
 
@@ -98,14 +100,17 @@ def _build_commands(severity, discriminator, write_delay, state):
 def main():
     module = AnsibleModule(
         argument_spec=dict(
-            severity=dict(type="str", choices=["emergencies", "alerts", "critical", "errors", "warnings", "notifications", "informational", "debugging"]),
+            severity=dict(type="str", choices=["emergencies", "alerts", "critical",
+                          "errors", "warnings", "notifications", "informational", "debugging"]),
             discriminator=dict(type="str"),
             write_delay=dict(type="str"),
-            state=dict(type="str", choices=["enabled", "disabled", "default"], default="enabled"),
+            state=dict(type="str", choices=[
+                       "enabled", "disabled", "default"], default="enabled"),
         ),
         supports_check_mode=True,
     )
-    commands = _build_commands(module.params["severity"], module.params["discriminator"], module.params["write_delay"], module.params["state"])
+    commands = _build_commands(
+        module.params["severity"], module.params["discriminator"], module.params["write_delay"], module.params["state"])
     if module.check_mode:
         module.exit_json(changed=True, commands=commands, raw_output="")
         return

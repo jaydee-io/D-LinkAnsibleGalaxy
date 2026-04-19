@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jerome Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -94,8 +94,10 @@ try:
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
 
 
@@ -107,7 +109,8 @@ def _build_commands(interface, tlv_type, vlan_id, protocol_name, state):
         cmd = "%slldp dot1-tlv-select vlan-name %s" % (prefix, vlan_id)
     else:
         if protocol_name:
-            cmd = "%slldp dot1-tlv-select protocol-identity %s" % (prefix, protocol_name)
+            cmd = "%slldp dot1-tlv-select protocol-identity %s" % (
+                prefix, protocol_name)
         else:
             cmd = "%slldp dot1-tlv-select protocol-identity" % prefix
     return ["interface %s" % interface, cmd, "exit"]
@@ -117,17 +120,20 @@ def main():
     module = AnsibleModule(
         argument_spec=dict(
             interface=dict(type="str", required=True),
-            tlv_type=dict(type="str", required=True, choices=["port-vlan", "vlan-name", "protocol-identity"]),
+            tlv_type=dict(type="str", required=True, choices=[
+                          "port-vlan", "vlan-name", "protocol-identity"]),
             vlan_id=dict(type="str"),
             protocol_name=dict(type="str", choices=["eapol", "lacp", "stp"]),
-            state=dict(type="str", choices=["enabled", "disabled"], default="enabled"),
+            state=dict(type="str", choices=[
+                       "enabled", "disabled"], default="enabled"),
         ),
         required_if=[
             ("tlv_type", "vlan-name", ["vlan_id"]),
         ],
         supports_check_mode=True,
     )
-    commands = _build_commands(module.params["interface"], module.params["tlv_type"], module.params["vlan_id"], module.params["protocol_name"], module.params["state"])
+    commands = _build_commands(module.params["interface"], module.params["tlv_type"],
+                               module.params["vlan_id"], module.params["protocol_name"], module.params["state"])
     if module.check_mode:
         module.exit_json(changed=True, commands=commands, raw_output="")
         return

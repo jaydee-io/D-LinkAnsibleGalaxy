@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jérôme Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -14,7 +14,7 @@ description:
   - Corresponds to CLI command described in chapter 31-5 of the DGS-1250 CLI Reference Guide.
 version_added: "0.12.0"
 author:
-  - Jérôme Dumesnil
+  - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options:
@@ -85,17 +85,21 @@ try:
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
 
 
 def _build_commands(vlan_id, type_, interface_id, state):
     prefix = "no " if state == "absent" else ""
     if type_ == "forbidden":
-        cmd = "%sip igmp snooping mrouter forbidden interface %s" % (prefix, interface_id)
+        cmd = "%sip igmp snooping mrouter forbidden interface %s" % (
+            prefix, interface_id)
     else:
-        cmd = "%sip igmp snooping mrouter interface %s" % (prefix, interface_id)
+        cmd = "%sip igmp snooping mrouter interface %s" % (
+            prefix, interface_id)
     return ["vlan %d" % vlan_id, cmd, "exit"]
 
 
@@ -103,9 +107,11 @@ def main():
     module = AnsibleModule(
         argument_spec=dict(
             vlan_id=dict(type="int", required=True),
-            type=dict(type="str", required=True, choices=["interface", "forbidden"]),
+            type=dict(type="str", required=True, choices=[
+                      "interface", "forbidden"]),
             interface_id=dict(type="str", required=True),
-            state=dict(type="str", choices=["present", "absent"], default="present"),
+            state=dict(type="str", choices=[
+                       "present", "absent"], default="present"),
         ),
         supports_check_mode=True,
     )

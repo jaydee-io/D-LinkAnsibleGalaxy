@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jerome Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -63,8 +63,10 @@ try:
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
 
 
@@ -79,7 +81,8 @@ def main():
     module = AnsibleModule(
         argument_spec=dict(
             med=dict(type="bool", default=False),
-            state=dict(type="str", choices=["enabled", "disabled"], default="enabled"),
+            state=dict(type="str", choices=[
+                       "enabled", "disabled"], default="enabled"),
         ),
         supports_check_mode=True,
     )

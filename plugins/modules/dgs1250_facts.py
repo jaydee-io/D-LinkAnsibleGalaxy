@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jérôme Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -17,7 +17,7 @@ description:
   - The C(gather) parameter allows selecting which subsets of facts to collect.
 version_added: "0.21.0"
 author:
-  - Jérôme Dumesnil
+  - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options:
@@ -135,8 +135,10 @@ try:
         run_command,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_command
 
 
@@ -157,7 +159,8 @@ def _build_commands(gather):
     if "all" in gather:
         subsets = ["version", "unit", "environment", "cpu"]
     else:
-        subsets = [s for s in ["version", "unit", "environment", "cpu"] if s in gather]
+        subsets = [s for s in ["version", "unit",
+                               "environment", "cpu"] if s in gather]
     return subsets, [SUBSET_COMMANDS[s] for s in subsets]
 
 
@@ -227,7 +230,8 @@ def _parse_unit(output):
         if m:
             unit_info["serial_number"] = m.group(1).strip()
             unit_info["status"] = m.group(2).strip()
-            uptime_m = re.match(r"(\d+)DT(\d+)H(\d+)M(\d+)S", m.group(3).strip())
+            uptime_m = re.match(
+                r"(\d+)DT(\d+)H(\d+)M(\d+)S", m.group(3).strip())
             if uptime_m:
                 unit_info["uptime"] = {
                     "days": int(uptime_m.group(1)),
@@ -320,7 +324,8 @@ def _parse_environment(output):
             continue
         m = re.match(r"^(Power\s+\S+)\s{2,}(.+)$", line)
         if m:
-            power.append({"module": m.group(1).strip(), "status": m.group(2).strip()})
+            power.append({"module": m.group(1).strip(),
+                         "status": m.group(2).strip()})
 
     return {"temperatures": temperatures, "fans": fans, "power": power}
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jérôme Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -14,7 +14,7 @@ description:
   - Corresponds to CLI command described in chapter 13-2 of the DGS-1250 CLI Reference Guide.
 version_added: "0.8.0"
 author:
-  - Jérôme Dumesnil
+  - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options:
@@ -64,8 +64,10 @@ try:
         run_commands, MODE_PRIVILEGED,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_PRIVILEGED
 
 
@@ -77,13 +79,15 @@ def _build_commands(source, destination):
 def main():
     module = AnsibleModule(
         argument_spec=dict(
-            source=dict(type="str", choices=["error-log", "tech-support"], required=True),
+            source=dict(type="str", choices=[
+                        "error-log", "tech-support"], required=True),
             destination=dict(type="str", required=True),
         ),
         supports_check_mode=True,
     )
 
-    commands = _build_commands(module.params["source"], module.params["destination"])
+    commands = _build_commands(
+        module.params["source"], module.params["destination"])
 
     if module.check_mode:
         module.exit_json(changed=True, commands=commands, raw_output="")

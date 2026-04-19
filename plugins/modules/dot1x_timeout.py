@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jérôme Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -15,7 +15,7 @@ description:
   - Corresponds to CLI command described in chapter 3-11 of the DGS-1250 CLI Reference Guide.
 version_added: "0.2.0"
 author:
-  - Jérôme Dumesnil
+  - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options:
@@ -95,8 +95,10 @@ try:
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
 
 
@@ -138,7 +140,8 @@ def main():
             server_timeout=dict(type="int"),
             supp_timeout=dict(type="int"),
             tx_period=dict(type="int"),
-            state=dict(type="str", choices=["present", "absent"], default="present"),
+            state=dict(type="str", choices=[
+                       "present", "absent"], default="present"),
         ),
         supports_check_mode=True,
     )
@@ -150,13 +153,15 @@ def main():
     tx_period = module.params["tx_period"]
 
     if state == "present" and server_timeout is None and supp_timeout is None and tx_period is None:
-        module.fail_json(msg="At least one of 'server_timeout', 'supp_timeout', or 'tx_period' must be specified when state is 'present'.")
+        module.fail_json(
+            msg="At least one of 'server_timeout', 'supp_timeout', or 'tx_period' must be specified when state is 'present'.")
 
     for name, value in [("server_timeout", server_timeout), ("supp_timeout", supp_timeout), ("tx_period", tx_period)]:
         if state == "present" and value is not None and (value < 1 or value > 65535):
             module.fail_json(msg="'%s' must be between 1 and 65535." % name)
 
-    commands = _build_commands(interface, state, server_timeout, supp_timeout, tx_period)
+    commands = _build_commands(
+        interface, state, server_timeout, supp_timeout, tx_period)
 
     if module.check_mode:
         module.exit_json(changed=True, commands=commands, raw_output="")

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jérôme Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -14,7 +14,7 @@ description:
   - Corresponds to CLI command described in chapter 2-15 of the DGS-1250 CLI Reference Guide.
 version_added: "0.1.0"
 author:
-  - Jérôme Dumesnil
+  - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options:
@@ -71,8 +71,10 @@ try:
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
 
 
@@ -108,7 +110,8 @@ def _build_command(state, high, low):
 def main():
     module = AnsibleModule(
         argument_spec=dict(
-            state=dict(type="str", choices=["present", "absent"], default="present"),
+            state=dict(type="str", choices=[
+                       "present", "absent"], default="present"),
             high=dict(type="int"),
             low=dict(type="int"),
         ),
@@ -120,7 +123,8 @@ def main():
     low = module.params["low"]
 
     if state == "present" and high is None and low is None:
-        module.fail_json(msg="At least one of 'high' or 'low' must be specified when state is 'present'.")
+        module.fail_json(
+            msg="At least one of 'high' or 'low' must be specified when state is 'present'.")
 
     if high is not None and (high < -100 or high > 200):
         module.fail_json(msg="'high' must be between -100 and 200.")

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jérôme Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -14,7 +14,7 @@ description:
   - Corresponds to CLI command described in chapter 51-11 of the DGS-1250 CLI Reference Guide.
 version_added: "0.16.0"
 author:
-  - Jérôme Dumesnil
+  - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options:
@@ -102,8 +102,10 @@ try:
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
 
 
@@ -111,17 +113,23 @@ def _build_commands(interface, ip, interval, retry, waiting_time, action, state)
     commands = ["interface %s" % interface]
     prefix = "no " if state == "disabled" else ""
     if ip is not None:
-        commands.append("%spoe pd alive ip %s" % (prefix, ip) if state == "enabled" else "no poe pd alive ip")
+        commands.append("%spoe pd alive ip %s" % (prefix, ip)
+                        if state == "enabled" else "no poe pd alive ip")
     elif interval is not None:
-        commands.append("poe pd alive interval %d" % interval if state == "enabled" else "no poe pd alive interval")
+        commands.append("poe pd alive interval %d" %
+                        interval if state == "enabled" else "no poe pd alive interval")
     elif retry is not None:
-        commands.append("poe pd alive retry %d" % retry if state == "enabled" else "no poe pd alive retry")
+        commands.append("poe pd alive retry %d" %
+                        retry if state == "enabled" else "no poe pd alive retry")
     elif waiting_time is not None:
-        commands.append("poe pd alive waiting-time %d" % waiting_time if state == "enabled" else "no poe pd alive waiting-time")
+        commands.append("poe pd alive waiting-time %d" %
+                        waiting_time if state == "enabled" else "no poe pd alive waiting-time")
     elif action is not None:
-        commands.append("poe pd alive action %s" % action if state == "enabled" else "no poe pd alive action")
+        commands.append("poe pd alive action %s" %
+                        action if state == "enabled" else "no poe pd alive action")
     else:
-        commands.append("poe pd alive" if state == "enabled" else "no poe pd alive")
+        commands.append("poe pd alive" if state ==
+                        "enabled" else "no poe pd alive")
     commands.append("exit")
     return commands
 
@@ -135,7 +143,8 @@ def main():
             retry=dict(type="int"),
             waiting_time=dict(type="int"),
             action=dict(type="str", choices=["reset", "notify", "both"]),
-            state=dict(type="str", choices=["enabled", "disabled"], default="enabled"),
+            state=dict(type="str", choices=[
+                       "enabled", "disabled"], default="enabled"),
         ),
         supports_check_mode=True,
     )

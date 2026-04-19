@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jérôme Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -14,7 +14,7 @@ description:
   - Corresponds to CLI command described in chapter 54-12 of the DGS-1250 CLI Reference Guide.
 version_added: "0.16.0"
 author:
-  - Jérôme Dumesnil
+  - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options:
@@ -95,8 +95,10 @@ try:
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
 
 
@@ -107,7 +109,8 @@ def _build_commands(interface, queue_id, min_bw, max_bw, min_pct, max_pct, state
     else:
         min_part = "percent %d" % min_pct if min_pct is not None else "%d" % min_bw
         max_part = "percent %d" % max_pct if max_pct is not None else "%d" % max_bw
-        commands.append("queue %d rate-limit %s %s" % (queue_id, min_part, max_part))
+        commands.append("queue %d rate-limit %s %s" %
+                        (queue_id, min_part, max_part))
     commands.append("exit")
     return commands
 
@@ -121,7 +124,8 @@ def main():
             max_bandwidth=dict(type="int"),
             min_percent=dict(type="int"),
             max_percent=dict(type="int"),
-            state=dict(type="str", choices=["present", "absent"], default="present"),
+            state=dict(type="str", choices=[
+                       "present", "absent"], default="present"),
         ),
         supports_check_mode=True,
     )

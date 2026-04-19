@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jerome Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -69,8 +69,10 @@ try:
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
 
 
@@ -87,14 +89,16 @@ def main():
         argument_spec=dict(
             password=dict(type="str", no_log=True),
             encryption=dict(type="int", choices=[0, 7]),
-            state=dict(type="str", choices=["present", "absent"], default="present"),
+            state=dict(type="str", choices=[
+                       "present", "absent"], default="present"),
         ),
         required_if=[
             ("state", "present", ["password"]),
         ],
         supports_check_mode=True,
     )
-    commands = _build_commands(module.params["password"], module.params["encryption"], module.params["state"])
+    commands = _build_commands(
+        module.params["password"], module.params["encryption"], module.params["state"])
     if module.check_mode:
         module.exit_json(changed=True, commands=commands, raw_output="")
         return

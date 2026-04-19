@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(brew install:*)",
+      "Bash(pip3 install:*)",
+      "Bash(python3 -m pytest tests/unit/ -v)",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash(python3 -c ':*)"
+    ]
+  }
+}

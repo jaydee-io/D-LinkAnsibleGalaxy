@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jérôme Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -15,7 +15,7 @@ description:
   - Corresponds to CLI command described in chapter 28-4 of the DGS-1250 CLI Reference Guide.
 version_added: "0.11.0"
 author:
-  - Jérôme Dumesnil
+  - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options:
@@ -78,8 +78,10 @@ try:
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
 
 
@@ -99,11 +101,14 @@ def _build_commands(interval, history_size, trap_type, state):
         return [cmd]
     cmds.append("mac-address-table notification change")
     if interval is not None:
-        cmds.append("mac-address-table notification change interval %d" % interval)
+        cmds.append(
+            "mac-address-table notification change interval %d" % interval)
     if history_size is not None:
-        cmds.append("mac-address-table notification change history-size %d" % history_size)
+        cmds.append(
+            "mac-address-table notification change history-size %d" % history_size)
     if trap_type is not None:
-        cmds.append("mac-address-table notification change trap-type %s" % trap_type)
+        cmds.append(
+            "mac-address-table notification change trap-type %s" % trap_type)
     return cmds
 
 
@@ -112,8 +117,10 @@ def main():
         argument_spec=dict(
             interval=dict(type="int"),
             history_size=dict(type="int"),
-            trap_type=dict(type="str", choices=["with-vlanid", "without-vlanid"]),
-            state=dict(type="str", default="present", choices=["present", "absent"]),
+            trap_type=dict(type="str", choices=[
+                           "with-vlanid", "without-vlanid"]),
+            state=dict(type="str", default="present",
+                       choices=["present", "absent"]),
         ),
         supports_check_mode=True,
     )

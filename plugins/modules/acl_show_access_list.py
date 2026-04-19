@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jérôme Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -15,7 +15,7 @@ description:
   - Corresponds to CLI command described in chapter 4-15 of the DGS-1250 CLI Reference Guide.
 version_added: "0.3.0"
 author:
-  - Jérôme Dumesnil
+  - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options:
@@ -81,8 +81,10 @@ from ansible.module_utils.basic import AnsibleModule
 try:
     from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import run_command
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_command
 
 
@@ -102,7 +104,8 @@ def _parse_summary(output):
             continue
         m = re.match(r"^\s*(\S+.*?\(ID:\s*\d+\))\s{2,}(\S.*?)\s*$", line)
         if m:
-            results.append({"name": m.group(1).strip(), "type": m.group(2).strip()})
+            results.append({"name": m.group(1).strip(),
+                           "type": m.group(2).strip()})
     return results
 
 
@@ -119,12 +122,14 @@ def _parse_detailed(output):
     current = None
 
     for line in output.splitlines():
-        header = re.match(r"^\s*(Extended\s+|Standard\s+)?(\S+)\s+access(?:\s+list)?\s+(.+)", line, re.IGNORECASE)
+        header = re.match(
+            r"^\s*(Extended\s+|Standard\s+)?(\S+)\s+access(?:\s+list)?\s+(.+)", line, re.IGNORECASE)
         if header:
             ext = (header.group(1) or "").strip().lower()
             acl_kind = header.group(2).strip().lower()
             acl_name = header.group(3).strip()
-            acl_type = "%s %s" % (acl_kind, "ext-acl" if ext == "extended" else "std-acl") if ext else acl_kind
+            acl_type = "%s %s" % (
+                acl_kind, "ext-acl" if ext == "extended" else "std-acl") if ext else acl_kind
             current = {"name": acl_name, "type": acl_type, "rules": []}
             results.append(current)
             continue

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jérôme Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -14,7 +14,7 @@ description:
   - Corresponds to CLI command described in chapter 46-5 of the DGS-1250 CLI Reference Guide.
 version_added: "0.15.0"
 author:
-  - Jérôme Dumesnil
+  - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options:
@@ -85,8 +85,10 @@ try:
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
 
 
@@ -97,14 +99,17 @@ def _build_commands(interface, instance_id, cost, port_priority, state):
         if cost is not None:
             commands.append("no spanning-tree mst %d cost" % instance_id)
         elif port_priority is not None:
-            commands.append("no spanning-tree mst %d port-priority" % instance_id)
+            commands.append(
+                "no spanning-tree mst %d port-priority" % instance_id)
         else:
             commands.append("no spanning-tree mst %d cost" % instance_id)
     else:
         if cost is not None:
-            commands.append("spanning-tree mst %d cost %d" % (instance_id, cost))
+            commands.append("spanning-tree mst %d cost %d" %
+                            (instance_id, cost))
         else:
-            commands.append("spanning-tree mst %d port-priority %d" % (instance_id, port_priority))
+            commands.append("spanning-tree mst %d port-priority %d" %
+                            (instance_id, port_priority))
     commands.append("exit")
     return commands
 
@@ -116,7 +121,8 @@ def main():
             instance_id=dict(type="int", required=True),
             cost=dict(type="int"),
             port_priority=dict(type="int"),
-            state=dict(type="str", choices=["present", "absent"], default="present"),
+            state=dict(type="str", choices=[
+                       "present", "absent"], default="present"),
         ),
         required_one_of=[
             ("cost", "port_priority"),

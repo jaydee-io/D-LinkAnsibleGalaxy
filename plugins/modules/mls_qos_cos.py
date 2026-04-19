@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright: (c) 2026, Jérôme Dumesnil
-# GNU General Public License v2.0+ (see COPYING or https://www.gnu.org/licenses/gpl-2.0.txt)
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -14,7 +14,7 @@ description:
   - Corresponds to CLI command described in chapter 54-4 of the DGS-1250 CLI Reference Guide.
 version_added: "0.16.0"
 author:
-  - Jérôme Dumesnil
+  - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options:
@@ -78,8 +78,10 @@ try:
         run_commands, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
-    import sys, os
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "module_utils"))
+    import sys
+    import os
+    sys.path.insert(0, os.path.join(
+        os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
 
 
@@ -101,12 +103,14 @@ def main():
             interface=dict(type="str", required=True),
             cos_value=dict(type="int"),
             override=dict(type="bool", default=False),
-            state=dict(type="str", choices=["present", "absent"], default="present"),
+            state=dict(type="str", choices=[
+                       "present", "absent"], default="present"),
         ),
         supports_check_mode=True,
     )
-    if module.params["state"] == "present" and not module.params["override"]             and module.params["cos_value"] is None:
-        module.fail_json(msg="cos_value is required when state=present and override=false")
+    if module.params["state"] == "present" and not module.params["override"] and module.params["cos_value"] is None:
+        module.fail_json(
+            msg="cos_value is required when state=present and override=false")
     commands = _build_commands(
         module.params["interface"],
         module.params["cos_value"],
