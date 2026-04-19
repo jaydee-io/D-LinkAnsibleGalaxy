@@ -2,6 +2,12 @@
 
 All notable changes to the `jaydee_io.dlink_dgs1250` Ansible Collection will be documented in this file.
 
+## [1.0.0] - 2026-04-19
+### Changed
+- **First stable release** — all 591 modules, 3 roles, 4 example playbooks, integration tests, CI/CD
+- Add `doc_fragments/dgs1250.py` shared documentation fragment for connection notes
+- Refactor all 591 modules to use `extends_documentation_fragment` reducing documentation duplication
+
 ## [0.21.0] - 2026-04-19
 ### Added
 - 3 ready-to-use roles: `hardening`, `monitoring`, `base_config`
@@ -96,6 +102,8 @@ All notable changes to the `jaydee_io.dlink_dgs1250` Ansible Collection will be 
 - GitHub Actions workflows for unit tests and Galaxy publishing
 - `meta/runtime.yml` with `requires_ansible` constraint
 
+[1.0.0]: https://github.com/jaydee-io/D-LinkAnsibleGalaxy/compare/v0.21.0...v1.0.0
+[0.21.0]: https://github.com/jaydee-io/D-LinkAnsibleGalaxy/compare/v0.20.0...v0.21.0
 [0.20.0]: https://github.com/jaydee-io/D-LinkAnsibleGalaxy/compare/v0.19.0...v0.20.0
 [0.19.0]: https://github.com/jaydee-io/D-LinkAnsibleGalaxy/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/jaydee-io/D-LinkAnsibleGalaxy/compare/v0.17.0...v0.18.0
