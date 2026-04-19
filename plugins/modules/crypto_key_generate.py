@@ -15,6 +15,8 @@ description:
 version_added: "0.17.0"
 author:
   - Jérôme Dumesnil
+extends_documentation_fragment:
+  - jaydee_io.dlink_dgs1250.dgs1250
 options:
   key_type:
     description:
@@ -28,8 +30,6 @@ options:
     type: int
     choices: [360, 512, 768, 1024, 2048]
 notes:
-  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
-    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command runs in Privileged EXEC Mode.
 """
 

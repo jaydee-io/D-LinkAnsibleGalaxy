@@ -27,8 +27,6 @@ options:
     choices: [enabled, disabled]
     default: enabled
 notes:
-  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
-    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - When C(vlan_id) is specified, the command runs in VLAN Configuration Mode.
   - When C(vlan_id) is not specified, the command runs in Global Configuration Mode.
 """

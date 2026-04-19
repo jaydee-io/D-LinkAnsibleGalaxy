@@ -15,14 +15,14 @@ description:
 version_added: "0.9.0"
 author:
   - Jérôme Dumesnil
+extends_documentation_fragment:
+  - jaydee_io.dlink_dgs1250.dgs1250
 options:
   interface:
     description:
       - Optional VLAN interface to display DHCPv6 settings for.
     type: str
 notes:
-  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
-    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This is a read-only command.
 """
 

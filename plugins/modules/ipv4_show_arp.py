@@ -15,6 +15,8 @@ description:
 version_added: "0.6.0"
 author:
   - Jérôme Dumesnil
+extends_documentation_fragment:
+  - jaydee_io.dlink_dgs1250.dgs1250
 options:
   arp_type:
     description:
@@ -38,8 +40,6 @@ options:
       - Filter by hardware (MAC) address.
     type: str
 notes:
-  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
-    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
 """
 
 EXAMPLES = r"""

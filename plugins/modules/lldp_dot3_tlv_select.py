@@ -33,8 +33,6 @@ options:
     choices: [enabled, disabled]
     default: enabled
 notes:
-  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
-    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command runs in Interface Configuration Mode.
   - If C(tlv_type) is not specified, all 802.3 TLVs are selected or deselected.
 """

@@ -15,6 +15,8 @@ description:
 version_added: "0.4.0"
 author:
   - Jérôme Dumesnil
+extends_documentation_fragment:
+  - jaydee_io.dlink_dgs1250.dgs1250
 options:
   password:
     description:
@@ -32,8 +34,6 @@ options:
     choices: [present, absent]
     default: present
 notes:
-  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
-    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - Use C(no_log=true) on the task to avoid logging the password.
 """
 

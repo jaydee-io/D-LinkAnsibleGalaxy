@@ -15,14 +15,14 @@ description:
 version_added: "0.13.0"
 author:
   - Jérôme Dumesnil
+extends_documentation_fragment:
+  - jaydee_io.dlink_dgs1250.dgs1250
 options:
   policy:
     description:
       - Optional policy name to display. If not specified, all policies are displayed.
     type: str
 notes:
-  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
-    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command runs in User/Privileged EXEC Mode.
 """
 

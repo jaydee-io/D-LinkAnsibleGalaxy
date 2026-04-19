@@ -15,14 +15,14 @@ description:
 version_added: "0.18.0"
 author:
   - Jérôme Dumesnil
+extends_documentation_fragment:
+  - jaydee_io.dlink_dgs1250.dgs1250
 options:
   interface:
     description:
       - The interface(s) to display (e.g. C(eth1/0/1), C(eth1/0/1-4)).
     type: str
 notes:
-  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
-    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command runs in User/Privileged EXEC Mode.
 """
 

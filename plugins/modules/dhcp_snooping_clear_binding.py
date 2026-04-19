@@ -15,6 +15,8 @@ description:
 version_added: "0.9.0"
 author:
   - Jérôme Dumesnil
+extends_documentation_fragment:
+  - jaydee_io.dlink_dgs1250.dgs1250
 options:
   mac_address:
     description:
@@ -33,8 +35,6 @@ options:
       - Interface ID to filter the binding entries to clear (e.g. C(eth1/0/1)).
     type: str
 notes:
-  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
-    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command runs in Privileged EXEC Mode.
 """
 

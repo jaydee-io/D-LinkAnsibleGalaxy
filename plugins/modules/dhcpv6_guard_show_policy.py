@@ -15,14 +15,14 @@ description:
 version_added: "0.9.0"
 author:
   - Jérôme Dumesnil
+extends_documentation_fragment:
+  - jaydee_io.dlink_dgs1250.dgs1250
 options:
   policy_name:
     description:
       - Name of the DHCPv6 guard policy to display. If omitted, all policies are shown.
     type: str
 notes:
-  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
-    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command runs in User/Privileged EXEC Mode.
 """
 

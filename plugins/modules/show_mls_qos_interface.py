@@ -14,6 +14,8 @@ description:
 version_added: "0.16.0"
 author:
   - Jérôme Dumesnil
+extends_documentation_fragment:
+  - jaydee_io.dlink_dgs1250.dgs1250
 options:
   interface:
     description:
@@ -27,8 +29,6 @@ options:
     required: true
     choices: [cos, scheduler, trust, rate-limit, queue-rate-limit, dscp-mutation, map-dscp-cos]
 notes:
-  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
-    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command runs in User/Privileged EXEC Mode.
 """
 

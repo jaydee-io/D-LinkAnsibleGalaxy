@@ -14,6 +14,8 @@ description:
 version_added: "0.11.0"
 author:
   - Jérôme Dumesnil
+extends_documentation_fragment:
+  - jaydee_io.dlink_dgs1250.dgs1250
 options:
   file_url:
     description:
@@ -21,8 +23,6 @@ options:
     type: str
     required: true
 notes:
-  - This module requires C(ansible_network_os=jaydee_io.dlink_dgs1250.dgs1250) and
-    C(ansible_connection=ansible.netcommon.network_cli) set in the inventory.
   - This command runs in Privileged EXEC Mode.
   - The firmware image or configuration file set as boot-up file cannot be deleted.
 """
