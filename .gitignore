@@ -5,6 +5,7 @@ __pycache__/
 dist/
 build/
 .eggs/
+.venv/
 
 # Datasheet
 doc/
@@ -16,6 +17,7 @@ htmlcov/
 
 # Ansible
 *.retry
+*.tar.gz
 
 # Secrets
 *.vault
