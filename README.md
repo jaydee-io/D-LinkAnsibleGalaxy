@@ -70,6 +70,12 @@ all:
 
 ## Modules
 
+### Facts
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `dgs1250_facts` | Collect all basic facts (version, unit, environment, CPU) in one call | — |
+
 ### Basic Switch Commands
 
 | Module | Description | CLI Reference |
