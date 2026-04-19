@@ -1,0 +1,43 @@
+---
+- name: Disable HTTP server
+  jaydee_io.dlink_dgs1250.mgmt_ip_http_server:
+    state: "{{ hardening_http_server }}"
+
+- name: Configure HTTPS server
+  jaydee_io.dlink_dgs1250.mgmt_ip_http_secure_server:
+    state: "{{ hardening_https_server }}"
+    ssl_service_policy: "{{ hardening_https_ssl_policy | default(omit) }}"
+
+- name: Configure SSH server
+  jaydee_io.dlink_dgs1250.ip_ssh_server:
+    state: "{{ hardening_ssh_server }}"
+
+- name: Configure Telnet server
+  jaydee_io.dlink_dgs1250.mgmt_ip_telnet_server:
+    state: "{{ hardening_telnet_server }}"
+
+- name: Configure password encryption
+  jaydee_io.dlink_dgs1250.mgmt_service_password_encryption:
+    state: "{{ hardening_password_encryption }}"
+
+- name: Set console session timeout
+  jaydee_io.dlink_dgs1250.mgmt_session_timeout:
+    line: console
+    timeout: "{{ hardening_session_timeout_console }}"
+
+- name: Set Telnet session timeout
+  jaydee_io.dlink_dgs1250.mgmt_session_timeout:
+    line: telnet
+    timeout: "{{ hardening_session_timeout_telnet }}"
+
+- name: Set SSH session timeout
+  jaydee_io.dlink_dgs1250.mgmt_session_timeout:
+    line: ssh
+    timeout: "{{ hardening_session_timeout_ssh }}"
+
+- name: Apply management ACL
+  jaydee_io.dlink_dgs1250.mgmt_access_class:
+    line: "{{ item }}"
+    acl_name: "{{ hardening_mgmt_acl }}"
+  loop: "{{ hardening_mgmt_acl_lines }}"
+  when: hardening_mgmt_acl is not none

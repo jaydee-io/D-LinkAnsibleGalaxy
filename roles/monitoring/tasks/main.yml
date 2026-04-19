@@ -1,0 +1,69 @@
+---
+# --- SNMP ---
+- name: Configure SNMP server
+  jaydee_io.dlink_dgs1250.snmp_server:
+    state: "{{ monitoring_snmp_server }}"
+
+- name: Configure SNMP community
+  jaydee_io.dlink_dgs1250.snmp_server_community:
+    community: "{{ monitoring_snmp_community }}"
+    access_type: "{{ monitoring_snmp_community_access }}"
+  when: monitoring_snmp_community is not none
+
+- name: Configure SNMP location
+  jaydee_io.dlink_dgs1250.snmp_server_location:
+    text: "{{ monitoring_snmp_location }}"
+  when: monitoring_snmp_location is not none
+
+- name: Configure SNMP contact
+  jaydee_io.dlink_dgs1250.snmp_server_contact:
+    text: "{{ monitoring_snmp_contact }}"
+  when: monitoring_snmp_contact is not none
+
+- name: Configure SNMP trap host
+  jaydee_io.dlink_dgs1250.snmp_server_host:
+    host: "{{ monitoring_snmp_host }}"
+    version: "{{ monitoring_snmp_host_version }}"
+    community: "{{ monitoring_snmp_host_community }}"
+  when: monitoring_snmp_host is not none
+
+# --- Syslog ---
+- name: Configure logging buffered
+  jaydee_io.dlink_dgs1250.logging_buffered:
+    state: "{{ monitoring_syslog_buffered }}"
+    severity: "{{ monitoring_syslog_buffered_severity }}"
+
+- name: Configure syslog server
+  jaydee_io.dlink_dgs1250.logging_server:
+    address: "{{ monitoring_syslog_server }}"
+    severity: "{{ monitoring_syslog_server_severity }}"
+  when: monitoring_syslog_server is not none
+
+# --- SNTP ---
+- name: Enable SNTP
+  jaydee_io.dlink_dgs1250.sntp_enable:
+    state: "{{ monitoring_sntp_enabled }}"
+
+- name: Configure SNTP server
+  jaydee_io.dlink_dgs1250.sntp_server:
+    address: "{{ monitoring_sntp_server }}"
+  when: monitoring_sntp_server is not none
+
+- name: Configure SNTP polling interval
+  jaydee_io.dlink_dgs1250.sntp_interval:
+    seconds: "{{ monitoring_sntp_interval }}"
+
+# --- LLDP ---
+- name: Configure LLDP
+  jaydee_io.dlink_dgs1250.lldp_run:
+    state: "{{ monitoring_lldp_enabled }}"
+
+# --- RMON ---
+- name: Enable RMON statistics collection
+  jaydee_io.dlink_dgs1250.rmon_collection_stats:
+    interface: "{{ item }}"
+    index: "{{ monitoring_rmon_stats_index_start + idx }}"
+  loop: "{{ monitoring_rmon_interfaces }}"
+  loop_control:
+    index_var: idx
+  when: monitoring_rmon_interfaces | length > 0

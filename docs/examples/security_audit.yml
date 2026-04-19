@@ -1,0 +1,69 @@
+---
+# Security audit playbook
+# Checks switch configuration for common security issues.
+#
+# Usage:
+#   ansible-playbook -i inventory.yml docs/examples/security_audit.yml
+#
+- name: Security audit of DGS-1250 switches
+  hosts: switches
+  gather_facts: false
+
+  tasks:
+    - name: Collect switch facts
+      jaydee_io.dlink_dgs1250.dgs1250_facts:
+      register: facts
+
+    - name: Display firmware version
+      ansible.builtin.debug:
+        msg: "Firmware: {{ facts.ansible_facts.firmware_version }}"
+
+    - name: Check HTTP server status
+      jaydee_io.dlink_dgs1250.mgmt_show_ip_http_server:
+      register: http_status
+
+    - name: WARN - HTTP server is enabled (insecure)
+      ansible.builtin.debug:
+        msg: "WARNING: HTTP server is enabled on {{ inventory_hostname }}. Consider disabling it."
+      when: "'Enabled' in http_status.raw_output"
+
+    - name: Check HTTPS server status
+      jaydee_io.dlink_dgs1250.mgmt_show_ip_http_secure_server:
+      register: https_status
+
+    - name: INFO - HTTPS server status
+      ansible.builtin.debug:
+        msg: "HTTPS server: {{ https_status.raw_output }}"
+
+    - name: Check Telnet server status
+      jaydee_io.dlink_dgs1250.mgmt_show_ip_telnet_server:
+      register: telnet_status
+
+    - name: WARN - Telnet server is enabled (insecure)
+      ansible.builtin.debug:
+        msg: "WARNING: Telnet is enabled on {{ inventory_hostname }}. Consider disabling it."
+      when: "'Enabled' in telnet_status.raw_output"
+
+    - name: Check SSH server status
+      jaydee_io.dlink_dgs1250.show_ip_ssh:
+      register: ssh_status
+
+    - name: INFO - SSH server status
+      ansible.builtin.debug:
+        msg: "SSH: {{ ssh_status.raw_output }}"
+
+    - name: Check active user sessions
+      jaydee_io.dlink_dgs1250.mgmt_show_users:
+      register: users
+
+    - name: INFO - Active sessions
+      ansible.builtin.debug:
+        msg: "Active sessions: {{ users.raw_output }}"
+
+    - name: Check SNMP configuration
+      jaydee_io.dlink_dgs1250.show_snmp:
+      register: snmp_config
+
+    - name: INFO - SNMP configuration
+      ansible.builtin.debug:
+        msg: "SNMP: {{ snmp_config.raw_output }}"

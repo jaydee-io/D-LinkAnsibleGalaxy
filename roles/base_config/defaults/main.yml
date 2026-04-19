@@ -1,0 +1,26 @@
+---
+# System identification
+base_config_hostname: ~
+base_config_location: ~
+base_config_contact: ~
+
+# Time zone (UTC offset)
+base_config_timezone_sign: "+"
+base_config_timezone_hours: 0
+base_config_timezone_minutes: 0
+
+# SNTP time server
+base_config_sntp_server: ~
+
+# Logging
+base_config_syslog_server: ~
+base_config_syslog_severity: warnings
+
+# Spanning tree mode: mstp, rstp, or stp
+base_config_stp_mode: rstp
+
+# VLANs to create — list of {id, name} dicts
+# Example:
+#   - { id: 100, name: management }
+#   - { id: 200, name: users }
+base_config_vlans: []

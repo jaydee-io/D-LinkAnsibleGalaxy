@@ -1,0 +1,51 @@
+---
+# Backup and restore switch configuration
+#
+# Usage:
+#   Backup:  ansible-playbook -i inventory.yml docs/examples/backup_restore.yml --tags backup
+#   Restore: ansible-playbook -i inventory.yml docs/examples/backup_restore.yml --tags restore \
+#            -e tftp_server=192.168.1.100 -e config_file=sw1-backup.cfg
+#
+- name: Backup and restore DGS-1250 configuration
+  hosts: switches
+  gather_facts: false
+
+  vars:
+    tftp_server: "192.168.1.100"
+    config_file: "switch-backup.cfg"
+
+  tasks:
+    # --- Backup ---
+    - name: Display running configuration
+      jaydee_io.dlink_dgs1250.show_running_config:
+      register: running_config
+      tags: [backup]
+
+    - name: Show current configuration
+      ansible.builtin.debug:
+        var: running_config.raw_output
+      tags: [backup]
+
+    - name: Upload config to TFTP server
+      jaydee_io.dlink_dgs1250.file_copy:
+        action: upload
+        protocol: tftp
+        server: "{{ tftp_server }}"
+        remote_file: "{{ config_file }}"
+        local_file: running-config
+      tags: [backup]
+
+    # --- Restore ---
+    - name: Download config from TFTP server
+      jaydee_io.dlink_dgs1250.file_copy:
+        action: download
+        protocol: tftp
+        server: "{{ tftp_server }}"
+        remote_file: "{{ config_file }}"
+        local_file: running-config
+      tags: [restore, never]
+
+    - name: Save restored configuration
+      jaydee_io.dlink_dgs1250.file_copy:
+        action: save
+      tags: [restore, never]

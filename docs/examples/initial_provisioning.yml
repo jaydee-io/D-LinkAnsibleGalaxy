@@ -1,0 +1,46 @@
+---
+# Initial switch provisioning playbook
+# Applies base configuration, hardening, and monitoring in one run.
+#
+# Usage:
+#   ansible-playbook -i inventory.yml docs/examples/initial_provisioning.yml
+#
+- name: Initial provisioning of DGS-1250 switches
+  hosts: switches
+  gather_facts: false
+
+  roles:
+    - role: jaydee_io.dlink_dgs1250.base_config
+      vars:
+        base_config_hostname: "sw-floor3"
+        base_config_location: "Building A - Floor 3 - Rack 12"
+        base_config_contact: "netops@example.com"
+        base_config_timezone_sign: "+"
+        base_config_timezone_hours: 1
+        base_config_sntp_server: "192.168.1.10"
+        base_config_syslog_server: "192.168.1.20"
+        base_config_stp_mode: rstp
+        base_config_vlans:
+          - { id: 100, name: management }
+          - { id: 200, name: users }
+          - { id: 300, name: servers }
+          - { id: 999, name: quarantine }
+
+    - role: jaydee_io.dlink_dgs1250.hardening
+      vars:
+        hardening_session_timeout_console: 5
+        hardening_session_timeout_ssh: 10
+
+    - role: jaydee_io.dlink_dgs1250.monitoring
+      vars:
+        monitoring_snmp_community: "public-ro"
+        monitoring_snmp_location: "Building A - Floor 3 - Rack 12"
+        monitoring_snmp_contact: "netops@example.com"
+        monitoring_snmp_host: "192.168.1.30"
+        monitoring_syslog_server: "192.168.1.20"
+        monitoring_sntp_server: "192.168.1.10"
+
+  tasks:
+    - name: Save running configuration
+      jaydee_io.dlink_dgs1250.file_copy:
+        action: save

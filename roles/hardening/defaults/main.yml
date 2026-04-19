@@ -1,0 +1,28 @@
+---
+# Disable HTTP server (insecure, use HTTPS instead)
+hardening_http_server: disabled
+
+# Enable HTTPS server
+hardening_https_server: enabled
+hardening_https_ssl_policy: ~
+
+# Enable SSH server
+hardening_ssh_server: enabled
+
+# Disable Telnet server (insecure, use SSH instead)
+hardening_telnet_server: disabled
+
+# Enable password encryption
+hardening_password_encryption: enabled
+
+# Session timeout in minutes (per line type)
+hardening_session_timeout_console: 5
+hardening_session_timeout_telnet: 5
+hardening_session_timeout_ssh: 10
+
+# Management ACL — restrict access via an IP ACL
+# Set to an ACL name to apply, or leave empty to skip
+hardening_mgmt_acl: ~
+hardening_mgmt_acl_lines:
+  - ssh
+  - telnet

@@ -1,0 +1,65 @@
+---
+# --- System identification ---
+- name: Set system hostname
+  jaydee_io.dlink_dgs1250.snmp_server_name:
+    name: "{{ base_config_hostname }}"
+  when: base_config_hostname is not none
+
+- name: Set system location
+  jaydee_io.dlink_dgs1250.snmp_server_location:
+    text: "{{ base_config_location }}"
+  when: base_config_location is not none
+
+- name: Set system contact
+  jaydee_io.dlink_dgs1250.snmp_server_contact:
+    text: "{{ base_config_contact }}"
+  when: base_config_contact is not none
+
+# --- Time zone ---
+- name: Configure time zone
+  jaydee_io.dlink_dgs1250.clock_timezone:
+    sign: "{{ base_config_timezone_sign }}"
+    hours_offset: "{{ base_config_timezone_hours }}"
+    minutes_offset: "{{ base_config_timezone_minutes }}"
+
+# --- SNTP ---
+- name: Enable SNTP
+  jaydee_io.dlink_dgs1250.sntp_enable:
+  when: base_config_sntp_server is not none
+
+- name: Configure SNTP server
+  jaydee_io.dlink_dgs1250.sntp_server:
+    address: "{{ base_config_sntp_server }}"
+  when: base_config_sntp_server is not none
+
+# --- Logging ---
+- name: Enable logging buffered
+  jaydee_io.dlink_dgs1250.logging_buffered:
+    severity: "{{ base_config_syslog_severity }}"
+
+- name: Configure syslog server
+  jaydee_io.dlink_dgs1250.logging_server:
+    address: "{{ base_config_syslog_server }}"
+    severity: "{{ base_config_syslog_severity }}"
+  when: base_config_syslog_server is not none
+
+# --- Spanning tree ---
+- name: Configure STP mode
+  jaydee_io.dlink_dgs1250.spanning_tree_mode:
+    mode: "{{ base_config_stp_mode }}"
+
+# --- VLANs ---
+- name: Create VLANs
+  jaydee_io.dlink_dgs1250.vlan:
+    vlan_id: "{{ item.id }}"
+  loop: "{{ base_config_vlans }}"
+  when: base_config_vlans | length > 0
+
+- name: Name VLANs
+  jaydee_io.dlink_dgs1250.vlan_name:
+    vlan_id: "{{ item.id }}"
+    name: "{{ item.name }}"
+  loop: "{{ base_config_vlans }}"
+  when:
+    - base_config_vlans | length > 0
+    - item.name is defined

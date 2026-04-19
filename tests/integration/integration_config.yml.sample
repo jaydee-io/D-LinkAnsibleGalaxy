@@ -1,0 +1,17 @@
+---
+# Copy this file to integration_config.yml and fill in your test switch details.
+# This file is loaded automatically by ansible-test and provides connection variables.
+#
+# WARNING: These tests run real CLI commands on a physical switch.
+# Use a lab/test switch, never a production device.
+
+ansible_host: 192.168.1.1
+ansible_user: admin
+ansible_password: admin
+ansible_port: 22
+ansible_connection: ansible.netcommon.network_cli
+ansible_network_os: jaydee_io.dlink_dgs1250.dgs1250
+
+# Test VLAN ID (must not conflict with existing VLANs)
+test_vlan_id: 3999
+test_vlan_name: integration-test

@@ -1,0 +1,33 @@
+---
+# Integration tests for the dgs1250_facts module.
+# Validates that the facts module collects expected keys from a real switch.
+
+- name: Collect all facts
+  jaydee_io.dlink_dgs1250.dgs1250_facts:
+  register: result
+
+- name: Assert facts returned successfully
+  ansible.builtin.assert:
+    that:
+      - result.ansible_facts is defined
+      - result.ansible_facts.model is defined
+      - result.ansible_facts.firmware_version is defined
+      - result.ansible_facts.mac_address is defined
+    quiet: true
+
+- name: Assert environment data is present
+  ansible.builtin.assert:
+    that:
+      - result.ansible_facts.fans is defined
+      - result.ansible_facts.temperatures is defined
+    quiet: true
+
+- name: Assert CPU utilization is present
+  ansible.builtin.assert:
+    that:
+      - result.ansible_facts.cpu_five_seconds is defined
+    quiet: true
+
+- name: Display collected facts
+  ansible.builtin.debug:
+    msg: "Model={{ result.ansible_facts.model }}, FW={{ result.ansible_facts.firmware_version }}, MAC={{ result.ansible_facts.mac_address }}"

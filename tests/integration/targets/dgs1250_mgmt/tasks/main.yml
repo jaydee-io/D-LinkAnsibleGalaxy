@@ -1,0 +1,63 @@
+---
+# Integration tests for administration modules.
+# Tests enable/disable cycles and show commands on a real switch.
+
+# --- HTTP server ---
+- name: Disable HTTP server
+  jaydee_io.dlink_dgs1250.mgmt_ip_http_server:
+    state: disabled
+  register: result
+
+- name: Assert HTTP disable changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Check HTTP server status
+  jaydee_io.dlink_dgs1250.mgmt_show_ip_http_server:
+  register: http_status
+
+- name: Assert HTTP server is disabled
+  ansible.builtin.assert:
+    that: "'Disabled' in http_status.raw_output"
+    quiet: true
+
+- name: Re-enable HTTP server (cleanup)
+  jaydee_io.dlink_dgs1250.mgmt_ip_http_server:
+    state: enabled
+
+# --- Session timeout ---
+- name: Set SSH session timeout to 15 minutes
+  jaydee_io.dlink_dgs1250.mgmt_session_timeout:
+    line: ssh
+    timeout: 15
+  register: result
+
+- name: Assert session timeout changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Reset SSH session timeout to default
+  jaydee_io.dlink_dgs1250.mgmt_session_timeout:
+    line: ssh
+    state: absent
+
+# --- Show commands ---
+- name: Show terminal settings
+  jaydee_io.dlink_dgs1250.mgmt_show_terminal:
+  register: terminal
+
+- name: Assert terminal output not empty
+  ansible.builtin.assert:
+    that: terminal.raw_output | length > 0
+    quiet: true
+
+- name: Show active users
+  jaydee_io.dlink_dgs1250.mgmt_show_users:
+  register: users
+
+- name: Assert users output not empty
+  ansible.builtin.assert:
+    that: users.raw_output | length > 0
+    quiet: true

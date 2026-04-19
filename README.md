@@ -1054,9 +1054,84 @@ all:
         low: 20
 ```
 
-## Running unit tests
+## Roles
+
+The collection includes ready-to-use roles for common switch administration tasks.
+
+### `hardening`
+
+Secures a switch by disabling insecure protocols and enforcing best practices:
+disable HTTP/Telnet, enable HTTPS/SSH, enforce password encryption, set session timeouts, and apply management ACLs.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.hardening
+      vars:
+        hardening_session_timeout_ssh: 10
+        hardening_mgmt_acl: mgmt-acl
+```
+
+### `monitoring`
+
+Configures monitoring services: SNMP (community, traps), syslog, SNTP time synchronization, LLDP, and RMON statistics.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.monitoring
+      vars:
+        monitoring_snmp_community: "public-ro"
+        monitoring_snmp_host: "192.168.1.30"
+        monitoring_syslog_server: "192.168.1.20"
+        monitoring_sntp_server: "192.168.1.10"
+```
+
+### `base_config`
+
+Applies baseline configuration: hostname, location, timezone, NTP, logging, STP mode, and VLAN creation.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.base_config
+      vars:
+        base_config_hostname: "sw-floor3"
+        base_config_timezone_sign: "+"
+        base_config_timezone_hours: 1
+        base_config_sntp_server: "192.168.1.10"
+        base_config_stp_mode: rstp
+        base_config_vlans:
+          - { id: 100, name: management }
+          - { id: 200, name: users }
+```
+
+## Example playbooks
+
+Sample playbooks are available in [`docs/examples/`](docs/examples/):
+
+| Playbook | Description |
+|----------|-------------|
+| `initial_provisioning.yml` | Full initial switch setup using all three roles |
+| `backup_restore.yml` | Backup and restore configuration via TFTP |
+| `security_audit.yml` | Audit switch for common security issues |
+| `firmware_update.yml` | Download and apply firmware update via TFTP |
+
+## Running tests
+
+### Unit tests
 
 ```bash
 pip install pytest
 pytest tests/unit/
+```
+
+### Integration tests
+
+Integration tests run real commands against a physical switch. Copy the sample config and fill in your test switch details:
+
+```bash
+cp tests/integration/integration_config.yml.sample tests/integration/integration_config.yml
+# Edit integration_config.yml with your switch IP, credentials, etc.
+ansible-test integration --local
 ```

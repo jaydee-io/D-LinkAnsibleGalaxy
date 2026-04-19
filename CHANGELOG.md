@@ -2,6 +2,12 @@
 
 All notable changes to the `jaydee_io.dlink_dgs1250` Ansible Collection will be documented in this file.
 
+## [0.21.0] - 2026-04-19
+### Added
+- 3 ready-to-use roles: `hardening`, `monitoring`, `base_config`
+- 4 example playbooks: initial provisioning, backup/restore, security audit, firmware update
+- Integration tests framework with 3 test targets: `dgs1250_facts`, `dgs1250_mgmt`, `dgs1250_vlan`
+
 ## [0.20.0] - 2026-04-18
 ### Added
 - 3 missing show modules for complete CLI coverage: `show_interfaces_gbic` (§ 30-12), `show_mld_snooping_static_group` (§ 45-16), `show_mld_snooping_statistics` (§ 45-17)

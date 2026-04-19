@@ -1,0 +1,29 @@
+---
+# SNMP configuration
+monitoring_snmp_server: enabled
+monitoring_snmp_community: ~
+monitoring_snmp_community_access: ro
+monitoring_snmp_location: ~
+monitoring_snmp_contact: ~
+monitoring_snmp_host: ~
+monitoring_snmp_host_version: "2c"
+monitoring_snmp_host_community: "{{ monitoring_snmp_community | default(omit) }}"
+
+# Syslog configuration
+monitoring_syslog_buffered: enabled
+monitoring_syslog_buffered_severity: warnings
+monitoring_syslog_server: ~
+monitoring_syslog_server_severity: warnings
+
+# SNTP time synchronization
+monitoring_sntp_enabled: enabled
+monitoring_sntp_server: ~
+monitoring_sntp_interval: 720
+
+# LLDP configuration
+monitoring_lldp_enabled: enabled
+
+# RMON statistics — list of interfaces to monitor
+# Example: ["ethernet 1/0/1", "ethernet 1/0/2"]
+monitoring_rmon_interfaces: []
+monitoring_rmon_stats_index_start: 1

@@ -1,0 +1,54 @@
+---
+# Integration tests for VLAN modules.
+# Creates a test VLAN, names it, verifies it, then cleans up.
+
+- name: Create test VLAN
+  jaydee_io.dlink_dgs1250.vlan:
+    vlan_id: "{{ test_vlan_id | default(3999) }}"
+  register: result
+
+- name: Assert VLAN creation changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Name test VLAN
+  jaydee_io.dlink_dgs1250.vlan_name:
+    vlan_id: "{{ test_vlan_id | default(3999) }}"
+    name: "{{ test_vlan_name | default('integration-test') }}"
+  register: result
+
+- name: Assert VLAN naming changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Show VLANs
+  jaydee_io.dlink_dgs1250.show_vlan:
+  register: vlans
+
+- name: Assert test VLAN is visible
+  ansible.builtin.assert:
+    that: "test_vlan_id | default('3999') | string in vlans.raw_output"
+    quiet: true
+
+# --- Cleanup ---
+- name: Delete test VLAN
+  jaydee_io.dlink_dgs1250.vlan:
+    vlan_id: "{{ test_vlan_id | default(3999) }}"
+    state: absent
+  register: result
+
+- name: Assert VLAN deletion changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Verify test VLAN is removed
+  jaydee_io.dlink_dgs1250.show_vlan:
+  register: vlans_after
+
+- name: Assert test VLAN no longer present
+  ansible.builtin.assert:
+    that: "test_vlan_id | default('3999') | string not in vlans_after.raw_output"
+    quiet: true

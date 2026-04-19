@@ -1,0 +1,60 @@
+---
+# Firmware update playbook
+# Downloads a new firmware image via TFTP and configures the switch to boot from it.
+#
+# Usage:
+#   ansible-playbook -i inventory.yml docs/examples/firmware_update.yml \
+#     -e tftp_server=192.168.1.100 \
+#     -e firmware_file=DGS-1250_FW_v2.04.img
+#
+# CAUTION: This playbook will reboot the switch. Ensure maintenance window is scheduled.
+#
+- name: Firmware update for DGS-1250 switches
+  hosts: switches
+  gather_facts: false
+  serial: 1
+
+  vars:
+    tftp_server: "192.168.1.100"
+    firmware_file: "DGS-1250_FW_v2.04.img"
+
+  tasks:
+    - name: Collect current version
+      jaydee_io.dlink_dgs1250.version:
+      register: current_version
+
+    - name: Display current firmware
+      ansible.builtin.debug:
+        msg: "Current firmware: {{ current_version.raw_output }}"
+
+    - name: Save running configuration before update
+      jaydee_io.dlink_dgs1250.file_copy:
+        action: save
+
+    - name: Download firmware from TFTP server
+      jaydee_io.dlink_dgs1250.file_copy:
+        action: download
+        protocol: tftp
+        server: "{{ tftp_server }}"
+        remote_file: "{{ firmware_file }}"
+        local_file: "{{ firmware_file }}"
+
+    - name: Set boot image to new firmware
+      jaydee_io.dlink_dgs1250.boot_image:
+        image: "{{ firmware_file }}"
+
+    - name: Reboot switch to apply firmware
+      jaydee_io.dlink_dgs1250.reset_system:
+
+    - name: Wait for switch to come back online
+      ansible.builtin.wait_for_connection:
+        delay: 60
+        timeout: 300
+
+    - name: Verify new firmware version
+      jaydee_io.dlink_dgs1250.version:
+      register: new_version
+
+    - name: Display new firmware
+      ansible.builtin.debug:
+        msg: "New firmware: {{ new_version.raw_output }}"
