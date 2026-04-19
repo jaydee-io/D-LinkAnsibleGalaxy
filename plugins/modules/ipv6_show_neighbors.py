@@ -26,7 +26,6 @@ options:
     description:
       - Filter by IPv6 address.
     type: str
-notes:
 """
 
 EXAMPLES = r"""

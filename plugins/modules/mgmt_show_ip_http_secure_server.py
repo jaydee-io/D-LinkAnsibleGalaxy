@@ -17,7 +17,6 @@ author:
 extends_documentation_fragment:
   - jaydee_io.dlink_dgs1250.dgs1250
 options: {}
-notes:
 """
 
 EXAMPLES = r"""

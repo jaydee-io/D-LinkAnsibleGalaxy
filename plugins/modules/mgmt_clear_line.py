@@ -23,7 +23,6 @@ options:
       - The line ID to clear (session ID from C(show users) output).
     type: int
     required: true
-notes:
 """
 
 EXAMPLES = r"""

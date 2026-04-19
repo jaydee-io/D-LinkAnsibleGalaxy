@@ -23,7 +23,6 @@ options:
       - Physical port interface to query (e.g. C(eth1/0/1)).
       - If omitted, all interfaces with access lists are displayed.
     type: str
-notes:
 """
 
 EXAMPLES = r"""

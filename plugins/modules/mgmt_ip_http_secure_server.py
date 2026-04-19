@@ -29,7 +29,6 @@ options:
       - Name of the SSL service policy to use for HTTPS.
       - Only used when C(state=enabled).
     type: str
-notes:
 """
 
 EXAMPLES = r"""

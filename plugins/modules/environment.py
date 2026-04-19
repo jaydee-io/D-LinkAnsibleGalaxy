@@ -24,7 +24,6 @@ options:
       - If omitted, all components are returned (equivalent to C(show environment) with no argument).
     type: str
     choices: [fan, power, temperature]
-notes:
 """
 
 EXAMPLES = r"""

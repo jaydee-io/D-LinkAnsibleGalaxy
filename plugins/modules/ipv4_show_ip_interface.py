@@ -27,7 +27,6 @@ options:
       - When C(true), show brief output format.
     type: bool
     default: false
-notes:
 """
 
 EXAMPLES = r"""

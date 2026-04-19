@@ -22,7 +22,6 @@ options:
     description:
       - Interface to query (e.g. C(vlan1)). If omitted, all interfaces are shown.
     type: str
-notes:
 """
 
 EXAMPLES = r"""

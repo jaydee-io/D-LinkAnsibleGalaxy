@@ -39,7 +39,6 @@ options:
     description:
       - Filter by hardware (MAC) address.
     type: str
-notes:
 """
 
 EXAMPLES = r"""

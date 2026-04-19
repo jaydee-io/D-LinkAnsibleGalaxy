@@ -28,7 +28,6 @@ options:
     type: str
     choices: [present, absent]
     default: present
-notes:
 """
 
 EXAMPLES = r"""

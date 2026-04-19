@@ -23,7 +23,6 @@ options:
       - Interface ID to display diagnostics for (e.g. C(eth1/0/1)).
       - If omitted, diagnostics for all interfaces are displayed.
     type: str
-notes:
 """
 
 EXAMPLES = r"""

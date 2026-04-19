@@ -30,7 +30,6 @@ options:
       - If omitted, uses the switch default.
     type: int
     choices: [7, 15]
-notes:
 """
 
 EXAMPLES = r"""

@@ -30,7 +30,6 @@ options:
       - Name or number of a specific access list to display.
       - Only used when C(acl_type) is specified.
     type: str
-notes:
 """
 
 EXAMPLES = r"""

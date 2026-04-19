@@ -28,7 +28,6 @@ options:
       - If C(true), sets the default terminal length instead of the current session.
     type: bool
     default: false
-notes:
 """
 
 EXAMPLES = r"""

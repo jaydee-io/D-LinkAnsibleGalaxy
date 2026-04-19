@@ -23,7 +23,6 @@ options:
       - Name or number of the access list to clear.
       - If omitted, all access-group hardware counters are cleared.
     type: str
-notes:
 """
 
 EXAMPLES = r"""

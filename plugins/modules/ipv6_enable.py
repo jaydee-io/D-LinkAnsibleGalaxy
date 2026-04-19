@@ -29,7 +29,6 @@ options:
     type: str
     choices: [enabled, disabled]
     default: enabled
-notes:
 """
 
 EXAMPLES = r"""
