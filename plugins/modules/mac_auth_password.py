@@ -13,13 +13,12 @@ description:
   - Corresponds to CLI command described in chapter 43-3 of the DGS-1250 CLI Reference Guide.
 version_added: "0.14.0"
 author:
-  - Jerome Dumesnil
+  - "Jérôme Dumesnil (@jaydee-io)"
 options:
   password:
     description:
       - The password string (max 16 characters). Required when C(state=present).
     type: str
-    no_log: true
   encryption:
     description:
       - C(0) for clear text, C(7) for encrypted. Default is clear text.

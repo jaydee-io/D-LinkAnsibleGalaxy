@@ -27,7 +27,6 @@ options:
     description:
       - The password in clear text (max 32 characters). Required when C(state=present).
     type: str
-    no_log: true
   vlan_id:
     description:
       - Optional VLAN to assign to the user.

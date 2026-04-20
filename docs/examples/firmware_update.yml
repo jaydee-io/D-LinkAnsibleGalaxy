@@ -29,15 +29,13 @@
 
     - name: Save running configuration before update
       jaydee_io.dlink_dgs1250.file_copy:
-        action: save
+        source: running-config
+        destination: startup-config
 
     - name: Download firmware from TFTP server
       jaydee_io.dlink_dgs1250.file_copy:
-        action: download
-        protocol: tftp
-        server: "{{ tftp_server }}"
-        remote_file: "{{ firmware_file }}"
-        local_file: "{{ firmware_file }}"
+        source: "tftp://{{ tftp_server }}/{{ firmware_file }}"
+        destination: "flash:{{ firmware_file }}"
 
     - name: Set boot image to new firmware
       jaydee_io.dlink_dgs1250.boot_image:

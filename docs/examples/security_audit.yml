@@ -62,6 +62,7 @@
 
     - name: Check SNMP configuration
       jaydee_io.dlink_dgs1250.show_snmp:
+        category: community
       register: snmp_config
 
     - name: INFO - SNMP configuration

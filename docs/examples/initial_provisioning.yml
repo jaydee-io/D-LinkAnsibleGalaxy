@@ -43,4 +43,5 @@
   tasks:
     - name: Save running configuration
       jaydee_io.dlink_dgs1250.file_copy:
-        action: save
+        source: running-config
+        destination: startup-config

@@ -43,7 +43,6 @@ raw_output:
   type: str
 """
 
-import re
 from ansible.module_utils.basic import AnsibleModule
 
 try:

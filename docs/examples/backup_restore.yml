@@ -28,24 +28,19 @@
 
     - name: Upload config to TFTP server
       jaydee_io.dlink_dgs1250.file_copy:
-        action: upload
-        protocol: tftp
-        server: "{{ tftp_server }}"
-        remote_file: "{{ config_file }}"
-        local_file: running-config
+        source: running-config
+        destination: "tftp://{{ tftp_server }}/{{ config_file }}"
       tags: [backup]
 
     # --- Restore ---
     - name: Download config from TFTP server
       jaydee_io.dlink_dgs1250.file_copy:
-        action: download
-        protocol: tftp
-        server: "{{ tftp_server }}"
-        remote_file: "{{ config_file }}"
-        local_file: running-config
+        source: "tftp://{{ tftp_server }}/{{ config_file }}"
+        destination: running-config
       tags: [restore, never]
 
     - name: Save restored configuration
       jaydee_io.dlink_dgs1250.file_copy:
-        action: save
+        source: running-config
+        destination: startup-config
       tags: [restore, never]

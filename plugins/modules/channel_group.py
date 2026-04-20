@@ -32,7 +32,7 @@ options:
       - C(on) for static channel group, C(active) for LACP active mode, C(passive) for LACP passive mode.
       - Required when C(state=present).
     type: str
-    choices: [on, active, passive]
+    choices: ['on', active, passive]
   state:
     description:
       - C(present) to assign the interface, C(absent) to remove it.

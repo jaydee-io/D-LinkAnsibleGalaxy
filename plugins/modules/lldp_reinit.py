@@ -13,7 +13,7 @@ description:
   - Corresponds to CLI command described in chapter 41-10 of the DGS-1250 CLI Reference Guide.
 version_added: "0.14.0"
 author:
-  - Jerome Dumesnil
+  - "Jérôme Dumesnil (@jaydee-io)"
 options:
   seconds:
     description:
