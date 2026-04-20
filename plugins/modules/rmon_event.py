@@ -80,14 +80,14 @@ from ansible.module_utils.basic import AnsibleModule
 
 try:
     from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import (
-        run_commands, MODE_GLOBAL_CONFIG,
+        run_commands, is_config_present, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
     import sys
     import os
     sys.path.insert(0, os.path.join(
         os.path.dirname(__file__), "..", "module_utils"))
-    from dgs1250 import run_commands, MODE_GLOBAL_CONFIG
+    from dgs1250 import run_commands, is_config_present, MODE_GLOBAL_CONFIG
 
 
 def _build_commands(index, log, trap_community, owner, description, state):
@@ -123,6 +123,9 @@ def main():
         p["index"], p["log"], p["trap_community"],
         p["owner"], p["description"], p["state"],
     )
+    if is_config_present(module, commands):
+        module.exit_json(changed=False, commands=[], raw_output="")
+        return
     if module.check_mode:
         module.exit_json(changed=True, commands=commands, raw_output="")
         return

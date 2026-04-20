@@ -89,3 +89,52 @@ def run_commands(module, commands, mode=MODE_PRIVILEGED):
     for cmd in commands:
         output += connection.get(cmd) + "\n"
     return output
+
+
+def get_running_config(module):
+    """Return the full running-config as a string."""
+    connection = get_connection(module)
+    ensure_mode(connection, MODE_PRIVILEGED)
+    return connection.get("show running-config")
+
+
+def get_running_config_section(module, regex_filter):
+    """Return lines from running-config matching a regex filter.
+
+    Uses 'show running-config' and filters lines locally.
+    Returns a list of stripped, non-empty matching lines.
+    """
+    output = get_running_config(module)
+    pattern = re.compile(regex_filter)
+    return [line.strip() for line in output.splitlines()
+            if line.strip() and pattern.search(line)]
+
+
+_MODE_ENTRY_RE = re.compile(
+    r"^(interface\s|line\s|router\s|spanning-tree mst configuration"
+    r"|aaa server\s|ip dhcp pool\s|class-map\s|policy-map\s|ip access-list\s"
+    r"|ipv6 access-list\s|mac access-list\s|vlan\s|time-range\s)",
+    re.IGNORECASE,
+)
+
+
+def _config_commands(commands):
+    """Extract the config-payload commands (skip mode-entry and exit lines)."""
+    return [c for c in commands
+            if c != "exit" and not _MODE_ENTRY_RE.match(c)]
+
+
+def is_config_present(module, commands):
+    """Check whether every config-payload command already appears in running-config.
+
+    For simple global commands: checks if each command line exists.
+    For interface/sub-config commands: filters out mode-entry and exit,
+    then checks the remaining payload commands.
+    Returns True if all payload commands are already present.
+    """
+    config = get_running_config(module)
+    config_lines = set(line.strip() for line in config.splitlines())
+    payload = _config_commands(commands)
+    if not payload:
+        return True
+    return all(cmd in config_lines for cmd in payload)

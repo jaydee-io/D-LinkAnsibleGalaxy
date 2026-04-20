@@ -4,6 +4,7 @@ from unittest.mock import MagicMock
 
 from dgs1250 import (
     _detect_mode,
+    _config_commands,
     ensure_mode,
     MODE_USER,
     MODE_PRIVILEGED,
@@ -132,3 +133,68 @@ def test_deescalate_config_if_to_privileged():
     conn = _mock_connection(b"Switch(config-if)#")
     ensure_mode(conn, MODE_PRIVILEGED)
     conn.get.assert_called_once_with("end")
+
+
+# ---- _config_commands -------------------------------------------------------
+
+def test_config_commands_simple():
+    assert _config_commands(["sntp enable"]) == ["sntp enable"]
+
+
+def test_config_commands_no_prefix():
+    assert _config_commands(["no sntp enable"]) == ["no sntp enable"]
+
+
+def test_config_commands_interface_scoped():
+    cmds = ["interface ethernet 1/0/1", "spanning-tree portfast", "exit"]
+    assert _config_commands(cmds) == ["spanning-tree portfast"]
+
+
+def test_config_commands_subconfig():
+    cmds = ["aaa server radius dynamic-author", "client 10.0.0.1 server-key secret", "exit"]
+    assert _config_commands(cmds) == ["client 10.0.0.1 server-key secret"]
+
+
+def test_config_commands_interface_range():
+    cmds = ["interface range ethernet 1/0/1-8", "storm-control broadcast level 80", "exit"]
+    assert _config_commands(cmds) == ["storm-control broadcast level 80"]
+
+
+def test_config_commands_ip_dhcp_pool():
+    cmds = ["ip dhcp pool MYPOOL", "network 192.168.1.0 255.255.255.0", "exit"]
+    assert _config_commands(cmds) == ["network 192.168.1.0 255.255.255.0"]
+
+
+def test_config_commands_class_map():
+    cmds = ["class-map match-all MYCLASS", "match access-group name MYACL", "exit"]
+    assert _config_commands(cmds) == ["match access-group name MYACL"]
+
+
+def test_config_commands_policy_map():
+    cmds = ["policy-map MYPOLICY", "class MYCLASS", "exit"]
+    assert _config_commands(cmds) == ["class MYCLASS"]
+
+
+def test_config_commands_ip_access_list():
+    cmds = ["ip access-list extended MYACL", "permit ip any any", "exit"]
+    assert _config_commands(cmds) == ["permit ip any any"]
+
+
+def test_config_commands_vlan():
+    cmds = ["vlan 100", "name SERVERS", "exit"]
+    assert _config_commands(cmds) == ["name SERVERS"]
+
+
+def test_config_commands_line():
+    cmds = ["line console 0", "speed 115200", "exit"]
+    assert _config_commands(cmds) == ["speed 115200"]
+
+
+def test_config_commands_empty_payload():
+    cmds = ["interface ethernet 1/0/1", "exit"]
+    assert _config_commands(cmds) == []
+
+
+def test_config_commands_multiple_payload():
+    cmds = ["interface ethernet 1/0/1", "no shutdown", "description uplink", "exit"]
+    assert _config_commands(cmds) == ["no shutdown", "description uplink"]
