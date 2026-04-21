@@ -133,8 +133,39 @@ def is_config_present(module, commands):
     Returns True if all payload commands are already present.
     """
     config = get_running_config(module)
+    module._running_config = config
     config_lines = set(line.strip() for line in config.splitlines())
     payload = _config_commands(commands)
     if not payload:
         return True
     return all(cmd in config_lines for cmd in payload)
+
+
+def build_config_diff(module, commands):
+    """Build a diff dict for ansible-playbook --diff mode.
+
+    Returns {'before': str, 'after': str} showing config changes.
+    Uses cached running-config from is_config_present when available.
+    """
+    config = getattr(module, '_running_config', None)
+    if config is None:
+        config = get_running_config(module)
+
+    config_lines = set(line.strip() for line in config.splitlines())
+    payload = _config_commands(commands)
+
+    before_lines = []
+    after_lines = []
+
+    for cmd in payload:
+        if cmd.startswith("no "):
+            positive = cmd[3:]
+            if positive in config_lines:
+                before_lines.append(positive)
+        else:
+            after_lines.append(cmd)
+
+    return {
+        'before': '\n'.join(before_lines) + '\n' if before_lines else '',
+        'after': '\n'.join(after_lines) + '\n' if after_lines else '',
+    }
