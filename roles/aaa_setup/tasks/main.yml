@@ -1,0 +1,63 @@
+---
+# --- Enable AAA ---
+- name: Enable AAA new-model
+  jaydee_io.dlink_dgs1250.aaa_new_model:
+    state: "{{ aaa_setup_enabled | ternary('enabled', 'disabled') }}"
+
+# --- RADIUS servers ---
+- name: Configure RADIUS server hosts
+  jaydee_io.dlink_dgs1250.aaa_radius_server_host:
+    host: "{{ item.host }}"
+    key: "{{ item.key }}"
+    auth_port: "{{ item.auth_port | default(omit) }}"
+    acct_port: "{{ item.acct_port | default(omit) }}"
+    timeout: "{{ item.timeout | default(omit) }}"
+    retransmit: "{{ item.retransmit | default(omit) }}"
+  loop: "{{ aaa_setup_radius_servers }}"
+  when: aaa_setup_radius_servers | length > 0
+
+- name: Create RADIUS server group
+  jaydee_io.dlink_dgs1250.aaa_group_server_radius:
+    name: "{{ aaa_setup_radius_group }}"
+  when: aaa_setup_radius_group is not none
+
+# --- TACACS+ servers ---
+- name: Configure TACACS+ server hosts
+  jaydee_io.dlink_dgs1250.aaa_tacacs_server_host:
+    host: "{{ item.host }}"
+    key: "{{ item.key }}"
+    port: "{{ item.port | default(omit) }}"
+    timeout: "{{ item.timeout | default(omit) }}"
+  loop: "{{ aaa_setup_tacacs_servers }}"
+  when: aaa_setup_tacacs_servers | length > 0
+
+- name: Create TACACS+ server group
+  jaydee_io.dlink_dgs1250.aaa_group_server_tacacs:
+    name: "{{ aaa_setup_tacacs_group }}"
+  when: aaa_setup_tacacs_group is not none
+
+# --- Authentication ---
+- name: Configure login authentication methods
+  jaydee_io.dlink_dgs1250.aaa_authentication_login:
+    methods: "{{ aaa_setup_auth_login_methods }}"
+  when: aaa_setup_auth_login_methods is not none
+
+- name: Configure enable authentication methods
+  jaydee_io.dlink_dgs1250.aaa_authentication_enable:
+    methods: "{{ aaa_setup_auth_enable_methods }}"
+  when: aaa_setup_auth_enable_methods is not none
+
+# --- Accounting ---
+- name: Configure network accounting
+  jaydee_io.dlink_dgs1250.aaa_accounting_network:
+    methods: "{{ aaa_setup_accounting_network_methods }}"
+  when: aaa_setup_accounting_network_methods is not none
+
+# --- Apply to lines ---
+- name: Apply login authentication to lines
+  jaydee_io.dlink_dgs1250.aaa_login_authentication:
+    line: "{{ item }}"
+  loop: "{{ aaa_setup_login_lines }}"
+  when:
+    - aaa_setup_auth_login_methods is not none
+    - aaa_setup_login_lines | length > 0

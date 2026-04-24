@@ -1,0 +1,20 @@
+---
+# Load balancing algorithm: dst-ip, dst-mac, src-dst-ip, src-dst-mac, src-ip, src-mac
+link_aggregation_load_balance: src-dst-mac
+
+# LACP system priority (lower = higher priority)
+link_aggregation_system_priority: ~
+
+# Port channels — list of dicts:
+#   channel_no: port-channel number (1-8)
+#   mode: on (static), active (LACP), passive (LACP)
+#   members: list of {interface, lacp_priority, lacp_timeout} dicts
+#     lacp_priority: integer (optional, lower = higher priority)
+#     lacp_timeout: short or long (optional)
+# Example:
+#   - channel_no: 1
+#     mode: active
+#     members:
+#       - { interface: eth1/0/23, lacp_timeout: short }
+#       - { interface: eth1/0/24, lacp_timeout: short }
+link_aggregation_port_channels: []

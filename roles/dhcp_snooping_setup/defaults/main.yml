@@ -1,0 +1,37 @@
+---
+# --- DHCP Snooping ---
+# Enable DHCP snooping globally
+dhcp_snooping_enabled: true
+
+# VLANs to protect — list of VLAN IDs
+# Example: [100, 200]
+dhcp_snooping_vlans: []
+
+# Trusted uplink ports — list of interface names
+# Example: ["eth1/0/24", "eth1/0/28"]
+dhcp_snooping_trusted_ports: []
+
+# Rate limit on untrusted ports — list of {interface, rate} dicts
+# rate is in packets per second
+# Example:
+#   - { interface: eth1/0/1, rate: 15 }
+dhcp_snooping_rate_limits: []
+
+# Verify source MAC matches DHCP client hardware address
+dhcp_snooping_verify_mac: true
+
+# --- Dynamic ARP Inspection (DAI) ---
+# Enable DAI on VLANs — list of VLAN IDs (usually same as dhcp_snooping_vlans)
+dhcp_snooping_dai_vlans: []
+
+# DAI trusted ports — list of interface names (usually same as trusted uplinks)
+dhcp_snooping_dai_trusted_ports: []
+
+# DAI validation checks
+dhcp_snooping_dai_validate_src_mac: true
+dhcp_snooping_dai_validate_dst_mac: false
+dhcp_snooping_dai_validate_ip: true
+
+# --- IP Source Guard ---
+# Ports to enable IP source guard on — list of interface names
+dhcp_snooping_ip_verify_source_ports: []

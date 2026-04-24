@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: "Jérôme Dumesnil"
+  description: "Create IP access lists with rules and apply them to interfaces on a D-Link DGS-1250 switch"
+  license: "GPL-2.0-or-later"
+  min_ansible_version: "2.15"
+  galaxy_tags:
+    - networking
+    - security
+    - acl
+    - dlink
+
+dependencies: []

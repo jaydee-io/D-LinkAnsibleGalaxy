@@ -1,0 +1,59 @@
+---
+# --- 802.1X global ---
+- name: Enable 802.1X system auth control
+  jaydee_io.dlink_dgs1250.dot1x_system_auth_control:
+    state: "{{ port_security_dot1x_enabled | ternary('enabled', 'disabled') }}"
+
+# --- Per-port 802.1X ---
+- name: Enable 802.1X PAE authenticator on ports
+  jaydee_io.dlink_dgs1250.dot1x_pae_authenticator:
+    interface: "{{ item.interface }}"
+    state: enabled
+  loop: "{{ port_security_dot1x_ports }}"
+  when: port_security_dot1x_ports | length > 0
+
+- name: Set 802.1X port control mode
+  jaydee_io.dlink_dgs1250.dot1x_port_control:
+    interface: "{{ item.interface }}"
+    control: "{{ item.control }}"
+  loop: "{{ port_security_dot1x_ports }}"
+  when: port_security_dot1x_ports | length > 0
+
+- name: Set 802.1X host mode
+  jaydee_io.dlink_dgs1250.auth_host_mode:
+    interface: "{{ item.interface }}"
+    mode: "{{ item.host_mode }}"
+  loop: "{{ port_security_dot1x_ports }}"
+  when:
+    - port_security_dot1x_ports | length > 0
+    - item.host_mode is defined
+
+- name: Set 802.1X max users
+  jaydee_io.dlink_dgs1250.auth_max_users:
+    interface: "{{ item.interface }}"
+    number: "{{ item.max_users }}"
+  loop: "{{ port_security_dot1x_ports }}"
+  when:
+    - port_security_dot1x_ports | length > 0
+    - item.max_users is defined
+
+# --- Port security (MAC limiting) ---
+- name: Configure port security
+  jaydee_io.dlink_dgs1250.switchport_port_security:
+    interface: "{{ item.interface }}"
+    maximum: "{{ item.maximum }}"
+    violation: "{{ item.violation }}"
+  loop: "{{ port_security_ports }}"
+  when: port_security_ports | length > 0
+
+# --- MAC-based authentication ---
+- name: Enable MAC-based auth system-wide
+  jaydee_io.dlink_dgs1250.mac_auth_system_auth_control:
+    state: "{{ port_security_mac_auth_enabled | ternary('enabled', 'disabled') }}"
+
+- name: Enable MAC-based auth on ports
+  jaydee_io.dlink_dgs1250.mac_auth_enable:
+    interface: "{{ item }}"
+    state: enabled
+  loop: "{{ port_security_mac_auth_ports }}"
+  when: port_security_mac_auth_ports | length > 0

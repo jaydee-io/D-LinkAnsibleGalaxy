@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: "Jérôme Dumesnil"
+  description: "Configure QoS on a D-Link DGS-1250 switch: trust mode, CoS/DSCP, class maps, policy maps, and service policies"
+  license: "GPL-2.0-or-later"
+  min_ansible_version: "2.15"
+  galaxy_tags:
+    - networking
+    - qos
+    - dlink
+
+dependencies: []

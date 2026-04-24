@@ -1,0 +1,47 @@
+---
+# --- Per-port QoS trust ---
+# List of {interface, trust} dicts — trust: cos or dscp
+# Example:
+#   - { interface: eth1/0/1, trust: dscp }
+qos_setup_trust_ports: []
+
+# --- Per-port default CoS ---
+# List of {interface, cos_value} dicts — cos_value: 0-7
+# Example:
+#   - { interface: eth1/0/1, cos_value: 5 }
+qos_setup_cos_ports: []
+
+# --- Per-port scheduler ---
+# List of {interface, algorithm} dicts — algorithm: sp, rr, wrr, wdrr
+# Example:
+#   - { interface: eth1/0/1, algorithm: wrr }
+qos_setup_scheduler_ports: []
+
+# --- Class maps ---
+# List of class map dicts: {name, match_type, matches}
+# match_type: match-all or match-any (optional)
+# matches: list of {criteria, value} dicts
+# criteria: access-group-name, cos, dscp, ip-dscp, precedence, ip-precedence, protocol, vlan
+# Example:
+#   - name: VOICE
+#     match_type: match-any
+#     matches:
+#       - { criteria: dscp, value: "46" }
+#       - { criteria: cos, value: "5" }
+qos_setup_class_maps: []
+
+# --- Policy maps ---
+# List of policy map dicts: {name, classes}
+# classes: list of {class_name, set_action, set_value} dicts
+# set_action: cos, dscp, ip-dscp, precedence, ip-precedence, cos-queue
+# Example:
+#   - name: VOICE-POLICY
+#     classes:
+#       - { class_name: VOICE, set_action: cos-queue, set_value: 5 }
+qos_setup_policy_maps: []
+
+# --- Apply policy maps to interfaces ---
+# List of {interface, policy_name} dicts
+# Example:
+#   - { interface: eth1/0/1, policy_name: VOICE-POLICY }
+qos_setup_service_policies: []

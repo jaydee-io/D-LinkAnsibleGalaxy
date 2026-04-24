@@ -1,0 +1,32 @@
+---
+# --- Storm control per-port ---
+# List of dicts: {interface, traffic_type, level_mode, rise, low, action}
+# traffic_type: broadcast, multicast, unicast
+# level_mode: pps, kbps, percent
+# rise: rising threshold
+# low: low threshold (optional)
+# action: shutdown, drop, none
+# Example:
+#   - { interface: eth1/0/1, traffic_type: broadcast, level_mode: percent, rise: 20, low: 10, action: drop }
+#   - { interface: eth1/0/1, traffic_type: multicast, level_mode: percent, rise: 20, low: 10, action: drop }
+storm_control_ports: []
+
+# --- Storm control polling ---
+# Polling interval in seconds (optional)
+storm_control_polling_interval: ~
+# Number of retries (optional)
+storm_control_polling_retries: ~
+
+# --- Loopback detection ---
+# Enable loopback detection globally
+storm_control_loopback_enabled: true
+
+# Mode: port-based or vlan-based (optional)
+storm_control_loopback_mode: ~
+
+# Loopback detection interval in seconds (optional)
+storm_control_loopback_interval: ~
+
+# Interfaces to enable loopback detection on
+# Example: ["eth1/0/1", "eth1/0/2"]
+storm_control_loopback_ports: []

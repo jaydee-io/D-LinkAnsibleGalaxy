@@ -1,0 +1,19 @@
+---
+# VLANs to create — list of dicts with keys: id, name (optional)
+# Example:
+#   - { id: 100, name: management }
+#   - { id: 200, name: users }
+#   - { id: 300, name: servers }
+vlan_setup_vlans: []
+
+# Access ports — list of dicts with keys: interface, vlan_id
+# Example:
+#   - { interface: eth1/0/1, vlan_id: 200 }
+#   - { interface: eth1/0/2, vlan_id: 200 }
+vlan_setup_access_ports: []
+
+# Trunk ports — list of dicts with keys: interface, allowed_vlans, native_vlan (optional)
+# allowed_vlans is a VLAN ID or range string (e.g. "100,200,300" or "100-300")
+# Example:
+#   - { interface: eth1/0/24, allowed_vlans: "100,200,300", native_vlan: 100 }
+vlan_setup_trunk_ports: []

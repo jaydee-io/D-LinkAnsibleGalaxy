@@ -1,0 +1,39 @@
+---
+# --- Load balancing ---
+- name: Configure port-channel load balancing
+  jaydee_io.dlink_dgs1250.port_channel_load_balance:
+    algorithm: "{{ link_aggregation_load_balance }}"
+
+# --- LACP system priority ---
+- name: Set LACP system priority
+  jaydee_io.dlink_dgs1250.lacp_system_priority:
+    priority: "{{ link_aggregation_system_priority }}"
+  when: link_aggregation_system_priority is not none
+
+# --- Port channels ---
+- name: Add interfaces to port channels
+  jaydee_io.dlink_dgs1250.channel_group:
+    interface: "{{ item.1.interface }}"
+    channel_no: "{{ item.0.channel_no }}"
+    mode: "{{ item.0.mode }}"
+  loop: "{{ link_aggregation_port_channels | subelements('members') }}"
+  when: link_aggregation_port_channels | length > 0
+
+# --- LACP per-port settings ---
+- name: Set LACP port priority
+  jaydee_io.dlink_dgs1250.lacp_port_priority:
+    interface: "{{ item.1.interface }}"
+    priority: "{{ item.1.lacp_priority }}"
+  loop: "{{ link_aggregation_port_channels | subelements('members') }}"
+  when:
+    - link_aggregation_port_channels | length > 0
+    - item.1.lacp_priority is defined
+
+- name: Set LACP timeout
+  jaydee_io.dlink_dgs1250.lacp_timeout:
+    interface: "{{ item.1.interface }}"
+    timeout: "{{ item.1.lacp_timeout }}"
+  loop: "{{ link_aggregation_port_channels | subelements('members') }}"
+  when:
+    - link_aggregation_port_channels | length > 0
+    - item.1.lacp_timeout is defined

@@ -1,0 +1,27 @@
+---
+- name: Validate firmware source is defined
+  ansible.builtin.assert:
+    that:
+      - firmware_upgrade_tftp_source is not none
+    msg: "firmware_upgrade_tftp_source must be set to a TFTP URL"
+
+# --- Save running config ---
+- name: Save running-config before upgrade
+  jaydee_io.dlink_dgs1250.save_config:
+  when: firmware_upgrade_save_before
+
+# --- Upload firmware ---
+- name: Upload firmware from TFTP to flash
+  jaydee_io.dlink_dgs1250.file_copy:
+    source: "{{ firmware_upgrade_tftp_source }}"
+    destination: "flash:{{ firmware_upgrade_boot_image }}"
+
+# --- Set boot image ---
+- name: Set boot image to new firmware slot
+  jaydee_io.dlink_dgs1250.boot_image:
+    image: "{{ firmware_upgrade_boot_image }}"
+
+# --- Reboot ---
+- name: Reboot switch to apply new firmware
+  jaydee_io.dlink_dgs1250.reset_system:
+  when: firmware_upgrade_reboot

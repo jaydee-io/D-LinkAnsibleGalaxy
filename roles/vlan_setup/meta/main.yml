@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: "Jérôme Dumesnil"
+  description: "Create VLANs and configure access/trunk ports on a D-Link DGS-1250 switch"
+  license: "GPL-2.0-or-later"
+  min_ansible_version: "2.15"
+  galaxy_tags:
+    - networking
+    - vlan
+    - dlink
+
+dependencies: []

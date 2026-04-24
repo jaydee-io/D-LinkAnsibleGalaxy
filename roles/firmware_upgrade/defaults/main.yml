@@ -1,0 +1,13 @@
+---
+# Firmware image source — TFTP URL to the new firmware file
+# Example: "tftp://10.1.1.254/DGS-1250-28X_fw_2.10.B012.had"
+firmware_upgrade_tftp_source: ~
+
+# Boot image slot to use: Image1 or Image2
+firmware_upgrade_boot_image: Image2
+
+# Whether to save running-config before upgrading
+firmware_upgrade_save_before: true
+
+# Whether to reboot the switch after uploading the firmware
+firmware_upgrade_reboot: false

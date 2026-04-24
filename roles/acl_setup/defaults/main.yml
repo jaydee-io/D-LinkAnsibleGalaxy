@@ -1,0 +1,17 @@
+---
+# IP access lists to create — list of dicts with keys:
+#   name, extended (bool), rules (list of permit/deny strings)
+# Example:
+#   - name: WEB-FILTER
+#     extended: true
+#     rules:
+#       - "permit tcp any any eq 80"
+#       - "permit tcp any any eq 443"
+#       - "deny ip any any"
+acl_setup_ip_access_lists: []
+
+# Interfaces to apply access lists to — list of dicts with keys:
+#   interface, acl_name
+# Example:
+#   - { interface: eth1/0/1, acl_name: WEB-FILTER }
+acl_setup_interface_bindings: []

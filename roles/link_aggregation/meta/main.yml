@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: "Jérôme Dumesnil"
+  description: "Configure link aggregation (LACP/static) and port-channel load balancing on a D-Link DGS-1250 switch"
+  license: "GPL-2.0-or-later"
+  min_ansible_version: "2.15"
+  galaxy_tags:
+    - networking
+    - lacp
+    - dlink
+
+dependencies: []

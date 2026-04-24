@@ -1,0 +1,41 @@
+---
+# --- AAA model ---
+# Enable AAA new-model (required for RADIUS/TACACS+)
+aaa_setup_enabled: true
+
+# --- RADIUS servers ---
+# List of RADIUS server dicts: {host, key, auth_port, acct_port, timeout, retransmit}
+# key is required, other fields are optional
+# Example:
+#   - { host: 10.1.1.10, key: "s3cret", auth_port: 1812, acct_port: 1813 }
+aaa_setup_radius_servers: []
+
+# RADIUS server group name (optional — creates a named group)
+aaa_setup_radius_group: ~
+
+# --- TACACS+ servers ---
+# List of TACACS+ server dicts: {host, key, port, timeout}
+# key is required, other fields are optional
+# Example:
+#   - { host: 10.1.1.20, key: "t4cacs", port: 49 }
+aaa_setup_tacacs_servers: []
+
+# TACACS+ server group name (optional — creates a named group)
+aaa_setup_tacacs_group: ~
+
+# --- Authentication ---
+# Login authentication methods — list of methods (e.g. ["group radius", "local"])
+aaa_setup_auth_login_methods: ~
+
+# Enable authentication methods — list of methods
+aaa_setup_auth_enable_methods: ~
+
+# --- Accounting ---
+# Network accounting methods — list of methods
+aaa_setup_accounting_network_methods: ~
+
+# --- Apply to lines ---
+# Lines to apply login authentication to: console, telnet, ssh
+aaa_setup_login_lines:
+  - ssh
+  - telnet

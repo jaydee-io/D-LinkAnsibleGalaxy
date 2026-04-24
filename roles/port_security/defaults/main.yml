@@ -1,0 +1,29 @@
+---
+# --- 802.1X global ---
+# Enable 802.1X system-wide
+port_security_dot1x_enabled: true
+
+# --- Per-port 802.1X ---
+# List of dicts: {interface, control, host_mode, max_users}
+# control: auto, force-authorized, force-unauthorized
+# host_mode: multi-host, multi-auth (optional)
+# max_users: integer (optional)
+# Example:
+#   - { interface: eth1/0/1, control: auto }
+#   - { interface: eth1/0/2, control: auto, host_mode: multi-auth, max_users: 5 }
+port_security_dot1x_ports: []
+
+# --- Port security (MAC limiting) ---
+# List of dicts: {interface, maximum, violation}
+# violation: protect, restrict, shutdown
+# Example:
+#   - { interface: eth1/0/1, maximum: 5, violation: restrict }
+port_security_ports: []
+
+# --- MAC-based authentication ---
+# Enable MAC-based auth system-wide
+port_security_mac_auth_enabled: false
+
+# List of interfaces to enable MAC auth on
+# Example: ["eth1/0/1", "eth1/0/2"]
+port_security_mac_auth_ports: []
