@@ -31,6 +31,7 @@ for mod in [
     "ansible_collections.jaydee_io.dlink_dgs1250.plugins",
     "ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils",
     "ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250",
+    "ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250_parsers",
 ]:
     sys.modules.setdefault(mod, types.ModuleType(mod))
 

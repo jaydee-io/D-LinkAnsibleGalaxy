@@ -11,6 +11,7 @@ short_description: Display VLAN information on a D-Link DGS-1250 switch
 description:
   - Executes the C(show vlan) CLI command on a D-Link DGS-1250 switch.
   - Displays VLAN parameters and member ports.
+  - Returns both raw text output and a structured C(parsed) list.
   - Corresponds to CLI command described in chapter 70-3 of the DGS-1250 CLI Reference Guide.
 version_added: "0.19.0"
 author:
@@ -28,6 +29,7 @@ options:
     type: str
 notes:
   - This command runs in User/Privileged EXEC Mode.
+  - The C(parsed) output is only available when C(interface) is not specified.
 """
 
 EXAMPLES = r"""
@@ -44,6 +46,15 @@ EXAMPLES = r"""
   jaydee_io.dlink_dgs1250.show_vlan:
     interface: eth1/0/1
   register: result
+
+- name: Use parsed output to find a VLAN by name
+  jaydee_io.dlink_dgs1250.show_vlan:
+  register: result
+
+- name: Show VLAN names
+  ansible.builtin.debug:
+    msg: "VLAN {{ item.vlan_id }} - {{ item.name }}"
+  loop: "{{ result.parsed }}"
 """
 
 RETURN = r"""
@@ -56,6 +67,26 @@ commands:
   returned: always
   type: list
   elements: str
+parsed:
+  description:
+    - Structured list of VLANs parsed from the CLI output.
+    - Only available when C(interface) is not specified.
+  returned: when interface is not specified
+  type: list
+  elements: dict
+  contains:
+    vlan_id:
+      description: VLAN ID.
+      type: int
+    name:
+      description: VLAN name.
+      type: str
+    tagged_ports:
+      description: Tagged member ports.
+      type: str
+    untagged_ports:
+      description: Untagged member ports.
+      type: str
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -64,12 +95,16 @@ try:
     from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import (
         run_command,
     )
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250_parsers import (
+        parse_vlans,
+    )
 except ImportError:
     import sys
     import os
     sys.path.insert(0, os.path.join(
         os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_command
+    from dgs1250_parsers import parse_vlans
 
 
 def _build_command(vlan_id, interface):
@@ -99,7 +134,10 @@ def main():
         raw_output = run_command(module, command)
     except Exception as e:
         module.fail_json(msg="Command failed: %s" % str(e))
-    module.exit_json(changed=False, raw_output=raw_output, commands=[command])
+    result = dict(changed=False, raw_output=raw_output, commands=[command])
+    if module.params["interface"] is None:
+        result["parsed"] = parse_vlans(raw_output)
+    module.exit_json(**result)
 
 
 if __name__ == "__main__":

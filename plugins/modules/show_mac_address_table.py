@@ -11,6 +11,7 @@ short_description: Display MAC address table on a D-Link DGS-1250 switch
 description:
   - Executes the C(show mac-address-table) CLI command on a D-Link DGS-1250 switch.
   - Displays specific MAC address entries or entries for a specific interface or VLAN.
+  - Returns both raw text output and a structured C(parsed) list.
   - Corresponds to CLI command described in chapter 28-7 of the DGS-1250 CLI Reference Guide.
 version_added: "0.11.0"
 author:
@@ -53,6 +54,15 @@ EXAMPLES = r"""
   jaydee_io.dlink_dgs1250.show_mac_address_table:
     vlan_id: 1
   register: result
+
+- name: Find a specific MAC address
+  jaydee_io.dlink_dgs1250.show_mac_address_table:
+  register: result
+
+- name: Show dynamic entries
+  ansible.builtin.debug:
+    msg: "{{ item.mac_address }} on {{ item.port }} (VLAN {{ item.vlan }})"
+  loop: "{{ result.parsed | selectattr('type', 'equalto', 'Dynamic') }}"
 """
 
 RETURN = r"""
@@ -65,6 +75,24 @@ commands:
   returned: always
   type: list
   elements: str
+parsed:
+  description: Structured list of MAC address entries parsed from the CLI output.
+  returned: always
+  type: list
+  elements: dict
+  contains:
+    vlan:
+      description: VLAN ID.
+      type: int
+    mac_address:
+      description: MAC address.
+      type: str
+    type:
+      description: Entry type (Static, Dynamic).
+      type: str
+    port:
+      description: Forwarding port.
+      type: str
 """
 
 from ansible.module_utils.basic import AnsibleModule
@@ -73,12 +101,16 @@ try:
     from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import (
         run_command,
     )
+    from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250_parsers import (
+        parse_mac_table,
+    )
 except ImportError:
     import sys
     import os
     sys.path.insert(0, os.path.join(
         os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import run_command
+    from dgs1250_parsers import parse_mac_table
 
 
 def _build_command(entry_type, mac_addr, interface_id, vlan_id):
@@ -111,13 +143,15 @@ def main():
         module.params["vlan_id"],
     )
     if module.check_mode:
-        module.exit_json(changed=False, commands=[command], raw_output="")
+        module.exit_json(changed=False, commands=[command], raw_output="",
+                         parsed=[])
         return
     try:
         raw_output = run_command(module, command)
     except Exception as e:
         module.fail_json(msg="Command failed: %s" % str(e))
-    module.exit_json(changed=False, raw_output=raw_output, commands=[command])
+    module.exit_json(changed=False, raw_output=raw_output, commands=[command],
+                     parsed=parse_mac_table(raw_output))
 
 
 if __name__ == "__main__":

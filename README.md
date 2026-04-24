@@ -462,7 +462,7 @@ all:
 | `mac_address_table_notification_change` | Configure MAC address notification function | § 28-4 |
 | `mac_address_table_static` | Add or remove static MAC address table entries | § 28-5 |
 | `multicast_filtering_mode` | Configure multicast packet handling mode for a VLAN | § 28-6 |
-| `show_mac_address_table` | Display MAC address table entries | § 28-7 |
+| `show_mac_address_table` | Display MAC address table entries (with structured `parsed` output) | § 28-7 |
 | `show_mac_address_table_aging_time` | Display MAC address table aging time | § 28-8 |
 | `show_mac_address_table_learning` | Display MAC address learning state | § 28-9 |
 | `show_mac_address_table_notification_change` | Display MAC address notification configuration | § 28-10 |
@@ -485,7 +485,7 @@ all:
 | `show_counters` | Display interface statistic counters | § 30-5 |
 | `show_interfaces` | Display interface information | § 30-6 |
 | `show_interfaces_counters` | Display interface counters | § 30-7 |
-| `show_interfaces_status` | Display interface connection status | § 30-8 |
+| `show_interfaces_status` | Display interface connection status (with structured `parsed` output) | § 30-8 |
 | `show_interfaces_utilization` | Display interface port utilization | § 30-9 |
 | `show_interfaces_auto_negotiation` | Display interface auto-negotiation information | § 30-10 |
 | `show_interfaces_description` | Display interface description and link status | § 30-11 |
@@ -1003,7 +1003,7 @@ all:
 |--------|-------------|---------------|
 | `vlan_acceptable_frame` | Configure acceptable frame types | § 70-1 |
 | `vlan_ingress_checking` | Enable or disable ingress checking | § 70-2 |
-| `show_vlan` | Display VLAN information | § 70-3 |
+| `show_vlan` | Display VLAN information (with structured `parsed` output) | § 70-3 |
 | `vlan_switchport_access` | Configure access VLAN | § 70-4 |
 | `vlan_switchport_hybrid_allowed` | Configure hybrid port allowed VLANs | § 70-5 |
 | `vlan_switchport_hybrid_native` | Configure hybrid port native VLAN | § 70-6 |

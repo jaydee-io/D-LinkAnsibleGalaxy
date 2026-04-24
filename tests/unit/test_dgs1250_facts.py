@@ -1,14 +1,14 @@
 """Unit tests for dgs1250_facts module."""
 
-from dgs1250_facts import (
-    _build_commands,
-    _parse_version,
-    _parse_unit,
-    _parse_environment,
-    _parse_cpu,
-    _parse_interfaces,
-    _parse_vlans,
-    _parse_mac_table,
+from dgs1250_facts import _build_commands
+from dgs1250_parsers import (
+    parse_version,
+    parse_unit,
+    parse_environment,
+    parse_cpu,
+    parse_interfaces,
+    parse_vlans,
+    parse_mac_table,
 )
 
 
@@ -60,7 +60,7 @@ def test_build_commands_new_subsets():
 
 
 # ---------------------------------------------------------------------------
-# _parse_version
+# parse_version
 # ---------------------------------------------------------------------------
 
 SHOW_VERSION_OUTPUT = """\
@@ -72,7 +72,7 @@ Runtime 2.04.P003
 
 
 def test_parse_version():
-    result = _parse_version(SHOW_VERSION_OUTPUT)
+    result = parse_version(SHOW_VERSION_OUTPUT)
     assert result["system_mac_address"] == "F0-7D-68-12-50-01"
     assert result["module_name"] == "DGS-1250-28XMP"
     assert result["hardware_version"] == "A1"
@@ -80,13 +80,13 @@ def test_parse_version():
 
 
 def test_parse_version_empty():
-    result = _parse_version("")
+    result = parse_version("")
     assert result["system_mac_address"] == ""
     assert result["runtime"] == ""
 
 
 # ---------------------------------------------------------------------------
-# _parse_unit
+# parse_unit
 # ---------------------------------------------------------------------------
 
 SHOW_UNIT_OUTPUT = """\
@@ -106,13 +106,13 @@ SHOW_UNIT_OUTPUT = """\
 
 
 def test_parse_unit_model():
-    result = _parse_unit(SHOW_UNIT_OUTPUT)
+    result = parse_unit(SHOW_UNIT_OUTPUT)
     assert result["model"]["model_description"] == "24P 10/100/1000M PoE + 4P 10G SFP+"
     assert result["model"]["model_name"] == "DGS-1250-28XMP"
 
 
 def test_parse_unit_info():
-    result = _parse_unit(SHOW_UNIT_OUTPUT)
+    result = parse_unit(SHOW_UNIT_OUTPUT)
     assert result["unit"]["serial_number"] == "DGS1250102030"
     assert result["unit"]["status"] == "ok"
     assert result["unit"]["uptime"]["days"] == 3
@@ -123,7 +123,7 @@ def test_parse_unit_info():
 
 
 def test_parse_unit_memory():
-    result = _parse_unit(SHOW_UNIT_OUTPUT)
+    result = parse_unit(SHOW_UNIT_OUTPUT)
     assert len(result["memory"]) == 2
     assert result["memory"][0]["type"] == "DRAM"
     assert result["memory"][0]["total_kb"] == 243268
@@ -133,7 +133,7 @@ def test_parse_unit_memory():
 
 
 # ---------------------------------------------------------------------------
-# _parse_environment
+# parse_environment
 # ---------------------------------------------------------------------------
 
 SHOW_ENVIRONMENT_OUTPUT = """\
@@ -153,7 +153,7 @@ Power 2           Empty
 
 
 def test_parse_environment_temperatures():
-    result = _parse_environment(SHOW_ENVIRONMENT_OUTPUT)
+    result = parse_environment(SHOW_ENVIRONMENT_OUTPUT)
     assert len(result["temperatures"]) == 2
     assert result["temperatures"][0]["name"] == "Central Temperature/1"
     assert result["temperatures"][0]["current_celsius"] == 33
@@ -163,14 +163,14 @@ def test_parse_environment_temperatures():
 
 
 def test_parse_environment_fans():
-    result = _parse_environment(SHOW_ENVIRONMENT_OUTPUT)
+    result = parse_environment(SHOW_ENVIRONMENT_OUTPUT)
     assert len(result["fans"]) == 2
     assert result["fans"][0]["name"] == "Right Fan 1"
     assert result["fans"][0]["status"] == "OK"
 
 
 def test_parse_environment_power():
-    result = _parse_environment(SHOW_ENVIRONMENT_OUTPUT)
+    result = parse_environment(SHOW_ENVIRONMENT_OUTPUT)
     assert len(result["power"]) == 2
     assert result["power"][0]["module"] == "Power 1"
     assert result["power"][0]["status"] == "In-operation"
@@ -178,7 +178,7 @@ def test_parse_environment_power():
 
 
 # ---------------------------------------------------------------------------
-# _parse_cpu
+# parse_cpu
 # ---------------------------------------------------------------------------
 
 SHOW_CPU_OUTPUT = """\
@@ -190,21 +190,21 @@ Five minutes -   10 %
 
 
 def test_parse_cpu():
-    result = _parse_cpu(SHOW_CPU_OUTPUT)
+    result = parse_cpu(SHOW_CPU_OUTPUT)
     assert result["five_seconds_percent"] == 12
     assert result["one_minute_percent"] == 15
     assert result["five_minutes_percent"] == 10
 
 
 def test_parse_cpu_empty():
-    result = _parse_cpu("")
+    result = parse_cpu("")
     assert result["five_seconds_percent"] == 0
     assert result["one_minute_percent"] == 0
     assert result["five_minutes_percent"] == 0
 
 
 # ---------------------------------------------------------------------------
-# _parse_interfaces
+# parse_interfaces
 # ---------------------------------------------------------------------------
 
 SHOW_INTERFACES_STATUS_OUTPUT = """\
@@ -218,7 +218,7 @@ eth1/0/25     connected     1       full    10G           10GBASE-SR
 
 
 def test_parse_interfaces():
-    result = _parse_interfaces(SHOW_INTERFACES_STATUS_OUTPUT)
+    result = parse_interfaces(SHOW_INTERFACES_STATUS_OUTPUT)
     assert len(result) == 4
     assert result[0]["port"] == "eth1/0/1"
     assert result[0]["status"] == "not-connected"
@@ -229,7 +229,7 @@ def test_parse_interfaces():
 
 
 def test_parse_interfaces_connected():
-    result = _parse_interfaces(SHOW_INTERFACES_STATUS_OUTPUT)
+    result = parse_interfaces(SHOW_INTERFACES_STATUS_OUTPUT)
     assert result[1]["port"] == "eth1/0/2"
     assert result[1]["status"] == "connected"
     assert result[1]["duplex"] == "full"
@@ -237,26 +237,26 @@ def test_parse_interfaces_connected():
 
 
 def test_parse_interfaces_disabled():
-    result = _parse_interfaces(SHOW_INTERFACES_STATUS_OUTPUT)
+    result = parse_interfaces(SHOW_INTERFACES_STATUS_OUTPUT)
     assert result[2]["port"] == "eth1/0/3"
     assert result[2]["status"] == "disabled"
     assert result[2]["vlan"] == "100"
 
 
 def test_parse_interfaces_sfp():
-    result = _parse_interfaces(SHOW_INTERFACES_STATUS_OUTPUT)
+    result = parse_interfaces(SHOW_INTERFACES_STATUS_OUTPUT)
     assert result[3]["port"] == "eth1/0/25"
     assert result[3]["speed"] == "10G"
     assert result[3]["type"] == "10GBASE-SR"
 
 
 def test_parse_interfaces_empty():
-    result = _parse_interfaces("")
+    result = parse_interfaces("")
     assert result == []
 
 
 # ---------------------------------------------------------------------------
-# _parse_vlans
+# parse_vlans
 # ---------------------------------------------------------------------------
 
 SHOW_VLAN_OUTPUT = """\
@@ -275,7 +275,7 @@ Total Entries : 2
 
 
 def test_parse_vlans():
-    result = _parse_vlans(SHOW_VLAN_OUTPUT)
+    result = parse_vlans(SHOW_VLAN_OUTPUT)
     assert len(result) == 2
     assert result[0]["vlan_id"] == 1
     assert result[0]["name"] == "default"
@@ -284,7 +284,7 @@ def test_parse_vlans():
 
 
 def test_parse_vlans_second():
-    result = _parse_vlans(SHOW_VLAN_OUTPUT)
+    result = parse_vlans(SHOW_VLAN_OUTPUT)
     assert result[1]["vlan_id"] == 100
     assert result[1]["name"] == "Management"
     assert result[1]["tagged_ports"] == "eth1/0/25-1/0/28"
@@ -300,7 +300,7 @@ Tagged Member Ports :
 Untagged Member Ports :
 Total Entries : 1
 """
-    result = _parse_vlans(output)
+    result = parse_vlans(output)
     assert len(result) == 1
     assert result[0]["vlan_id"] == 42
     assert result[0]["name"] == "TestVLAN"
@@ -309,12 +309,12 @@ Total Entries : 1
 
 
 def test_parse_vlans_empty():
-    result = _parse_vlans("")
+    result = parse_vlans("")
     assert result == []
 
 
 # ---------------------------------------------------------------------------
-# _parse_mac_table
+# parse_mac_table
 # ---------------------------------------------------------------------------
 
 SHOW_MAC_TABLE_OUTPUT = """\
@@ -328,7 +328,7 @@ Total Entries: 3
 
 
 def test_parse_mac_table():
-    result = _parse_mac_table(SHOW_MAC_TABLE_OUTPUT)
+    result = parse_mac_table(SHOW_MAC_TABLE_OUTPUT)
     assert len(result) == 3
     assert result[0]["vlan"] == 1
     assert result[0]["mac_address"] == "00-02-4B-28-C4-82"
@@ -337,7 +337,7 @@ def test_parse_mac_table():
 
 
 def test_parse_mac_table_dynamic():
-    result = _parse_mac_table(SHOW_MAC_TABLE_OUTPUT)
+    result = parse_mac_table(SHOW_MAC_TABLE_OUTPUT)
     assert result[1]["vlan"] == 1
     assert result[1]["mac_address"] == "00-03-40-11-22-33"
     assert result[1]["type"] == "Dynamic"
@@ -345,13 +345,13 @@ def test_parse_mac_table_dynamic():
 
 
 def test_parse_mac_table_port_channel():
-    result = _parse_mac_table(SHOW_MAC_TABLE_OUTPUT)
+    result = parse_mac_table(SHOW_MAC_TABLE_OUTPUT)
     assert result[2]["vlan"] == 2
     assert result[2]["port"] == "port-channel2"
 
 
 def test_parse_mac_table_empty():
-    result = _parse_mac_table("")
+    result = parse_mac_table("")
     assert result == []
 
 
@@ -362,6 +362,6 @@ VLAN   MAC Address        Type     Ports
 1      00:02:4B:28:C4:82  Dynamic  eth1/0/1
 Total Entries: 1
 """
-    result = _parse_mac_table(output)
+    result = parse_mac_table(output)
     assert len(result) == 1
     assert result[0]["mac_address"] == "00:02:4B:28:C4:82"
