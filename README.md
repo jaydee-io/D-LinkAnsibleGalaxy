@@ -1192,12 +1192,12 @@ Configures DHCP snooping, Dynamic ARP Inspection (DAI), and IP Source Guard.
   roles:
     - role: jaydee_io.dlink_dgs1250.dhcp_snooping_setup
       vars:
-        dhcp_snooping_vlans: [100, 200]
-        dhcp_snooping_trusted_ports: ["eth1/0/24"]
-        dhcp_snooping_rate_limits:
+        dhcp_snooping_setup_vlans: [100, 200]
+        dhcp_snooping_setup_trusted_ports: ["eth1/0/24"]
+        dhcp_snooping_setup_rate_limits:
           - { interface: eth1/0/1, rate: 15 }
-        dhcp_snooping_dai_vlans: [100, 200]
-        dhcp_snooping_dai_trusted_ports: ["eth1/0/24"]
+        dhcp_snooping_setup_dai_vlans: [100, 200]
+        dhcp_snooping_setup_dai_trusted_ports: ["eth1/0/24"]
 ```
 
 ### `qos_setup`
@@ -1251,10 +1251,10 @@ Configures storm control thresholds and loopback detection.
   roles:
     - role: jaydee_io.dlink_dgs1250.storm_control_setup
       vars:
-        storm_control_ports:
+        storm_control_setup_ports:
           - { interface: eth1/0/1, traffic_type: broadcast, level_mode: percent, rise: 20, low: 10, action: drop }
-        storm_control_loopback_mode: port-based
-        storm_control_loopback_ports: ["eth1/0/1", "eth1/0/2"]
+        storm_control_setup_loopback_mode: port-based
+        storm_control_setup_loopback_ports: ["eth1/0/1", "eth1/0/2"]
 ```
 
 ### `aaa_setup`

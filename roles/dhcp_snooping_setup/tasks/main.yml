@@ -2,55 +2,55 @@
 # --- DHCP Snooping ---
 - name: Enable DHCP snooping globally
   jaydee_io.dlink_dgs1250.dhcp_snooping_enable:
-    state: "{{ dhcp_snooping_enabled | ternary('enabled', 'disabled') }}"
+    state: "{{ dhcp_snooping_setup_enabled | ternary('enabled', 'disabled') }}"
 
 - name: Enable DHCP snooping on VLANs
   jaydee_io.dlink_dgs1250.dhcp_snooping_vlan:
     vlan_id: "{{ item }}"
-  loop: "{{ dhcp_snooping_vlans }}"
-  when: dhcp_snooping_vlans | length > 0
+  loop: "{{ dhcp_snooping_setup_vlans }}"
+  when: dhcp_snooping_setup_vlans | length > 0
 
 - name: Set trusted ports for DHCP snooping
   jaydee_io.dlink_dgs1250.dhcp_snooping_trust:
     interface: "{{ item }}"
     state: enabled
-  loop: "{{ dhcp_snooping_trusted_ports }}"
-  when: dhcp_snooping_trusted_ports | length > 0
+  loop: "{{ dhcp_snooping_setup_trusted_ports }}"
+  when: dhcp_snooping_setup_trusted_ports | length > 0
 
 - name: Set DHCP snooping rate limits
   jaydee_io.dlink_dgs1250.dhcp_snooping_limit_rate:
     interface: "{{ item.interface }}"
     rate: "{{ item.rate }}"
-  loop: "{{ dhcp_snooping_rate_limits }}"
-  when: dhcp_snooping_rate_limits | length > 0
+  loop: "{{ dhcp_snooping_setup_rate_limits }}"
+  when: dhcp_snooping_setup_rate_limits | length > 0
 
 - name: Enable DHCP snooping MAC verification
   jaydee_io.dlink_dgs1250.dhcp_snooping_verify_mac:
-    state: "{{ dhcp_snooping_verify_mac | ternary('enabled', 'disabled') }}"
+    state: "{{ dhcp_snooping_setup_verify_mac | ternary('enabled', 'disabled') }}"
 
 # --- Dynamic ARP Inspection ---
 - name: Enable DAI on VLANs
   jaydee_io.dlink_dgs1250.dai_ip_arp_inspection_vlan:
     vlan_id: "{{ item }}"
-  loop: "{{ dhcp_snooping_dai_vlans }}"
-  when: dhcp_snooping_dai_vlans | length > 0
+  loop: "{{ dhcp_snooping_setup_dai_vlans }}"
+  when: dhcp_snooping_setup_dai_vlans | length > 0
 
 - name: Set DAI trusted ports
   jaydee_io.dlink_dgs1250.dai_ip_arp_inspection_trust:
     interface: "{{ item }}"
     state: enabled
-  loop: "{{ dhcp_snooping_dai_trusted_ports }}"
-  when: dhcp_snooping_dai_trusted_ports | length > 0
+  loop: "{{ dhcp_snooping_setup_dai_trusted_ports }}"
+  when: dhcp_snooping_setup_dai_trusted_ports | length > 0
 
 - name: Configure DAI validation
   jaydee_io.dlink_dgs1250.dai_ip_arp_inspection_validate:
-    src_mac: "{{ dhcp_snooping_dai_validate_src_mac }}"
-    dst_mac: "{{ dhcp_snooping_dai_validate_dst_mac }}"
-    ip: "{{ dhcp_snooping_dai_validate_ip }}"
+    src_mac: "{{ dhcp_snooping_setup_dai_validate_src_mac }}"
+    dst_mac: "{{ dhcp_snooping_setup_dai_validate_dst_mac }}"
+    ip: "{{ dhcp_snooping_setup_dai_validate_ip }}"
 
 # --- IP Source Guard ---
 - name: Enable IP source guard on ports
   jaydee_io.dlink_dgs1250.ip_verify_source:
     interface: "{{ item }}"
-  loop: "{{ dhcp_snooping_ip_verify_source_ports }}"
-  when: dhcp_snooping_ip_verify_source_ports | length > 0
+  loop: "{{ dhcp_snooping_setup_ip_verify_source_ports }}"
+  when: dhcp_snooping_setup_ip_verify_source_ports | length > 0

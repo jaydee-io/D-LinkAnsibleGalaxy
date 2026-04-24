@@ -9,24 +9,24 @@
 # Example:
 #   - { interface: eth1/0/1, traffic_type: broadcast, level_mode: percent, rise: 20, low: 10, action: drop }
 #   - { interface: eth1/0/1, traffic_type: multicast, level_mode: percent, rise: 20, low: 10, action: drop }
-storm_control_ports: []
+storm_control_setup_ports: []
 
 # --- Storm control polling ---
 # Polling interval in seconds (optional)
-storm_control_polling_interval: ~
+storm_control_setup_polling_interval: ~
 # Number of retries (optional)
-storm_control_polling_retries: ~
+storm_control_setup_polling_retries: ~
 
 # --- Loopback detection ---
 # Enable loopback detection globally
-storm_control_loopback_enabled: true
+storm_control_setup_loopback_enabled: true
 
 # Mode: port-based or vlan-based (optional)
-storm_control_loopback_mode: ~
+storm_control_setup_loopback_mode: ~
 
 # Loopback detection interval in seconds (optional)
-storm_control_loopback_interval: ~
+storm_control_setup_loopback_interval: ~
 
 # Interfaces to enable loopback detection on
 # Example: ["eth1/0/1", "eth1/0/2"]
-storm_control_loopback_ports: []
+storm_control_setup_loopback_ports: []
