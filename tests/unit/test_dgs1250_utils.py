@@ -5,6 +5,9 @@ from unittest.mock import MagicMock
 from dgs1250 import (
     _detect_mode,
     _config_commands,
+    _expand_command,
+    _expand_interface_spec,
+    _parse_numeric_list,
     ensure_mode,
     MODE_USER,
     MODE_PRIVILEGED,
@@ -198,3 +201,152 @@ def test_config_commands_empty_payload():
 def test_config_commands_multiple_payload():
     cmds = ["interface ethernet 1/0/1", "no shutdown", "description uplink", "exit"]
     assert _config_commands(cmds) == ["no shutdown", "description uplink"]
+
+
+# ---- _parse_numeric_list ----------------------------------------------------
+
+def test_parse_numeric_list_single():
+    assert _parse_numeric_list("10") is None
+
+
+def test_parse_numeric_list_range():
+    assert _parse_numeric_list("1-5") == [1, 2, 3, 4, 5]
+
+
+def test_parse_numeric_list_csv():
+    assert _parse_numeric_list("10,20,30") == [10, 20, 30]
+
+
+def test_parse_numeric_list_mixed():
+    assert _parse_numeric_list("10,15-18") == [10, 15, 16, 17, 18]
+
+
+def test_parse_numeric_list_multi_range():
+    assert _parse_numeric_list("1-3,7-9") == [1, 2, 3, 7, 8, 9]
+
+
+def test_parse_numeric_list_reversed_range():
+    assert _parse_numeric_list("5-1") is None
+
+
+def test_parse_numeric_list_not_numeric():
+    assert _parse_numeric_list("abc") is None
+
+
+# ---- _expand_interface_spec -------------------------------------------------
+
+def test_expand_iface_single():
+    assert _expand_interface_spec("eth1/0/1") is None
+
+
+def test_expand_iface_range():
+    assert _expand_interface_spec("eth1/0/1-4") == [
+        "eth1/0/1", "eth1/0/2", "eth1/0/3", "eth1/0/4"]
+
+
+def test_expand_iface_list():
+    assert _expand_interface_spec("eth1/0/1,eth1/0/5") == [
+        "eth1/0/1", "eth1/0/5"]
+
+
+def test_expand_iface_list_with_range():
+    assert _expand_interface_spec("eth1/0/1-3,eth1/0/7") == [
+        "eth1/0/1", "eth1/0/2", "eth1/0/3", "eth1/0/7"]
+
+
+def test_expand_iface_high_ports():
+    assert _expand_interface_spec("eth1/0/10-12") == [
+        "eth1/0/10", "eth1/0/11", "eth1/0/12"]
+
+
+# ---- _expand_command --------------------------------------------------------
+
+def test_expand_cmd_no_range():
+    assert _expand_command("sntp enable") == ["sntp enable"]
+
+
+def test_expand_cmd_single_interface():
+    assert _expand_command("mac-address-table learning interface eth1/0/5") == [
+        "mac-address-table learning interface eth1/0/5"]
+
+
+def test_expand_cmd_interface_range():
+    assert _expand_command("mac-address-table learning interface eth1/0/1-3") == [
+        "mac-address-table learning interface eth1/0/1",
+        "mac-address-table learning interface eth1/0/2",
+        "mac-address-table learning interface eth1/0/3",
+    ]
+
+
+def test_expand_cmd_no_interface_range():
+    assert _expand_command("no mac-address-table learning interface eth1/0/1-3") == [
+        "no mac-address-table learning interface eth1/0/1",
+        "no mac-address-table learning interface eth1/0/2",
+        "no mac-address-table learning interface eth1/0/3",
+    ]
+
+
+def test_expand_cmd_interface_list():
+    assert _expand_command("mac-address-table learning interface eth1/0/1,eth1/0/5") == [
+        "mac-address-table learning interface eth1/0/1",
+        "mac-address-table learning interface eth1/0/5",
+    ]
+
+
+def test_expand_cmd_interface_with_suffix():
+    assert _expand_command("monitor session 1 source interface eth1/0/2-4 rx") == [
+        "monitor session 1 source interface eth1/0/2 rx",
+        "monitor session 1 source interface eth1/0/3 rx",
+        "monitor session 1 source interface eth1/0/4 rx",
+    ]
+
+
+def test_expand_cmd_vlan_range():
+    assert _expand_command("ip arp inspection vlan 1-3") == [
+        "ip arp inspection vlan 1",
+        "ip arp inspection vlan 2",
+        "ip arp inspection vlan 3",
+    ]
+
+
+def test_expand_cmd_no_vlan_range():
+    assert _expand_command("no ip dhcp snooping vlan 10,15-16") == [
+        "no ip dhcp snooping vlan 10",
+        "no ip dhcp snooping vlan 15",
+        "no ip dhcp snooping vlan 16",
+    ]
+
+
+def test_expand_cmd_vlan_with_suffix():
+    assert _expand_command("ip arp inspection vlan 1-2 logging deny") == [
+        "ip arp inspection vlan 1 logging deny",
+        "ip arp inspection vlan 2 logging deny",
+    ]
+
+
+def test_expand_cmd_switchport_trunk():
+    assert _expand_command("switchport trunk allowed vlan add 100-102") == [
+        "switchport trunk allowed vlan add 100",
+        "switchport trunk allowed vlan add 101",
+        "switchport trunk allowed vlan add 102",
+    ]
+
+
+def test_expand_cmd_switchport_hybrid_mixed():
+    assert _expand_command("switchport hybrid allowed vlan add tagged 10,20-22") == [
+        "switchport hybrid allowed vlan add tagged 10",
+        "switchport hybrid allowed vlan add tagged 20",
+        "switchport hybrid allowed vlan add tagged 21",
+        "switchport hybrid allowed vlan add tagged 22",
+    ]
+
+
+def test_expand_cmd_single_vlan():
+    assert _expand_command("ip arp inspection vlan 10") == [
+        "ip arp inspection vlan 10"]
+
+
+def test_expand_cmd_time_range_not_expanded():
+    """time-range contains a dash but is not a numeric range."""
+    assert _expand_command("power-saving hibernation time-range myprofile") == [
+        "power-saving hibernation time-range myprofile"]

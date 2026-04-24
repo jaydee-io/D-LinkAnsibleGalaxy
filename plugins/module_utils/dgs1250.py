@@ -124,13 +124,96 @@ def _config_commands(commands):
             if c != "exit" and not _MODE_ENTRY_RE.match(c)]
 
 
+# ---------------------------------------------------------------------------
+# Range / list expansion helpers
+# ---------------------------------------------------------------------------
+
+def _parse_numeric_list(spec):
+    """Expand '1-10' or '10,15-18' into a list of individual numbers."""
+    if '-' not in spec and ',' not in spec:
+        return None
+    numbers = []
+    for part in spec.split(','):
+        part = part.strip()
+        if '-' in part:
+            bounds = part.split('-', 1)
+            try:
+                start, end = int(bounds[0]), int(bounds[1])
+                if start > end:
+                    return None
+                numbers.extend(range(start, end + 1))
+            except (ValueError, IndexError):
+                return None
+        else:
+            try:
+                numbers.append(int(part))
+            except ValueError:
+                return None
+    return numbers
+
+
+def _expand_interface_spec(spec):
+    """Expand 'eth1/0/1-8' or 'eth1/0/1,eth1/0/5' into individual interfaces."""
+    if ',' in spec:
+        parts = [p.strip() for p in spec.split(',')]
+        result = []
+        for part in parts:
+            sub = _expand_interface_spec(part)
+            if sub:
+                result.extend(sub)
+            else:
+                result.append(part)
+        return result if len(result) > 1 else None
+
+    m = re.match(r'^(eth\d+/\d+/)(\d+)-(\d+)$', spec)
+    if m:
+        prefix, start, end = m.group(1), int(m.group(2)), int(m.group(3))
+        if start > end:
+            return None
+        return ['%s%d' % (prefix, i) for i in range(start, end + 1)]
+
+    return None
+
+
+_IFACE_SPEC_RE = re.compile(r'interface\s+(eth\S+)')
+_VLAN_NUMERIC_RE = re.compile(r'(\d+(?:[-,]\d+)+)')
+
+
+def _expand_command(cmd):
+    """Expand a command containing interface/VLAN ranges or lists.
+
+    Returns a list of individual commands, or [cmd] if no expansion needed.
+    """
+    m = _IFACE_SPEC_RE.search(cmd)
+    if m:
+        expanded = _expand_interface_spec(m.group(1))
+        if expanded:
+            before = cmd[:m.start(1)]
+            after = cmd[m.end(1):]
+            return ['%s%s%s' % (before, iface, after) for iface in expanded]
+
+    if 'vlan' in cmd.lower():
+        m = _VLAN_NUMERIC_RE.search(cmd)
+        if m:
+            numbers = _parse_numeric_list(m.group(1))
+            if numbers:
+                before = cmd[:m.start(1)]
+                after = cmd[m.end(1):]
+                return ['%s%d%s' % (before, n, after) for n in numbers]
+
+    return [cmd]
+
+
+# ---------------------------------------------------------------------------
+# Idempotency and diff
+# ---------------------------------------------------------------------------
+
 def is_config_present(module, commands):
     """Check whether every config-payload command already appears in running-config.
 
-    For simple global commands: checks if each command line exists.
-    For interface/sub-config commands: filters out mode-entry and exit,
-    then checks the remaining payload commands.
-    Returns True if all payload commands are already present.
+    Handles interface ranges (eth1/0/1-8), interface lists (eth1/0/1,eth1/0/5),
+    and VLAN ranges/lists (1-10, 10,15-18) by expanding them into individual
+    commands when the exact form is not found in running-config.
     """
     config = get_running_config(module)
     module._running_config = config
@@ -138,7 +221,14 @@ def is_config_present(module, commands):
     payload = _config_commands(commands)
     if not payload:
         return True
-    return all(cmd in config_lines for cmd in payload)
+    if all(cmd in config_lines for cmd in payload):
+        return True
+    expanded = []
+    for cmd in payload:
+        expanded.extend(_expand_command(cmd))
+    if expanded != payload:
+        return all(cmd in config_lines for cmd in expanded)
+    return False
 
 
 def build_config_diff(module, commands):
@@ -146,6 +236,7 @@ def build_config_diff(module, commands):
 
     Returns {'before': str, 'after': str} showing config changes.
     Uses cached running-config from is_config_present when available.
+    Expands ranges/lists so the diff reflects individual entries.
     """
     config = getattr(module, '_running_config', None)
     if config is None:
@@ -154,16 +245,21 @@ def build_config_diff(module, commands):
     config_lines = set(line.strip() for line in config.splitlines())
     payload = _config_commands(commands)
 
+    expanded = []
+    for cmd in payload:
+        expanded.extend(_expand_command(cmd))
+
     before_lines = []
     after_lines = []
 
-    for cmd in payload:
+    for cmd in expanded:
         if cmd.startswith("no "):
             positive = cmd[3:]
             if positive in config_lines:
                 before_lines.append(positive)
         else:
-            after_lines.append(cmd)
+            if cmd not in config_lines:
+                after_lines.append(cmd)
 
     return {
         'before': '\n'.join(before_lines) + '\n' if before_lines else '',
