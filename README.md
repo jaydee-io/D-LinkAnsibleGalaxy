@@ -76,6 +76,15 @@ all:
 |--------|-------------|---------------|
 | `dgs1250_facts` | Collect all basic facts (version, unit, environment, CPU) in one call | — |
 
+### Utility Modules
+
+| Module | Description | CLI Reference |
+|--------|-------------|---------------|
+| `save_config` | Save running-config to startup-config | — |
+| `config_backup` | Backup running-config to a local file | — |
+| `config_restore` | Restore a configuration backup to the switch | — |
+| `dgs1250_command` | Send arbitrary CLI commands to the switch | — |
+
 ### Basic Switch Commands
 
 | Module | Description | CLI Reference |
@@ -1106,13 +1115,171 @@ Applies baseline configuration: hostname, location, timezone, NTP, logging, STP 
           - { id: 200, name: users }
 ```
 
+### `vlan_setup`
+
+Creates VLANs and configures access/trunk ports in a single role.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.vlan_setup
+      vars:
+        vlan_setup_vlans:
+          - { id: 100, name: management }
+          - { id: 200, name: users }
+        vlan_setup_access_ports:
+          - { interface: eth1/0/1, vlan_id: 200 }
+        vlan_setup_trunk_ports:
+          - { interface: eth1/0/24, allowed_vlans: "100,200", native_vlan: 100 }
+```
+
+### `acl_setup`
+
+Creates IP access lists with rules and applies them to interfaces.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.acl_setup
+      vars:
+        acl_setup_ip_access_lists:
+          - name: WEB-FILTER
+            extended: true
+            rules:
+              - "permit tcp any any eq 80"
+              - "permit tcp any any eq 443"
+              - "deny ip any any"
+        acl_setup_interface_bindings:
+          - { interface: eth1/0/1, acl_name: WEB-FILTER }
+```
+
+### `firmware_upgrade`
+
+Uploads firmware via TFTP, sets boot image, and optionally reboots.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.firmware_upgrade
+      vars:
+        firmware_upgrade_tftp_source: "tftp://10.1.1.254/DGS-1250-28X_fw_2.10.B012.had"
+        firmware_upgrade_boot_image: Image2
+        firmware_upgrade_reboot: true
+```
+
+### `port_security`
+
+Configures 802.1X, MAC-based authentication, and port security (MAC limiting).
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.port_security
+      vars:
+        port_security_dot1x_ports:
+          - { interface: eth1/0/1, control: auto }
+          - { interface: eth1/0/2, control: auto, host_mode: multi-auth, max_users: 5 }
+        port_security_ports:
+          - { interface: eth1/0/1, maximum: 5, violation: restrict }
+```
+
+### `dhcp_snooping_setup`
+
+Configures DHCP snooping, Dynamic ARP Inspection (DAI), and IP Source Guard.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.dhcp_snooping_setup
+      vars:
+        dhcp_snooping_vlans: [100, 200]
+        dhcp_snooping_trusted_ports: ["eth1/0/24"]
+        dhcp_snooping_rate_limits:
+          - { interface: eth1/0/1, rate: 15 }
+        dhcp_snooping_dai_vlans: [100, 200]
+        dhcp_snooping_dai_trusted_ports: ["eth1/0/24"]
+```
+
+### `qos_setup`
+
+Configures QoS: trust mode, CoS/DSCP, class maps, policy maps, and service policies.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.qos_setup
+      vars:
+        qos_setup_trust_ports:
+          - { interface: eth1/0/1, trust: dscp }
+        qos_setup_class_maps:
+          - name: VOICE
+            match_type: match-any
+            matches:
+              - { criteria: dscp, value: "46" }
+        qos_setup_policy_maps:
+          - name: VOICE-POLICY
+            classes:
+              - { class_name: VOICE, set_action: cos-queue, set_value: 5 }
+        qos_setup_service_policies:
+          - { interface: eth1/0/1, policy_name: VOICE-POLICY }
+```
+
+### `link_aggregation`
+
+Configures link aggregation (LACP/static) and port-channel load balancing.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.link_aggregation
+      vars:
+        link_aggregation_load_balance: src-dst-ip
+        link_aggregation_port_channels:
+          - channel_no: 1
+            mode: active
+            members:
+              - { interface: eth1/0/23, lacp_timeout: short }
+              - { interface: eth1/0/24, lacp_timeout: short }
+```
+
+### `storm_control_setup`
+
+Configures storm control thresholds and loopback detection.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.storm_control_setup
+      vars:
+        storm_control_ports:
+          - { interface: eth1/0/1, traffic_type: broadcast, level_mode: percent, rise: 20, low: 10, action: drop }
+        storm_control_loopback_mode: port-based
+        storm_control_loopback_ports: ["eth1/0/1", "eth1/0/2"]
+```
+
+### `aaa_setup`
+
+Configures AAA authentication with RADIUS/TACACS+ servers.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.aaa_setup
+      vars:
+        aaa_setup_radius_servers:
+          - { host: 10.1.1.10, key: "s3cret" }
+        aaa_setup_radius_group: CORP-RADIUS
+        aaa_setup_auth_login_methods: ["group radius", "local"]
+        aaa_setup_login_lines: [ssh, telnet]
+```
+
 ## Example playbooks
 
 Sample playbooks are available in [`docs/examples/`](docs/examples/):
 
 | Playbook | Description |
 |----------|-------------|
-| `initial_provisioning.yml` | Full initial switch setup using all three roles |
+| `initial_provisioning.yml` | Full initial switch setup using base roles |
 | `backup_restore.yml` | Backup and restore configuration via TFTP |
 | `security_audit.yml` | Audit switch for common security issues |
 | `firmware_update.yml` | Download and apply firmware update via TFTP |
