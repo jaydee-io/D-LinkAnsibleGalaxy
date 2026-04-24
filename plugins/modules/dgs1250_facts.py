@@ -7,15 +7,16 @@
 DOCUMENTATION = r"""
 ---
 module: dgs1250_facts
-short_description: Collect basic facts from a D-Link DGS-1250 switch in a single call
+short_description: Collect facts from a D-Link DGS-1250 switch and expose them as ansible_facts
 description:
-  - Gathers essential system information from a D-Link DGS-1250 switch by executing
-    multiple CLI commands (C(show version), C(show unit), C(show environment),
-    C(show cpu utilization)) and returning all parsed data in one result.
-  - Provides a convenient way to collect version, model, serial number, uptime,
-    memory usage, CPU utilization, fan/temperature/power status in a single task.
+  - Gathers system information from a D-Link DGS-1250 switch by executing
+    multiple CLI commands and returning all parsed data as C(ansible_facts).
+  - Collects version, model, serial number, uptime, memory usage, CPU utilization,
+    fan/temperature/power status, interface status, VLANs, and MAC address table.
+  - Similar in spirit to C(ios_facts) from the Cisco IOS collection.
   - The C(gather) parameter allows selecting which subsets of facts to collect.
-version_added: "0.21.0"
+  - All facts are exposed under C(ansible_facts.dgs1250) for use in subsequent tasks.
+version_added: "1.2.0"
 author:
   - Jérôme Dumesnil (@jaydee-io)
 extends_documentation_fragment:
@@ -27,10 +28,11 @@ options:
       - If omitted or set to C([all]), all subsets are gathered.
     type: list
     elements: str
-    choices: [all, version, unit, environment, cpu]
+    choices: [all, version, unit, environment, cpu, interfaces, vlans, mac_table]
     default: [all]
 notes:
   - This command runs in User/Privileged EXEC Mode.
+  - Facts are returned both as top-level return values and under C(ansible_facts.dgs1250).
 """
 
 EXAMPLES = r"""
@@ -40,7 +42,7 @@ EXAMPLES = r"""
 
 - name: Display switch model and firmware
   ansible.builtin.debug:
-    msg: "{{ facts.version.module_name }} running {{ facts.version.runtime }}"
+    msg: "{{ ansible_facts.dgs1250.version.module_name }} running {{ ansible_facts.dgs1250.version.runtime }}"
 
 - name: Gather only version and CPU utilization
   jaydee_io.dlink_dgs1250.dgs1250_facts:
@@ -54,6 +56,23 @@ EXAMPLES = r"""
     gather: [cpu]
   register: facts
   failed_when: facts.cpu.five_minutes_percent > 90
+
+- name: List all VLANs
+  jaydee_io.dlink_dgs1250.dgs1250_facts:
+    gather: [vlans]
+
+- name: Check interface status
+  jaydee_io.dlink_dgs1250.dgs1250_facts:
+    gather: [interfaces]
+
+- name: Use facts in conditional tasks
+  jaydee_io.dlink_dgs1250.dgs1250_facts:
+    gather: [version, unit]
+
+- name: Conditional on firmware version
+  ansible.builtin.debug:
+    msg: "Firmware is up to date"
+  when: ansible_facts.dgs1250.version.runtime == "2.04.P003"
 """
 
 RETURN = r"""
@@ -62,6 +81,14 @@ commands:
   returned: always
   type: list
   elements: str
+ansible_facts:
+  description: Facts returned under ansible_facts.dgs1250.
+  returned: always
+  type: dict
+  contains:
+    dgs1250:
+      description: All gathered facts keyed by subset name.
+      type: dict
 version:
   description: Version information (MAC address, model, hardware revision, firmware).
   returned: when 'version' or 'all' is in gather
@@ -125,6 +152,66 @@ cpu:
     five_minutes_percent:
       description: CPU utilization over the last 5 minutes.
       type: int
+interfaces:
+  description: List of interface status entries.
+  returned: when 'interfaces' or 'all' is in gather
+  type: list
+  elements: dict
+  contains:
+    port:
+      description: Interface name.
+      type: str
+    status:
+      description: Link status (connected, not-connected, disabled).
+      type: str
+    vlan:
+      description: Access VLAN ID.
+      type: str
+    duplex:
+      description: Duplex mode (auto, full, half).
+      type: str
+    speed:
+      description: Port speed (auto, 10M, 100M, 1000M, 10G).
+      type: str
+    type:
+      description: Port media type (1000BASE-T, 10GBASE-SR, etc.).
+      type: str
+vlans:
+  description: List of configured VLANs.
+  returned: when 'vlans' or 'all' is in gather
+  type: list
+  elements: dict
+  contains:
+    vlan_id:
+      description: VLAN ID.
+      type: int
+    name:
+      description: VLAN name.
+      type: str
+    tagged_ports:
+      description: Tagged member ports.
+      type: str
+    untagged_ports:
+      description: Untagged member ports.
+      type: str
+mac_table:
+  description: List of MAC address table entries.
+  returned: when 'mac_table' or 'all' is in gather
+  type: list
+  elements: dict
+  contains:
+    vlan:
+      description: VLAN ID.
+      type: int
+    mac_address:
+      description: MAC address.
+      type: str
+    type:
+      description: Entry type (Static, Dynamic).
+      type: str
+    port:
+      description: Forwarding port.
+      type: str
 """
 
 import re
@@ -146,26 +233,31 @@ except ImportError:
 # CLI commands for each subset
 # ---------------------------------------------------------------------------
 
+ALL_SUBSETS = ["version", "unit", "environment", "cpu",
+               "interfaces", "vlans", "mac_table"]
+
 SUBSET_COMMANDS = {
     "version": "show version",
     "unit": "show unit",
     "environment": "show environment",
     "cpu": "show cpu utilization",
+    "interfaces": "show interfaces status",
+    "vlans": "show vlan",
+    "mac_table": "show mac-address-table",
 }
 
 
 def _build_commands(gather):
     """Return the list of CLI commands to run based on the requested subsets."""
     if "all" in gather:
-        subsets = ["version", "unit", "environment", "cpu"]
+        subsets = list(ALL_SUBSETS)
     else:
-        subsets = [s for s in ["version", "unit",
-                               "environment", "cpu"] if s in gather]
+        subsets = [s for s in ALL_SUBSETS if s in gather]
     return subsets, [SUBSET_COMMANDS[s] for s in subsets]
 
 
 # ---------------------------------------------------------------------------
-# Output parsers (same logic as the individual modules)
+# Output parsers
 # ---------------------------------------------------------------------------
 
 def _parse_version(output):
@@ -352,11 +444,89 @@ def _parse_cpu(output):
     return result
 
 
+def _parse_interfaces(output):
+    interfaces = []
+    lines = output.splitlines()
+    i = 0
+    while i < len(lines):
+        m = re.match(
+            r"^\s*(eth\S+)\s+(connected|not-connected|disabled)\s+"
+            r"(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*$",
+            lines[i],
+        )
+        if m:
+            interfaces.append({
+                "port": m.group(1),
+                "status": m.group(2),
+                "vlan": m.group(3),
+                "duplex": m.group(4),
+                "speed": m.group(5),
+                "type": m.group(6),
+            })
+        i += 1
+    return interfaces
+
+
+def _parse_vlans(output):
+    vlans = []
+    current = None
+    for line in output.splitlines():
+        m = re.match(r"^\s*VLAN\s+(\d+)\s*$", line)
+        if m:
+            if current is not None:
+                vlans.append(current)
+            current = {
+                "vlan_id": int(m.group(1)),
+                "name": "",
+                "tagged_ports": "",
+                "untagged_ports": "",
+            }
+            continue
+        if current is None:
+            continue
+        m = re.match(r"^\s*Name\s*:\s*(.*?)\s*$", line)
+        if m:
+            current["name"] = m.group(1)
+            continue
+        m = re.match(r"^\s*Tagged Member Ports\s*:\s*(.*?)\s*$", line)
+        if m:
+            current["tagged_ports"] = m.group(1)
+            continue
+        m = re.match(r"^\s*Untagged Member Ports\s*:\s*(.*?)\s*$", line)
+        if m:
+            current["untagged_ports"] = m.group(1)
+            continue
+    if current is not None:
+        vlans.append(current)
+    return vlans
+
+
+def _parse_mac_table(output):
+    entries = []
+    for line in output.splitlines():
+        m = re.match(
+            r"^\s*(\d+)\s+([\dA-Fa-f]{2}(?:[-:][\dA-Fa-f]{2}){5})\s+"
+            r"(Static|Dynamic)\s+(\S+)\s*$",
+            line,
+        )
+        if m:
+            entries.append({
+                "vlan": int(m.group(1)),
+                "mac_address": m.group(2),
+                "type": m.group(3),
+                "port": m.group(4),
+            })
+    return entries
+
+
 _PARSERS = {
     "version": _parse_version,
     "unit": _parse_unit,
     "environment": _parse_environment,
     "cpu": _parse_cpu,
+    "interfaces": _parse_interfaces,
+    "vlans": _parse_vlans,
+    "mac_table": _parse_mac_table,
 }
 
 
@@ -371,7 +541,8 @@ def main():
                 type="list",
                 elements="str",
                 default=["all"],
-                choices=["all", "version", "unit", "environment", "cpu"],
+                choices=["all", "version", "unit", "environment", "cpu",
+                         "interfaces", "vlans", "mac_table"],
             ),
         ),
         supports_check_mode=True,
@@ -385,13 +556,17 @@ def main():
         return
 
     result = dict(changed=False, commands=commands)
+    facts = {}
     for subset, command in zip(subsets, commands):
         try:
             raw_output = run_command(module, command)
         except Exception as e:
             module.fail_json(msg="Command '%s' failed: %s" % (command, str(e)))
-        result[subset] = _PARSERS[subset](raw_output)
+        parsed = _PARSERS[subset](raw_output)
+        result[subset] = parsed
+        facts[subset] = parsed
 
+    result["ansible_facts"] = {"dgs1250": facts}
     module.exit_json(**result)
 
 

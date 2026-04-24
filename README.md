@@ -74,7 +74,7 @@ all:
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
-| `dgs1250_facts` | Collect all basic facts (version, unit, environment, CPU) in one call | — |
+| `dgs1250_facts` | Collect facts (version, unit, environment, CPU, interfaces, VLANs, MAC table) and expose as `ansible_facts` | — |
 
 ### Utility Modules
 
