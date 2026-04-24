@@ -26,3 +26,6 @@ hardening_mgmt_acl: ~
 hardening_mgmt_acl_lines:
   - ssh
   - telnet
+
+# Save running-config to startup-config after applying the role
+hardening_save_config: false

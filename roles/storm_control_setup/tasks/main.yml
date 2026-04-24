@@ -8,6 +8,7 @@
     rise: "{{ item.rise }}"
     low: "{{ item.low | default(omit) }}"
     action: "{{ item.action }}"
+  notify: save config
   loop: "{{ storm_control_setup_ports }}"
   when: storm_control_setup_ports | length > 0
 
@@ -16,6 +17,7 @@
   jaydee_io.dlink_dgs1250.storm_control_polling:
     interval: "{{ storm_control_setup_polling_interval | default(omit) }}"
     retries: "{{ storm_control_setup_polling_retries | default(omit) }}"
+  notify: save config
   when: storm_control_setup_polling_interval is not none or storm_control_setup_polling_retries is not none
 
 # --- Loopback detection ---
@@ -23,15 +25,18 @@
   jaydee_io.dlink_dgs1250.loopback_detection_global:
     state: "{{ storm_control_setup_loopback_enabled | ternary('enabled', 'disabled') }}"
     mode: "{{ storm_control_setup_loopback_mode | default(omit) }}"
+  notify: save config
 
 - name: Set loopback detection interval
   jaydee_io.dlink_dgs1250.loopback_detection_interval:
     seconds: "{{ storm_control_setup_loopback_interval }}"
+  notify: save config
   when: storm_control_setup_loopback_interval is not none
 
 - name: Enable loopback detection on ports
   jaydee_io.dlink_dgs1250.loopback_detection_interface:
     interface: "{{ item }}"
     state: enabled
+  notify: save config
   loop: "{{ storm_control_setup_loopback_ports }}"
   when: storm_control_setup_loopback_ports | length > 0

@@ -17,6 +17,7 @@ Configure DHCP snooping, Dynamic ARP Inspection (DAI), and IP Source Guard on a 
 | `dhcp_snooping_setup_dai_validate_dst_mac` | `false` | DAI: validate destination MAC |
 | `dhcp_snooping_setup_dai_validate_ip` | `true` | DAI: validate IP |
 | `dhcp_snooping_setup_ip_verify_source_ports` | `[]` | Ports to enable IP Source Guard on |
+| `dhcp_snooping_setup_save_config` | `false` | Save running-config to startup-config after applying the role |
 
 ## Example Playbook
 

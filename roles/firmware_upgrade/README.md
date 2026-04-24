@@ -10,6 +10,7 @@ Upload firmware via TFTP, set boot image, and optionally reboot a D-Link DGS-125
 | `firmware_upgrade_boot_image` | `Image2` | Boot image slot: `Image1` or `Image2` |
 | `firmware_upgrade_save_before` | `true` | Save running-config before upgrading |
 | `firmware_upgrade_reboot` | `false` | Reboot the switch after uploading firmware |
+| `firmware_upgrade_save_config` | `false` | Save running-config to startup-config after applying the role |
 
 ## Example Playbook
 

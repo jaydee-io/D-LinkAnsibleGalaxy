@@ -15,6 +15,7 @@ Configure AAA authentication (RADIUS/TACACS+) on a D-Link DGS-1250 switch.
 | `aaa_setup_auth_enable_methods` | (none) | Enable authentication method list |
 | `aaa_setup_accounting_network_methods` | (none) | Network accounting method list |
 | `aaa_setup_login_lines` | `[ssh, telnet]` | Lines to apply login authentication to |
+| `aaa_setup_save_config` | `false` | Save running-config to startup-config after applying the role |
 
 ## Example Playbook
 

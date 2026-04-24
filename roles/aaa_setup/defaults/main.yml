@@ -39,3 +39,6 @@ aaa_setup_accounting_network_methods: ~
 aaa_setup_login_lines:
   - ssh
   - telnet
+
+# Save running-config to startup-config after applying the role
+aaa_setup_save_config: false

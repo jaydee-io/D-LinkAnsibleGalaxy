@@ -24,6 +24,7 @@ Configure monitoring on a D-Link DGS-1250 switch: SNMP, syslog, SNTP, LLDP, and 
 | `monitoring_lldp_enabled` | `enabled` | LLDP state |
 | `monitoring_rmon_interfaces` | `[]` | List of interfaces for RMON statistics |
 | `monitoring_rmon_stats_index_start` | `1` | Starting index for RMON stats entries |
+| `monitoring_save_config` | `false` | Save running-config to startup-config after applying the role |
 
 ## Example Playbook
 

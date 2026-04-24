@@ -8,6 +8,7 @@ Create IP access lists with rules and apply them to interfaces on a D-Link DGS-1
 |---|---|---|
 | `acl_setup_ip_access_lists` | `[]` | List of ACL dicts: `{name, extended, rules}` |
 | `acl_setup_interface_bindings` | `[]` | List of `{interface, acl_name}` dicts to bind ACLs to ports |
+| `acl_setup_save_config` | `false` | Save running-config to startup-config after applying the role |
 
 ## Example Playbook
 

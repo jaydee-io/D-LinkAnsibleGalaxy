@@ -27,3 +27,6 @@ monitoring_lldp_enabled: enabled
 # Example: ["ethernet 1/0/1", "ethernet 1/0/2"]
 monitoring_rmon_interfaces: []
 monitoring_rmon_stats_index_start: 1
+
+# Save running-config to startup-config after applying the role
+monitoring_save_config: false

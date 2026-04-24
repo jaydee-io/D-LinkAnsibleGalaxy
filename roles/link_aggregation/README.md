@@ -9,6 +9,7 @@ Configure link aggregation (LACP/static) and port-channel load balancing on a D-
 | `link_aggregation_load_balance` | `src-dst-mac` | Load balancing algorithm |
 | `link_aggregation_system_priority` | (none) | LACP system priority (lower = higher) |
 | `link_aggregation_port_channels` | `[]` | List of port-channel dicts (see below) |
+| `link_aggregation_save_config` | `false` | Save running-config to startup-config after applying the role |
 
 ### Port channel dict format
 

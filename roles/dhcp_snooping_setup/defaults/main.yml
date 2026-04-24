@@ -35,3 +35,6 @@ dhcp_snooping_setup_dai_validate_ip: true
 # --- IP Source Guard ---
 # Ports to enable IP source guard on — list of interface names
 dhcp_snooping_setup_ip_verify_source_ports: []
+
+# Save running-config to startup-config after applying the role
+dhcp_snooping_setup_save_config: false

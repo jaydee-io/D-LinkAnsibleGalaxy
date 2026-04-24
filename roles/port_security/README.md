@@ -11,6 +11,7 @@ Configure port security on a D-Link DGS-1250 switch: 802.1X, MAC limiting, and M
 | `port_security_ports` | `[]` | List of `{interface, maximum, violation}` dicts for MAC limiting |
 | `port_security_mac_auth_enabled` | `false` | Enable MAC-based auth system-wide |
 | `port_security_mac_auth_ports` | `[]` | List of interfaces to enable MAC auth on |
+| `port_security_save_config` | `false` | Save running-config to startup-config after applying the role |
 
 ## Example Playbook
 

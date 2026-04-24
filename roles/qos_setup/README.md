@@ -12,6 +12,7 @@ Configure QoS on a D-Link DGS-1250 switch: trust mode, CoS/DSCP, class maps, pol
 | `qos_setup_class_maps` | `[]` | List of `{name, match_type, matches}` dicts |
 | `qos_setup_policy_maps` | `[]` | List of `{name, classes}` dicts |
 | `qos_setup_service_policies` | `[]` | List of `{interface, policy_name}` dicts |
+| `qos_setup_save_config` | `false` | Save running-config to startup-config after applying the role |
 
 ## Example Playbook
 

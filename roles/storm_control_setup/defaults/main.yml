@@ -30,3 +30,6 @@ storm_control_setup_loopback_interval: ~
 # Interfaces to enable loopback detection on
 # Example: ["eth1/0/1", "eth1/0/2"]
 storm_control_setup_loopback_ports: []
+
+# Save running-config to startup-config after applying the role
+storm_control_setup_save_config: false

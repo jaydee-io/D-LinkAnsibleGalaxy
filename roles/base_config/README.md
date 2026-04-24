@@ -17,6 +17,7 @@ Apply base configuration to a D-Link DGS-1250 switch: hostname, NTP, logging, ST
 | `base_config_syslog_severity` | `warnings` | Syslog severity level |
 | `base_config_stp_mode` | `rstp` | Spanning tree mode (`mstp`, `rstp`, or `stp`) |
 | `base_config_vlans` | `[]` | List of `{id, name}` dicts for VLANs to create |
+| `base_config_save_config` | `false` | Save running-config to startup-config after applying the role |
 
 ## Example Playbook
 

@@ -45,3 +45,6 @@ qos_setup_policy_maps: []
 # Example:
 #   - { interface: eth1/0/1, policy_name: VOICE-POLICY }
 qos_setup_service_policies: []
+
+# Save running-config to startup-config after applying the role
+qos_setup_save_config: false

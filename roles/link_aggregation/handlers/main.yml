@@ -1,0 +1,4 @@
+---
+- name: save config
+  jaydee_io.dlink_dgs1250.save_config:
+  when: link_aggregation_save_config

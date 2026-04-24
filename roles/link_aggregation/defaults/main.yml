@@ -18,3 +18,6 @@ link_aggregation_system_priority: ~
 #       - { interface: eth1/0/23, lacp_timeout: short }
 #       - { interface: eth1/0/24, lacp_timeout: short }
 link_aggregation_port_channels: []
+
+# Save running-config to startup-config after applying the role
+link_aggregation_save_config: false

@@ -24,3 +24,6 @@ base_config_stp_mode: rstp
 #   - { id: 100, name: management }
 #   - { id: 200, name: users }
 base_config_vlans: []
+
+# Save running-config to startup-config after applying the role
+base_config_save_config: false

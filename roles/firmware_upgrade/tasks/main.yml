@@ -15,11 +15,13 @@
   jaydee_io.dlink_dgs1250.file_copy:
     source: "{{ firmware_upgrade_tftp_source }}"
     destination: "flash:{{ firmware_upgrade_boot_image }}"
+  notify: save config
 
 # --- Set boot image ---
 - name: Set boot image to new firmware slot
   jaydee_io.dlink_dgs1250.boot_image:
     image: "{{ firmware_upgrade_boot_image }}"
+  notify: save config
 
 # --- Reboot ---
 - name: Reboot switch to apply new firmware

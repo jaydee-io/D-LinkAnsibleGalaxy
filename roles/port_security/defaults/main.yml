@@ -27,3 +27,6 @@ port_security_mac_auth_enabled: false
 # List of interfaces to enable MAC auth on
 # Example: ["eth1/0/1", "eth1/0/2"]
 port_security_mac_auth_ports: []
+
+# Save running-config to startup-config after applying the role
+port_security_save_config: false

@@ -1067,6 +1067,8 @@ all:
 
 The collection includes ready-to-use roles for common switch administration tasks.
 
+All roles support a `<role_name>_save_config` variable (default: `false`). Set it to `true` to automatically save the running-config to startup-config after the role applies changes.
+
 ### `hardening`
 
 Secures a switch by disabling insecure protocols and enforcing best practices:

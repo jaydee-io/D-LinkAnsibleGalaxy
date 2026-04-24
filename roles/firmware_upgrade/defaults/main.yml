@@ -11,3 +11,6 @@ firmware_upgrade_save_before: true
 
 # Whether to reboot the switch after uploading the firmware
 firmware_upgrade_reboot: false
+
+# Save running-config to startup-config after applying the role
+firmware_upgrade_save_config: false

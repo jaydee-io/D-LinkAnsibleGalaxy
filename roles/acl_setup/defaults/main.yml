@@ -15,3 +15,6 @@ acl_setup_ip_access_lists: []
 # Example:
 #   - { interface: eth1/0/1, acl_name: WEB-FILTER }
 acl_setup_interface_bindings: []
+
+# Save running-config to startup-config after applying the role
+acl_setup_save_config: false

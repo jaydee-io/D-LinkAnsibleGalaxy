@@ -17,3 +17,6 @@ vlan_setup_access_ports: []
 # Example:
 #   - { interface: eth1/0/24, allowed_vlans: "100,200,300", native_vlan: 100 }
 vlan_setup_trunk_ports: []
+
+# Save running-config to startup-config after applying the role
+vlan_setup_save_config: false

@@ -13,6 +13,7 @@ Configure storm control and loopback detection on a D-Link DGS-1250 switch.
 | `storm_control_setup_loopback_mode` | (none) | Mode: `port-based` or `vlan-based` |
 | `storm_control_setup_loopback_interval` | (none) | Detection interval in seconds |
 | `storm_control_setup_loopback_ports` | `[]` | Interfaces to enable loopback detection on |
+| `storm_control_setup_save_config` | `false` | Save running-config to startup-config after applying the role |
 
 ## Example Playbook
 

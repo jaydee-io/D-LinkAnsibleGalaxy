@@ -9,6 +9,7 @@ Create VLANs and configure access/trunk ports on a D-Link DGS-1250 switch.
 | `vlan_setup_vlans` | `[]` | List of `{id, name}` dicts for VLANs to create |
 | `vlan_setup_access_ports` | `[]` | List of `{interface, vlan_id}` dicts for access ports |
 | `vlan_setup_trunk_ports` | `[]` | List of `{interface, allowed_vlans, native_vlan}` dicts for trunk ports |
+| `vlan_setup_save_config` | `false` | Save running-config to startup-config after applying the role |
 
 ## Example Playbook
 

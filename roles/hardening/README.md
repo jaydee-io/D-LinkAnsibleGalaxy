@@ -17,6 +17,7 @@ Harden a D-Link DGS-1250 switch: disable HTTP/Telnet, enable HTTPS/SSH, enforce 
 | `hardening_session_timeout_ssh` | `10` | SSH session timeout (minutes) |
 | `hardening_mgmt_acl` | — | Management ACL name |
 | `hardening_mgmt_acl_lines` | `[ssh, telnet]` | Line types to apply the ACL to |
+| `hardening_save_config` | `false` | Save running-config to startup-config after applying the role |
 
 ## Example Playbook
 
