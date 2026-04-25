@@ -137,7 +137,7 @@ from ansible.module_utils.basic import AnsibleModule
 
 try:
     from ansible_collections.jaydee_io.dlink_dgs1250.plugins.module_utils.dgs1250 import (
-        run_command, run_commands, get_running_config, MODE_GLOBAL_CONFIG,
+        run_commands, get_running_config, MODE_GLOBAL_CONFIG,
     )
 except ImportError:
     import sys
@@ -145,7 +145,7 @@ except ImportError:
     sys.path.insert(0, os.path.join(
         os.path.dirname(__file__), "..", "module_utils"))
     from dgs1250 import (
-        run_command, run_commands, get_running_config, MODE_GLOBAL_CONFIG,
+        run_commands, get_running_config, MODE_GLOBAL_CONFIG,
     )
 
 
