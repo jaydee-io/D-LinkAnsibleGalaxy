@@ -87,6 +87,11 @@ all:
 | `dgs1250_ntp` | Manage SNTP server configuration | merged, overridden, deleted, gathered |
 | `dgs1250_static_routes` | Manage IPv4 static routes | merged, overridden, deleted, gathered |
 | `dgs1250_acls` | Manage IP access-lists with rules | merged, replaced, overridden, deleted, gathered |
+| `dgs1250_lag_interfaces` | Manage LAG (port-channel) member interfaces | merged, replaced, deleted, gathered |
+| `dgs1250_storm_control` | Manage per-interface storm control settings | merged, replaced, deleted, gathered |
+| `dgs1250_spanning_tree` | Manage per-interface STP settings (cost, priority, portfast, guard) | merged, replaced, deleted, gathered |
+| `dgs1250_lldp_interfaces` | Manage per-interface LLDP transmit/receive | merged, replaced, deleted, gathered |
+| `dgs1250_dns` | Manage DNS name servers | merged, overridden, deleted, gathered |
 
 ### Utility Modules
 
