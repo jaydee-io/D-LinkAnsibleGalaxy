@@ -76,6 +76,13 @@ all:
 |--------|-------------|---------------|
 | `dgs1250_facts` | Collect facts (version, unit, environment, CPU, interfaces, VLANs, MAC table) and expose as `ansible_facts` | — |
 
+### Resource Modules
+
+| Module | Description | States |
+|--------|-------------|--------|
+| `dgs1250_vlans` | Manage VLANs declaratively (create, name, delete) | merged, replaced, overridden, deleted, gathered |
+| `dgs1250_l2_interfaces` | Manage L2 interface settings (switchport mode, access VLAN, trunk VLANs) | merged, replaced, deleted, gathered |
+
 ### Utility Modules
 
 | Module | Description | CLI Reference |
