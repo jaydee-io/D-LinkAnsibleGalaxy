@@ -4,7 +4,7 @@
   jaydee_io.dlink_dgs1250.mls_qos_trust:
     interface: "{{ item.interface }}"
     trust: "{{ item.trust }}"
-  notify: save config
+  notify: Save config
   loop: "{{ qos_setup_trust_ports }}"
   when: qos_setup_trust_ports | length > 0
 
@@ -13,7 +13,7 @@
   jaydee_io.dlink_dgs1250.mls_qos_cos:
     interface: "{{ item.interface }}"
     cos_value: "{{ item.cos_value }}"
-  notify: save config
+  notify: Save config
   loop: "{{ qos_setup_cos_ports }}"
   when: qos_setup_cos_ports | length > 0
 
@@ -22,7 +22,7 @@
   jaydee_io.dlink_dgs1250.mls_qos_scheduler:
     interface: "{{ item.interface }}"
     algorithm: "{{ item.algorithm }}"
-  notify: save config
+  notify: Save config
   loop: "{{ qos_setup_scheduler_ports }}"
   when: qos_setup_scheduler_ports | length > 0
 
@@ -31,7 +31,7 @@
   jaydee_io.dlink_dgs1250.class_map:
     name: "{{ item.name }}"
     match_type: "{{ item.match_type | default(omit) }}"
-  notify: save config
+  notify: Save config
   loop: "{{ qos_setup_class_maps }}"
   when: qos_setup_class_maps | length > 0
 
@@ -40,7 +40,7 @@
     class_map: "{{ item.0.name }}"
     criteria: "{{ item.1.criteria }}"
     value: "{{ item.1.value }}"
-  notify: save config
+  notify: Save config
   loop: "{{ qos_setup_class_maps | subelements('matches', skip_missing=True) }}"
   when: qos_setup_class_maps | length > 0
 
@@ -48,7 +48,7 @@
 - name: Create policy maps
   jaydee_io.dlink_dgs1250.policy_map:
     name: "{{ item.name }}"
-  notify: save config
+  notify: Save config
   loop: "{{ qos_setup_policy_maps }}"
   when: qos_setup_policy_maps | length > 0
 
@@ -56,7 +56,7 @@
   jaydee_io.dlink_dgs1250.policy_map_class:
     policy_map: "{{ item.0.name }}"
     class_name: "{{ item.1.class_name }}"
-  notify: save config
+  notify: Save config
   loop: "{{ qos_setup_policy_maps | subelements('classes', skip_missing=True) }}"
   when: qos_setup_policy_maps | length > 0
 
@@ -66,7 +66,7 @@
     class_name: "{{ item.1.class_name }}"
     action: "{{ item.1.set_action }}"
     value: "{{ item.1.set_value }}"
-  notify: save config
+  notify: Save config
   loop: "{{ qos_setup_policy_maps | subelements('classes', skip_missing=True) }}"
   when:
     - qos_setup_policy_maps | length > 0
@@ -77,6 +77,6 @@
   jaydee_io.dlink_dgs1250.service_policy:
     interface: "{{ item.interface }}"
     policy_name: "{{ item.policy_name }}"
-  notify: save config
+  notify: Save config
   loop: "{{ qos_setup_service_policies }}"
   when: qos_setup_service_policies | length > 0

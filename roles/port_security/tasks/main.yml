@@ -3,14 +3,14 @@
 - name: Enable 802.1X system auth control
   jaydee_io.dlink_dgs1250.dot1x_system_auth_control:
     state: "{{ port_security_dot1x_enabled | ternary('enabled', 'disabled') }}"
-  notify: save config
+  notify: Save config
 
 # --- Per-port 802.1X ---
 - name: Enable 802.1X PAE authenticator on ports
   jaydee_io.dlink_dgs1250.dot1x_pae_authenticator:
     interface: "{{ item.interface }}"
     state: enabled
-  notify: save config
+  notify: Save config
   loop: "{{ port_security_dot1x_ports }}"
   when: port_security_dot1x_ports | length > 0
 
@@ -18,7 +18,7 @@
   jaydee_io.dlink_dgs1250.dot1x_port_control:
     interface: "{{ item.interface }}"
     control: "{{ item.control }}"
-  notify: save config
+  notify: Save config
   loop: "{{ port_security_dot1x_ports }}"
   when: port_security_dot1x_ports | length > 0
 
@@ -26,7 +26,7 @@
   jaydee_io.dlink_dgs1250.auth_host_mode:
     interface: "{{ item.interface }}"
     mode: "{{ item.host_mode }}"
-  notify: save config
+  notify: Save config
   loop: "{{ port_security_dot1x_ports }}"
   when:
     - port_security_dot1x_ports | length > 0
@@ -36,7 +36,7 @@
   jaydee_io.dlink_dgs1250.auth_max_users:
     interface: "{{ item.interface }}"
     number: "{{ item.max_users }}"
-  notify: save config
+  notify: Save config
   loop: "{{ port_security_dot1x_ports }}"
   when:
     - port_security_dot1x_ports | length > 0
@@ -48,7 +48,7 @@
     interface: "{{ item.interface }}"
     maximum: "{{ item.maximum }}"
     violation: "{{ item.violation }}"
-  notify: save config
+  notify: Save config
   loop: "{{ port_security_ports }}"
   when: port_security_ports | length > 0
 
@@ -56,12 +56,12 @@
 - name: Enable MAC-based auth system-wide
   jaydee_io.dlink_dgs1250.mac_auth_system_auth_control:
     state: "{{ port_security_mac_auth_enabled | ternary('enabled', 'disabled') }}"
-  notify: save config
+  notify: Save config
 
 - name: Enable MAC-based auth on ports
   jaydee_io.dlink_dgs1250.mac_auth_enable:
     interface: "{{ item }}"
     state: enabled
-  notify: save config
+  notify: Save config
   loop: "{{ port_security_mac_auth_ports }}"
   when: port_security_mac_auth_ports | length > 0

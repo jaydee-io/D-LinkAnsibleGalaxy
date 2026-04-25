@@ -4,7 +4,7 @@
   jaydee_io.dlink_dgs1250.acl_ip_access_list:
     name: "{{ item.name }}"
     extended: "{{ item.extended | default(false) }}"
-  notify: save config
+  notify: Save config
   loop: "{{ acl_setup_ip_access_lists }}"
   when: acl_setup_ip_access_lists | length > 0
 
@@ -14,7 +14,7 @@
     acl_name: "{{ item.0.name }}"
     extended: "{{ item.0.extended | default(false) }}"
     rule: "{{ item.1 }}"
-  notify: save config
+  notify: Save config
   loop: "{{ acl_setup_ip_access_lists | subelements('rules', skip_missing=True) }}"
   when: acl_setup_ip_access_lists | length > 0
 
@@ -23,6 +23,6 @@
   jaydee_io.dlink_dgs1250.acl_ip_access_group:
     interface: "{{ item.interface }}"
     name: "{{ item.acl_name }}"
-  notify: save config
+  notify: Save config
   loop: "{{ acl_setup_interface_bindings }}"
   when: acl_setup_interface_bindings | length > 0

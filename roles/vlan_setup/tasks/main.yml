@@ -3,7 +3,7 @@
 - name: Create VLANs
   jaydee_io.dlink_dgs1250.vlan:
     vlan_id: "{{ item.id }}"
-  notify: save config
+  notify: Save config
   loop: "{{ vlan_setup_vlans }}"
   when: vlan_setup_vlans | length > 0
 
@@ -11,7 +11,7 @@
   jaydee_io.dlink_dgs1250.vlan_name:
     vlan_id: "{{ item.id }}"
     name: "{{ item.name }}"
-  notify: save config
+  notify: Save config
   loop: "{{ vlan_setup_vlans }}"
   when:
     - vlan_setup_vlans | length > 0
@@ -22,7 +22,7 @@
   jaydee_io.dlink_dgs1250.vlan_switchport_mode:
     interface: "{{ item.interface }}"
     mode: access
-  notify: save config
+  notify: Save config
   loop: "{{ vlan_setup_access_ports }}"
   when: vlan_setup_access_ports | length > 0
 
@@ -30,7 +30,7 @@
   jaydee_io.dlink_dgs1250.vlan_switchport_access:
     interface: "{{ item.interface }}"
     vlan_id: "{{ item.vlan_id }}"
-  notify: save config
+  notify: Save config
   loop: "{{ vlan_setup_access_ports }}"
   when: vlan_setup_access_ports | length > 0
 
@@ -39,7 +39,7 @@
   jaydee_io.dlink_dgs1250.vlan_switchport_mode:
     interface: "{{ item.interface }}"
     mode: trunk
-  notify: save config
+  notify: Save config
   loop: "{{ vlan_setup_trunk_ports }}"
   when: vlan_setup_trunk_ports | length > 0
 
@@ -48,7 +48,7 @@
     interface: "{{ item.interface }}"
     action: add
     vlan_id: "{{ item.allowed_vlans }}"
-  notify: save config
+  notify: Save config
   loop: "{{ vlan_setup_trunk_ports }}"
   when: vlan_setup_trunk_ports | length > 0
 
@@ -56,7 +56,7 @@
   jaydee_io.dlink_dgs1250.vlan_switchport_trunk_native:
     interface: "{{ item.interface }}"
     vlan_id: "{{ item.native_vlan }}"
-  notify: save config
+  notify: Save config
   loop: "{{ vlan_setup_trunk_ports }}"
   when:
     - vlan_setup_trunk_ports | length > 0

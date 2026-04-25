@@ -1,4 +1,4 @@
 ---
-- name: save config
+- name: Save config
   jaydee_io.dlink_dgs1250.save_config:
   when: base_config_save_config
