@@ -83,6 +83,7 @@ all:
 | `save_config` | Save running-config to startup-config | — |
 | `config_backup` | Backup running-config to a local file | — |
 | `config_restore` | Restore a configuration backup to the switch | — |
+| `config_diff` | Compare running-config vs startup-config and report differences | — |
 | `dgs1250_command` | Send arbitrary CLI commands to the switch | — |
 
 ### Basic Switch Commands
