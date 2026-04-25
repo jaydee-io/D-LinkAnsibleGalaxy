@@ -82,6 +82,11 @@ all:
 |--------|-------------|--------|
 | `dgs1250_vlans` | Manage VLANs declaratively (create, name, delete) | merged, replaced, overridden, deleted, gathered |
 | `dgs1250_l2_interfaces` | Manage L2 interface settings (switchport mode, access VLAN, trunk VLANs) | merged, replaced, deleted, gathered |
+| `dgs1250_snmp_server` | Manage SNMP community strings | merged, replaced, overridden, deleted, gathered |
+| `dgs1250_logging` | Manage syslog server configuration | merged, replaced, overridden, deleted, gathered |
+| `dgs1250_ntp` | Manage SNTP server configuration | merged, overridden, deleted, gathered |
+| `dgs1250_static_routes` | Manage IPv4 static routes | merged, overridden, deleted, gathered |
+| `dgs1250_acls` | Manage IP access-lists with rules | merged, replaced, overridden, deleted, gathered |
 
 ### Utility Modules
 
