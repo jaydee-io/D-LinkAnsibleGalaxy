@@ -1,27 +1,75 @@
 ---
 # SNMP configuration
 monitoring_snmp_server: enabled
-monitoring_snmp_community: ~
-monitoring_snmp_community_access: ro
 monitoring_snmp_location: ~
 monitoring_snmp_contact: ~
+monitoring_snmp_engine_id: ~
+
+# SNMP communities — list of dicts: {community, access_type}
+# Example:
+#   - { community: public, access_type: ro }
+#   - { community: private, access_type: rw }
+monitoring_snmp_communities: []
+
+# Backward compatibility — single community (used if monitoring_snmp_communities is empty)
+monitoring_snmp_community: ~
+monitoring_snmp_community_access: ro
+
+# SNMP trap hosts — list of dicts: {host, version, community}
+# Example:
+#   - { host: 10.0.0.1, version: "2c", community: public }
+monitoring_snmp_hosts: []
+
+# Backward compatibility — single host
 monitoring_snmp_host: ~
 monitoring_snmp_host_version: "2c"
 monitoring_snmp_host_community: "{{ monitoring_snmp_community | default(omit) }}"
 
+# SNMP traps to enable — list of trap categories
+# Valid: snmp, stp, storm_control, rmon, safeguard_engine, errdisable,
+#        mac_notification_change, gratuitous_arp
+# Example: [snmp, stp, storm_control]
+monitoring_snmp_traps: []
+
+# SNMP trap sending and service port
+monitoring_snmp_trap_sending: ~
+monitoring_snmp_service_port: ~
+
 # Syslog configuration
 monitoring_syslog_buffered: enabled
 monitoring_syslog_buffered_severity: warnings
+
+# Syslog servers — list of dicts: {address, severity, facility}
+# Example:
+#   - { address: 10.0.0.1, severity: warnings }
+#   - { address: 10.0.0.2, severity: informational, facility: local7 }
+monitoring_syslog_servers: []
+
+# Backward compatibility — single server
 monitoring_syslog_server: ~
 monitoring_syslog_server_severity: warnings
 
+# Syslog discriminator (optional)
+monitoring_syslog_discriminator: ~
+
 # SNTP time synchronization
 monitoring_sntp_enabled: enabled
-monitoring_sntp_server: ~
 monitoring_sntp_interval: 720
+
+# SNTP servers — list of addresses
+# Example: [pool.ntp.org, 10.0.0.1]
+monitoring_sntp_servers: []
+
+# Backward compatibility — single server
+monitoring_sntp_server: ~
 
 # LLDP configuration
 monitoring_lldp_enabled: enabled
+monitoring_lldp_tx_interval: ~
+monitoring_lldp_hold_multiplier: ~
+monitoring_lldp_reinit: ~
+monitoring_lldp_tx_delay: ~
+monitoring_lldp_notification: ~
 
 # RMON statistics — list of interfaces to monitor
 # Example: ["ethernet 1/0/1", "ethernet 1/0/2"]

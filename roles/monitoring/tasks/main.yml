@@ -5,12 +5,26 @@
     state: "{{ monitoring_snmp_server }}"
   notify: Save config
 
-- name: Configure SNMP community
+- name: Configure SNMP engine ID
+  jaydee_io.dlink_dgs1250.snmp_server_engine_id:
+    engine_id: "{{ monitoring_snmp_engine_id }}"
+  notify: Save config
+  when: monitoring_snmp_engine_id is not none
+
+- name: Configure SNMP communities (list)
+  jaydee_io.dlink_dgs1250.snmp_server_community:
+    community: "{{ item.community }}"
+    access_type: "{{ item.access_type | default('ro') }}"
+  notify: Save config
+  loop: "{{ monitoring_snmp_communities }}"
+  when: monitoring_snmp_communities | length > 0
+
+- name: Configure SNMP community (single, backward compat)
   jaydee_io.dlink_dgs1250.snmp_server_community:
     community: "{{ monitoring_snmp_community }}"
     access_type: "{{ monitoring_snmp_community_access }}"
   notify: Save config
-  when: monitoring_snmp_community is not none
+  when: monitoring_snmp_communities | length == 0 and monitoring_snmp_community is not none
 
 - name: Configure SNMP location
   jaydee_io.dlink_dgs1250.snmp_server_location:
@@ -24,13 +38,88 @@
   notify: Save config
   when: monitoring_snmp_contact is not none
 
-- name: Configure SNMP trap host
+- name: Configure SNMP trap hosts (list)
+  jaydee_io.dlink_dgs1250.snmp_server_host:
+    host: "{{ item.host }}"
+    version: "{{ item.version | default('2c') }}"
+    community: "{{ item.community | default(omit) }}"
+  notify: Save config
+  loop: "{{ monitoring_snmp_hosts }}"
+  when: monitoring_snmp_hosts | length > 0
+
+- name: Configure SNMP trap host (single, backward compat)
   jaydee_io.dlink_dgs1250.snmp_server_host:
     host: "{{ monitoring_snmp_host }}"
     version: "{{ monitoring_snmp_host_version }}"
     community: "{{ monitoring_snmp_host_community }}"
   notify: Save config
-  when: monitoring_snmp_host is not none
+  when: monitoring_snmp_hosts | length == 0 and monitoring_snmp_host is not none
+
+- name: Configure SNMP trap sending
+  jaydee_io.dlink_dgs1250.snmp_server_trap_sending:
+    state: "{{ monitoring_snmp_trap_sending }}"
+  notify: Save config
+  when: monitoring_snmp_trap_sending is not none
+
+- name: Configure SNMP service port
+  jaydee_io.dlink_dgs1250.snmp_server_service_port:
+    port: "{{ monitoring_snmp_service_port }}"
+  notify: Save config
+  when: monitoring_snmp_service_port is not none
+
+- name: Enable SNMP traps (global)
+  jaydee_io.dlink_dgs1250.snmp_server_enable_traps:
+    state: enabled
+  notify: Save config
+  when: monitoring_snmp_traps | length > 0
+
+- name: Enable SNMP SNMP traps
+  jaydee_io.dlink_dgs1250.snmp_server_enable_traps_snmp:
+    state: enabled
+  notify: Save config
+  when: "'snmp' in monitoring_snmp_traps"
+
+- name: Enable SNMP STP traps
+  jaydee_io.dlink_dgs1250.snmp_server_enable_traps_stp:
+    state: enabled
+  notify: Save config
+  when: "'stp' in monitoring_snmp_traps"
+
+- name: Enable SNMP storm control traps
+  jaydee_io.dlink_dgs1250.snmp_server_enable_traps_storm_control:
+    state: enabled
+  notify: Save config
+  when: "'storm_control' in monitoring_snmp_traps"
+
+- name: Enable SNMP RMON traps
+  jaydee_io.dlink_dgs1250.snmp_server_enable_traps_rmon:
+    state: enabled
+  notify: Save config
+  when: "'rmon' in monitoring_snmp_traps"
+
+- name: Enable SNMP safeguard engine traps
+  jaydee_io.dlink_dgs1250.snmp_server_enable_traps_safeguard_engine:
+    state: enabled
+  notify: Save config
+  when: "'safeguard_engine' in monitoring_snmp_traps"
+
+- name: Enable SNMP errdisable traps
+  jaydee_io.dlink_dgs1250.snmp_server_enable_traps_errdisable:
+    state: enabled
+  notify: Save config
+  when: "'errdisable' in monitoring_snmp_traps"
+
+- name: Enable SNMP MAC notification traps
+  jaydee_io.dlink_dgs1250.snmp_server_enable_traps_mac_notification_change:
+    state: enabled
+  notify: Save config
+  when: "'mac_notification_change' in monitoring_snmp_traps"
+
+- name: Enable SNMP gratuitous ARP traps
+  jaydee_io.dlink_dgs1250.snmp_server_enable_traps_gratuitous_arp:
+    state: enabled
+  notify: Save config
+  when: "'gratuitous_arp' in monitoring_snmp_traps"
 
 # --- Syslog ---
 - name: Configure logging buffered
@@ -39,12 +128,26 @@
     severity: "{{ monitoring_syslog_buffered_severity }}"
   notify: Save config
 
-- name: Configure syslog server
+- name: Configure logging discriminator
+  jaydee_io.dlink_dgs1250.logging_discriminator:
+    name: "{{ monitoring_syslog_discriminator }}"
+  notify: Save config
+  when: monitoring_syslog_discriminator is not none
+
+- name: Configure syslog servers (list)
+  jaydee_io.dlink_dgs1250.logging_server:
+    address: "{{ item.address }}"
+    severity: "{{ item.severity | default('warnings') }}"
+  notify: Save config
+  loop: "{{ monitoring_syslog_servers }}"
+  when: monitoring_syslog_servers | length > 0
+
+- name: Configure syslog server (single, backward compat)
   jaydee_io.dlink_dgs1250.logging_server:
     address: "{{ monitoring_syslog_server }}"
     severity: "{{ monitoring_syslog_server_severity }}"
   notify: Save config
-  when: monitoring_syslog_server is not none
+  when: monitoring_syslog_servers | length == 0 and monitoring_syslog_server is not none
 
 # --- SNTP ---
 - name: Enable SNTP
@@ -52,11 +155,18 @@
     state: "{{ monitoring_sntp_enabled }}"
   notify: Save config
 
-- name: Configure SNTP server
+- name: Configure SNTP servers (list)
+  jaydee_io.dlink_dgs1250.sntp_server:
+    address: "{{ item }}"
+  notify: Save config
+  loop: "{{ monitoring_sntp_servers }}"
+  when: monitoring_sntp_servers | length > 0
+
+- name: Configure SNTP server (single, backward compat)
   jaydee_io.dlink_dgs1250.sntp_server:
     address: "{{ monitoring_sntp_server }}"
   notify: Save config
-  when: monitoring_sntp_server is not none
+  when: monitoring_sntp_servers | length == 0 and monitoring_sntp_server is not none
 
 - name: Configure SNTP polling interval
   jaydee_io.dlink_dgs1250.sntp_interval:
@@ -68,6 +178,36 @@
   jaydee_io.dlink_dgs1250.lldp_run:
     state: "{{ monitoring_lldp_enabled }}"
   notify: Save config
+
+- name: Configure LLDP TX interval
+  jaydee_io.dlink_dgs1250.lldp_tx_interval:
+    seconds: "{{ monitoring_lldp_tx_interval }}"
+  notify: Save config
+  when: monitoring_lldp_tx_interval is not none
+
+- name: Configure LLDP hold multiplier
+  jaydee_io.dlink_dgs1250.lldp_hold_multiplier:
+    multiplier: "{{ monitoring_lldp_hold_multiplier }}"
+  notify: Save config
+  when: monitoring_lldp_hold_multiplier is not none
+
+- name: Configure LLDP reinit delay
+  jaydee_io.dlink_dgs1250.lldp_reinit:
+    seconds: "{{ monitoring_lldp_reinit }}"
+  notify: Save config
+  when: monitoring_lldp_reinit is not none
+
+- name: Configure LLDP TX delay
+  jaydee_io.dlink_dgs1250.lldp_tx_delay:
+    seconds: "{{ monitoring_lldp_tx_delay }}"
+  notify: Save config
+  when: monitoring_lldp_tx_delay is not none
+
+- name: Configure LLDP notification
+  jaydee_io.dlink_dgs1250.lldp_notification_enable:
+    state: "{{ monitoring_lldp_notification }}"
+  notify: Save config
+  when: monitoring_lldp_notification is not none
 
 # --- RMON ---
 - name: Enable RMON statistics collection

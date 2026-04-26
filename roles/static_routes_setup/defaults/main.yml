@@ -1,0 +1,14 @@
+---
+# IPv4 static routes — list of dicts: {prefix, mask, next_hop, metric}
+# Example:
+#   - { prefix: 10.0.0.0, mask: 255.255.255.0, next_hop: 192.168.1.1 }
+#   - { prefix: 172.16.0.0, mask: 255.255.0.0, next_hop: 192.168.1.1, metric: 10 }
+static_routes_setup_ipv4: []
+
+# IPv6 static routes — list of dicts: {prefix, next_hop, metric}
+# Example:
+#   - { prefix: "2001:db8::/32", next_hop: "fe80::1" }
+static_routes_setup_ipv6: []
+
+# Save running-config to startup-config after applying the role
+static_routes_setup_save_config: false

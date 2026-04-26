@@ -1,0 +1,35 @@
+---
+# Global LLDP settings
+lldp_setup_enabled: enabled
+lldp_setup_tx_interval: ~
+lldp_setup_hold_multiplier: ~
+lldp_setup_reinit: ~
+lldp_setup_tx_delay: ~
+lldp_setup_fast_count: ~
+lldp_setup_notification: ~
+lldp_setup_snmp_traps: ~
+
+# LLDP management address (optional)
+lldp_setup_management_address: ~
+
+# LLDP forwarding state (optional)
+lldp_setup_forward: ~
+
+# Global TLV selection (optional)
+lldp_setup_tlv_select: ~
+lldp_setup_dot1_tlv_select: ~
+lldp_setup_dot3_tlv_select: ~
+lldp_setup_med_tlv_select: ~
+
+# LLDP subtype (optional)
+lldp_setup_subtype: ~
+
+# Per-interface LLDP settings — list of dicts:
+# {interface, transmit, receive}
+# Example:
+#   - { interface: eth1/0/1, transmit: false, receive: false }
+#   - { interface: eth1/0/24, transmit: true, receive: false }
+lldp_setup_interfaces: []
+
+# Save running-config to startup-config after applying the role
+lldp_setup_save_config: false

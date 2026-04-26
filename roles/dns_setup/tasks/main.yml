@@ -1,0 +1,25 @@
+---
+- name: Configure DNS domain lookup
+  jaydee_io.dlink_dgs1250.dns_ip_domain_lookup:
+    state: "{{ dns_setup_domain_lookup }}"
+  notify: Save config
+  when: dns_setup_domain_lookup is not none
+
+- name: Configure DNS name servers
+  jaydee_io.dlink_dgs1250.dns_ip_name_server:
+    address: "{{ item }}"
+  notify: Save config
+  loop: "{{ dns_setup_servers }}"
+
+- name: Configure DNS name server timeout
+  jaydee_io.dlink_dgs1250.dns_ip_name_server_timeout:
+    seconds: "{{ dns_setup_timeout }}"
+  notify: Save config
+  when: dns_setup_timeout is not none
+
+- name: Configure static host entries
+  jaydee_io.dlink_dgs1250.dns_ip_host:
+    hostname: "{{ item.hostname }}"
+    address: "{{ item.address }}"
+  notify: Save config
+  loop: "{{ dns_setup_hosts }}"

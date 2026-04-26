@@ -1,0 +1,11 @@
+---
+# SNTP global settings
+ntp_setup_enabled: enabled
+ntp_setup_interval: 720
+
+# SNTP servers — list of addresses
+# Example: [pool.ntp.org, 10.0.0.1]
+ntp_setup_servers: []
+
+# Save running-config to startup-config after applying the role
+ntp_setup_save_config: false

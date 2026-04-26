@@ -1,0 +1,20 @@
+---
+# Global STP settings
+stp_setup_global_state: enabled
+stp_setup_mode: ~
+stp_setup_priority: ~
+stp_setup_tx_hold_count: ~
+
+# Global STP timers — dict: {hello_time, max_age, forward_delay}
+stp_setup_timers: ~
+
+# Per-interface STP settings — list of dicts:
+# {interface, cost, port_priority, portfast, guard_root, link_type, state,
+#  forward_bpdu, tcnfilter}
+# Example:
+#   - { interface: eth1/0/1, portfast: true, cost: 20000 }
+#   - { interface: eth1/0/24, guard_root: true, port_priority: 32 }
+stp_setup_interfaces: []
+
+# Save running-config to startup-config after applying the role
+stp_setup_save_config: false

@@ -1,13 +1,13 @@
 ---
 galaxy_info:
   author: "Jérôme Dumesnil"
-  description: "Configure monitoring on a D-Link DGS-1250 switch: SNMP (communities, traps, hosts), syslog, SNTP, LLDP, and RMON"
+  description: "Configure SNTP time synchronization on a D-Link DGS-1250 switch"
   license: "GPL-2.0-or-later"
   min_ansible_version: "2.15"
   galaxy_tags:
     - networking
-    - monitoring
-    - snmp
+    - ntp
+    - sntp
     - dlink
 
 dependencies: []

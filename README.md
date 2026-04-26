@@ -1103,17 +1103,24 @@ disable HTTP/Telnet, enable HTTPS/SSH, enforce password encryption, set session 
 
 ### `monitoring`
 
-Configures monitoring services: SNMP (community, traps), syslog, SNTP time synchronization, LLDP, and RMON statistics.
+Configures monitoring services: SNMP (multiple communities, traps, hosts), syslog (multiple servers), SNTP (multiple servers), LLDP (global settings), and RMON statistics.
 
 ```yaml
 - hosts: switches
   roles:
     - role: jaydee_io.dlink_dgs1250.monitoring
       vars:
-        monitoring_snmp_community: "public-ro"
-        monitoring_snmp_host: "192.168.1.30"
-        monitoring_syslog_server: "192.168.1.20"
-        monitoring_sntp_server: "192.168.1.10"
+        monitoring_snmp_communities:
+          - { community: public, access_type: ro }
+          - { community: private, access_type: rw }
+        monitoring_snmp_location: "Server room A"
+        monitoring_snmp_hosts:
+          - { host: 10.0.0.1, version: "2c", community: public }
+        monitoring_snmp_traps: [snmp, stp, storm_control]
+        monitoring_syslog_servers:
+          - { address: 10.0.0.1, severity: warnings }
+        monitoring_sntp_servers: [pool.ntp.org]
+        monitoring_lldp_tx_interval: 30
 ```
 
 ### `base_config`
@@ -1291,6 +1298,90 @@ Configures AAA authentication with RADIUS/TACACS+ servers.
         aaa_setup_radius_group: CORP-RADIUS
         aaa_setup_auth_login_methods: ["group radius", "local"]
         aaa_setup_login_lines: [ssh, telnet]
+```
+
+### `stp_setup`
+
+Configures Spanning Tree Protocol: global settings (mode, priority, timers) and per-interface parameters (portfast, guard root, cost, priority).
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.stp_setup
+      vars:
+        stp_setup_mode: rstp
+        stp_setup_priority: 4096
+        stp_setup_timers:
+          hello_time: 2
+          max_age: 20
+          forward_delay: 15
+        stp_setup_interfaces:
+          - { interface: eth1/0/1, portfast: true, cost: 20000 }
+          - { interface: eth1/0/24, guard_root: true, port_priority: 32 }
+```
+
+### `lldp_setup`
+
+Configures LLDP: global settings (TX interval, hold multiplier, TLV selection) and per-interface transmit/receive.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.lldp_setup
+      vars:
+        lldp_setup_tx_interval: 30
+        lldp_setup_hold_multiplier: 4
+        lldp_setup_notification: enabled
+        lldp_setup_interfaces:
+          - { interface: eth1/0/1, transmit: false, receive: false }
+```
+
+### `ntp_setup`
+
+Configures SNTP time synchronization with multiple servers.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.ntp_setup
+      vars:
+        ntp_setup_servers:
+          - pool.ntp.org
+          - 10.0.0.1
+        ntp_setup_interval: 300
+```
+
+### `dns_setup`
+
+Configures DNS: name servers, domain lookup, and static host entries.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.dns_setup
+      vars:
+        dns_setup_domain_lookup: enabled
+        dns_setup_servers:
+          - 8.8.8.8
+          - 8.8.4.4
+        dns_setup_hosts:
+          - { hostname: switch1, address: 10.0.0.1 }
+```
+
+### `static_routes_setup`
+
+Configures IPv4 and IPv6 static routes.
+
+```yaml
+- hosts: switches
+  roles:
+    - role: jaydee_io.dlink_dgs1250.static_routes_setup
+      vars:
+        static_routes_setup_ipv4:
+          - { prefix: 10.0.0.0, mask: 255.255.255.0, next_hop: 192.168.1.1 }
+          - { prefix: 172.16.0.0, mask: 255.255.0.0, next_hop: 192.168.1.1, metric: 10 }
+        static_routes_setup_ipv6:
+          - { prefix: "2001:db8::/32", next_hop: "fe80::1" }
 ```
 
 ## Example playbooks

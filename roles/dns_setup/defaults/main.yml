@@ -1,0 +1,18 @@
+---
+# DNS domain lookup
+dns_setup_domain_lookup: ~
+
+# DNS name servers — list of addresses
+# Example: [8.8.8.8, 8.8.4.4]
+dns_setup_servers: []
+
+# DNS name server timeout (optional)
+dns_setup_timeout: ~
+
+# Static host entries — list of dicts: {hostname, address}
+# Example:
+#   - { hostname: switch1, address: 10.0.0.1 }
+dns_setup_hosts: []
+
+# Save running-config to startup-config after applying the role
+dns_setup_save_config: false

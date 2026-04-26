@@ -1,0 +1,97 @@
+---
+# --- Global STP settings ---
+- name: Configure STP global state
+  jaydee_io.dlink_dgs1250.spanning_tree_global_state:
+    state: "{{ stp_setup_global_state }}"
+  notify: Save config
+
+- name: Configure STP mode
+  jaydee_io.dlink_dgs1250.spanning_tree_mode:
+    mode: "{{ stp_setup_mode }}"
+  notify: Save config
+  when: stp_setup_mode is not none
+
+- name: Configure STP bridge priority
+  jaydee_io.dlink_dgs1250.spanning_tree_priority:
+    priority: "{{ stp_setup_priority }}"
+  notify: Save config
+  when: stp_setup_priority is not none
+
+- name: Configure STP TX hold count
+  jaydee_io.dlink_dgs1250.spanning_tree_tx_hold_count:
+    count: "{{ stp_setup_tx_hold_count }}"
+  notify: Save config
+  when: stp_setup_tx_hold_count is not none
+
+- name: Configure STP timers
+  jaydee_io.dlink_dgs1250.spanning_tree_timers:
+    hello_time: "{{ stp_setup_timers.hello_time | default(omit) }}"
+    max_age: "{{ stp_setup_timers.max_age | default(omit) }}"
+    forward_delay: "{{ stp_setup_timers.forward_delay | default(omit) }}"
+  notify: Save config
+  when: stp_setup_timers is not none
+
+# --- Per-interface STP settings ---
+- name: Configure STP interface state
+  jaydee_io.dlink_dgs1250.spanning_tree_state:
+    interface: "{{ item.interface }}"
+    state: "{{ item.state }}"
+  notify: Save config
+  loop: "{{ stp_setup_interfaces }}"
+  when: item.state is defined
+
+- name: Configure STP portfast
+  jaydee_io.dlink_dgs1250.spanning_tree_portfast:
+    interface: "{{ item.interface }}"
+    state: "{{ item.portfast | ternary('enabled', 'disabled') }}"
+  notify: Save config
+  loop: "{{ stp_setup_interfaces }}"
+  when: item.portfast is defined
+
+- name: Configure STP cost
+  jaydee_io.dlink_dgs1250.spanning_tree_cost:
+    interface: "{{ item.interface }}"
+    cost: "{{ item.cost }}"
+  notify: Save config
+  loop: "{{ stp_setup_interfaces }}"
+  when: item.cost is defined
+
+- name: Configure STP port priority
+  jaydee_io.dlink_dgs1250.spanning_tree_port_priority:
+    interface: "{{ item.interface }}"
+    priority: "{{ item.port_priority }}"
+  notify: Save config
+  loop: "{{ stp_setup_interfaces }}"
+  when: item.port_priority is defined
+
+- name: Configure STP guard root
+  jaydee_io.dlink_dgs1250.spanning_tree_guard_root:
+    interface: "{{ item.interface }}"
+    state: "{{ item.guard_root | ternary('enabled', 'disabled') }}"
+  notify: Save config
+  loop: "{{ stp_setup_interfaces }}"
+  when: item.guard_root is defined
+
+- name: Configure STP link type
+  jaydee_io.dlink_dgs1250.spanning_tree_link_type:
+    interface: "{{ item.interface }}"
+    type: "{{ item.link_type }}"
+  notify: Save config
+  loop: "{{ stp_setup_interfaces }}"
+  when: item.link_type is defined
+
+- name: Configure STP forward BPDU
+  jaydee_io.dlink_dgs1250.spanning_tree_forward_bpdu:
+    interface: "{{ item.interface }}"
+    state: "{{ item.forward_bpdu | ternary('enabled', 'disabled') }}"
+  notify: Save config
+  loop: "{{ stp_setup_interfaces }}"
+  when: item.forward_bpdu is defined
+
+- name: Configure STP TCN filter
+  jaydee_io.dlink_dgs1250.spanning_tree_tcnfilter:
+    interface: "{{ item.interface }}"
+    state: "{{ item.tcnfilter | ternary('enabled', 'disabled') }}"
+  notify: Save config
+  loop: "{{ stp_setup_interfaces }}"
+  when: item.tcnfilter is defined

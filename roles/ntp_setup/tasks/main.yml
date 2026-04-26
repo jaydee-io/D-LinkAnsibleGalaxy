@@ -1,0 +1,16 @@
+---
+- name: Enable SNTP
+  jaydee_io.dlink_dgs1250.sntp_enable:
+    state: "{{ ntp_setup_enabled }}"
+  notify: Save config
+
+- name: Configure SNTP servers
+  jaydee_io.dlink_dgs1250.sntp_server:
+    address: "{{ item }}"
+  notify: Save config
+  loop: "{{ ntp_setup_servers }}"
+
+- name: Configure SNTP polling interval
+  jaydee_io.dlink_dgs1250.sntp_interval:
+    seconds: "{{ ntp_setup_interval }}"
+  notify: Save config
