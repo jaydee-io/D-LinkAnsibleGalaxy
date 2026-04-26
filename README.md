@@ -68,6 +68,21 @@ all:
 | `ansible_password` | yes | SSH password |
 | `ansible_port` | no | SSH port (default: 22) |
 
+## Module defaults
+
+The collection defines an `action_group` named `dgs1250` that covers all modules. Use `module_defaults` to set common parameters once for an entire play:
+
+```yaml
+- name: Configure switches
+  hosts: switches
+  gather_facts: false
+  module_defaults:
+    group/jaydee_io.dlink_dgs1250.dgs1250: {}
+  roles:
+    - jaydee_io.dlink_dgs1250.base_config
+    - jaydee_io.dlink_dgs1250.monitoring
+```
+
 ## Modules
 
 ### Facts
@@ -1414,3 +1429,7 @@ cp tests/integration/integration_config.yml.sample tests/integration/integration
 # Edit integration_config.yml with your switch IP, credentials, etc.
 ansible-test integration --local
 ```
+
+## Changelog
+
+A detailed changelog in [antsibull-changelog](https://github.com/ansible-community/antsibull-changelog) format is available in [`changelogs/changelog.yaml`](changelogs/changelog.yaml).

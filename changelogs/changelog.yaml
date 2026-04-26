@@ -1,0 +1,247 @@
+---
+ancestor: null
+releases:
+  0.3.0:
+    release_date: "2026-04-08"
+    changes:
+      release_summary: >-
+        First release with modules for Basic Switch Commands (Chapter 2) and
+        802.1X Commands (Chapter 3).
+      major_changes:
+        - Initial collection release with 24 modules.
+
+  0.4.0:
+    release_date: "2026-04-09"
+    changes:
+      release_summary: >-
+        Administration Commands (Chapter 5).
+      minor_changes:
+        - Add 22 administration modules — access management, HTTP/HTTPS/Telnet server, terminal settings.
+
+  0.5.0:
+    release_date: "2026-04-09"
+    changes:
+      release_summary: >-
+        ARP Spoofing Prevention Commands (Chapter 6).
+      minor_changes:
+        - Add 2 ARP spoofing prevention modules.
+
+  0.6.0:
+    release_date: "2026-04-09"
+    changes:
+      release_summary: >-
+        Asymmetric VLAN, AAA and Basic IPv4 commands (Chapters 7-9).
+      minor_changes:
+        - Add asymmetric VLAN, AAA, and basic IPv4 modules.
+
+  0.7.0:
+    release_date: "2026-04-09"
+    changes:
+      release_summary: >-
+        Basic IPv6, Cable Diagnostics, Command Logging (Chapters 10-12).
+      minor_changes:
+        - Add 17 IPv6 modules, 3 cable diagnostics modules, and command logging module.
+
+  0.8.0:
+    release_date: "2026-04-10"
+    changes:
+      release_summary: >-
+        Debug, DHCP Auto-Configuration, and DHCP Client commands (Chapters 13-15).
+      minor_changes:
+        - Add debug, DHCP auto-configuration, and DHCP client modules.
+
+  0.9.0:
+    release_date: "2026-04-11"
+    changes:
+      release_summary: >-
+        DHCP Relay, DHCP Snooping, DHCPv6 Client/Guard/Relay (Chapters 16-20).
+      minor_changes:
+        - Add 65 new modules covering DHCP relay, snooping, and DHCPv6.
+
+  0.10.0:
+    release_date: "2026-04-12"
+    changes:
+      release_summary: >-
+        DDM, DDP, DNS, DoS Prevention, Dynamic ARP Inspection (Chapters 21-25).
+      minor_changes:
+        - Add 35 new modules covering DDM, DDP, DNS, DoS prevention, and DAI.
+
+  0.11.0:
+    release_date: "2026-04-12"
+    changes:
+      release_summary: >-
+        Error Recovery, File System, FDB, Gratuitous ARP Trap, Interface (Chapters 26-30).
+      minor_changes:
+        - Add 29 new modules covering error recovery, file system, FDB, and interface commands.
+
+  0.12.0:
+    release_date: "2026-04-13"
+    changes:
+      release_summary: >-
+        IGMP Snooping, IMPB, IPMC, IPMCv6, IP Source Guard (Chapters 31-35).
+      minor_changes:
+        - Add 27 new modules covering IGMP snooping, IMPB, and IP source guard.
+
+  0.13.0:
+    release_date: "2026-04-14"
+    changes:
+      release_summary: >-
+        IP Utility, IPv6 Snooping, IPv6 Source Guard, Jumbo Frame, LACP (Chapters 36-40).
+      minor_changes:
+        - Add 22 new modules covering IP utility, IPv6 snooping, and LACP.
+
+  0.14.0:
+    release_date: "2026-04-15"
+    changes:
+      release_summary: >-
+        LLDP, Loopback Detection, MAC Auth, Mirror, MLD Snooping (Chapters 41-45).
+      minor_changes:
+        - Add 55 new modules covering LLDP, loopback detection, MAC authentication, port mirroring, and MLD snooping.
+
+  0.15.0:
+    release_date: "2026-04-16"
+    changes:
+      release_summary: >-
+        MSTP, ND Inspection, Network Access Auth, Port Protect, Port Security (Chapters 46-50).
+      minor_changes:
+        - Add 31 new modules covering MSTP, ND inspection, and port security.
+
+  0.16.0:
+    release_date: "2026-04-17"
+    changes:
+      release_summary: >-
+        PoE, Power Saving, Protocol Independent, QoS, RMON (Chapters 51-55).
+      minor_changes:
+        - Add 56 new modules covering PoE, power saving, QoS, and RMON.
+
+  0.17.0:
+    release_date: "2026-04-17"
+    changes:
+      release_summary: >-
+        RA Guard, Safeguard Engine, SSH, SSL, SNMP (Chapters 56-60).
+      minor_changes:
+        - Add 52 new modules covering RA guard, safeguard engine, SSH, SSL, and SNMP.
+
+  0.18.0:
+    release_date: "2026-04-17"
+    changes:
+      release_summary: >-
+        STP, Storm Control, Surveillance VLAN, Switch Port, System File Management (Chapters 61-65).
+      minor_changes:
+        - Add 46 new modules covering STP, storm control, surveillance VLAN, and switch port commands.
+
+  0.19.0:
+    release_date: "2026-04-18"
+    changes:
+      release_summary: >-
+        System Log, Time/SNTP, Time Range, Traffic Segmentation, VLAN, Voice VLAN (Chapters 66-71).
+      minor_changes:
+        - Add 38 new modules covering syslog, SNTP, time range, traffic segmentation, VLAN, and voice VLAN.
+
+  0.20.0:
+    release_date: "2026-04-18"
+    changes:
+      release_summary: >-
+        Complete CLI coverage — all 71 chapters of the DGS-1250 CLI Reference Guide v2.04.
+      minor_changes:
+        - Add 3 missing show modules for full CLI reference coverage.
+
+  0.21.0:
+    release_date: "2026-04-19"
+    changes:
+      release_summary: >-
+        Add 3 roles, 4 example playbooks, and integration tests framework.
+      minor_changes:
+        - Add hardening, monitoring, and base_config roles.
+        - Add 4 example playbooks — initial provisioning, backup/restore, security audit, firmware update.
+        - Add integration tests framework with 3 targets.
+
+  1.0.0:
+    release_date: "2026-04-19"
+    changes:
+      release_summary: >-
+        First stable release — 591 modules covering all 71 chapters of the
+        DGS-1250 CLI Reference Guide v2.04, 3 roles, 4 example playbooks,
+        integration tests, CI/CD, and doc_fragments.
+      major_changes:
+        - "Stable release: 591 CLI chapter modules, 5 utility modules, 3 roles."
+
+  1.0.1:
+    release_date: "2026-04-20"
+    changes:
+      release_summary: >-
+        Add build_ignore to galaxy.yml to exclude non-collection files from packaging.
+      bugfixes:
+        - Add build_ignore entries for doc, .github, tests, .gitignore, and .claude directories.
+
+  1.1.0:
+    release_date: "2026-04-24"
+    changes:
+      release_summary: >-
+        Add 9 new roles for common switch administration tasks.
+      minor_changes:
+        - >-
+          Add acl_setup, dhcp_snooping_setup, firmware_upgrade, link_aggregation,
+          port_security, qos_setup, storm_control_setup, vlan_setup, and aaa_setup roles.
+
+  1.2.0:
+    release_date: "2026-04-24"
+    changes:
+      release_summary: >-
+        Enhanced facts module with 3 new subsets (interfaces, vlans, mac_table)
+        and ansible_facts exposure.
+      minor_changes:
+        - "dgs1250_facts: add interfaces, vlans, and mac_table fact subsets."
+        - Expose all facts via ansible_facts.dgs1250 following standard network collection pattern.
+
+  1.3.0:
+    release_date: "2026-04-24"
+    changes:
+      release_summary: >-
+        Structured parsing for show modules — add parsed return value to
+        show_vlan, show_interfaces_status, and show_mac_address_table.
+      minor_changes:
+        - "show_vlan: add parsed return value with VLAN id, name, tagged/untagged ports."
+        - "show_interfaces_status: add parsed return value with status, speed, duplex, type."
+        - "show_mac_address_table: add parsed return value with VLAN, address, type, port."
+        - Extract shared parsers into module_utils/dgs1250_parsers.py.
+
+  1.4.0:
+    release_date: "2026-04-25"
+    changes:
+      release_summary: >-
+        Add save_config handler to all 12 roles via <role>_save_config variable.
+      minor_changes:
+        - All 12 roles now support a save_config variable that saves running-config to startup-config after changes.
+
+  1.5.0:
+    release_date: "2026-04-25"
+    changes:
+      release_summary: >-
+        Add config_diff module to compare running-config vs startup-config.
+      minor_changes:
+        - "config_diff: new module that compares running-config with startup-config and reports differences."
+
+  1.6.0:
+    release_date: "2026-04-26"
+    changes:
+      release_summary: >-
+        Add 12 resource modules following the Ansible netcommon pattern
+        (merged/replaced/overridden/deleted/gathered).
+      major_changes:
+        - >-
+          Add dgs1250_vlans, dgs1250_l2_interfaces, dgs1250_snmp_server, dgs1250_logging,
+          dgs1250_ntp, dgs1250_static_routes, dgs1250_acls, dgs1250_lag_interfaces,
+          dgs1250_storm_control, dgs1250_spanning_tree, dgs1250_lldp_interfaces, dgs1250_dns
+          resource modules.
+
+  1.7.0:
+    release_date: "2026-04-26"
+    changes:
+      release_summary: >-
+        Add 5 new roles (stp, lldp, ntp, dns, static_routes) and enhance
+        monitoring role with multi-community, multi-host, and traps support.
+      minor_changes:
+        - Add stp_setup, lldp_setup, ntp_setup, dns_setup, and static_routes_setup roles.
+        - "monitoring role: support multiple SNMP communities, multiple trap hosts, SNMP traps, multiple syslog servers, RMON."
+        - Add 2 example playbooks — full_monitoring and network_baseline.
