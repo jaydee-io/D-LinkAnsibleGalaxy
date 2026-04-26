@@ -245,3 +245,19 @@ releases:
         - Add stp_setup, lldp_setup, ntp_setup, dns_setup, and static_routes_setup roles.
         - "monitoring role: support multiple SNMP communities, multiple trap hosts, SNMP traps, multiple syslog servers, RMON."
         - Add 2 example playbooks — full_monitoring and network_baseline.
+
+  1.8.0:
+    release_date: "2026-04-26"
+    changes:
+      release_summary: >-
+        Add --diff support to all 12 resource modules, enrich dgs1250_facts
+        with 4 new subsets (snmp, lldp_neighbors, stp, static_routes),
+        add Ansible Galaxy documentation (action_groups, antsibull changelog),
+        and add 2 example playbooks (full_monitoring, network_baseline).
+      minor_changes:
+        - "resource modules: add --diff support to all 12 resource modules."
+        - >-
+          dgs1250_facts: add snmp, lldp_neighbors, stp, and static_routes
+          subsets (11 total).
+        - Add action_groups in meta/runtime.yml and antsibull-changelog configuration.
+        - Add 2 example playbooks — full_monitoring and network_baseline.

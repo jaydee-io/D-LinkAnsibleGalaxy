@@ -1,6 +1,6 @@
 namespace: jaydee_io
 name: dlink_dgs1250
-version: 1.7.0
+version: 1.8.0
 readme: README.md
 description: Ansible Collection for D-Link DGS-1250 Series Smart Managed Switch administration
 license:
