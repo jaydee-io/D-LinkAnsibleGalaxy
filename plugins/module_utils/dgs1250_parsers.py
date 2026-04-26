@@ -270,3 +270,119 @@ def parse_mac_table(output):
                 "port": m.group(4),
             })
     return entries
+
+
+def parse_snmp(output):
+    """Parse 'show snmp community' output into a list of dicts."""
+    communities = []
+    for line in output.splitlines():
+        m = re.match(
+            r"^\s*(\S+)\s{2,}(\S+)\s{2,}(Read-Only|Read-Write)\s*$",
+            line,
+        )
+        if m:
+            communities.append({
+                "community": m.group(1),
+                "view": m.group(2),
+                "access": m.group(3),
+            })
+    return communities
+
+
+def parse_lldp_neighbors(output):
+    """Parse 'show lldp neighbors' output into a list of dicts."""
+    neighbors = []
+    for line in output.splitlines():
+        m = re.match(
+            r"^\s*(eth\S+)\s{2,}"
+            r"([\dA-Fa-f]{2}(?:[-:][\dA-Fa-f]{2}){5})\s{2,}"
+            r"(\S+)\s{2,}"
+            r"(.*?)\s{2,}"
+            r"(\d+)\s*$",
+            line,
+        )
+        if m:
+            neighbors.append({
+                "local_port": m.group(1),
+                "chassis_id": m.group(2),
+                "port_id": m.group(3),
+                "system_name": m.group(4).strip(),
+                "hold_time": int(m.group(5)),
+            })
+    return neighbors
+
+
+def parse_stp(output):
+    """Parse 'show spanning-tree' output into a structured dict."""
+    result = {
+        "mode": "",
+        "state": "",
+        "root": {},
+        "bridge": {},
+    }
+    for line in output.splitlines():
+        m = re.match(r"^\s*Spanning Tree Mode\s*:\s*(.+?)\s*$", line)
+        if m:
+            result["mode"] = m.group(1)
+            continue
+        m = re.match(r"^\s*Spanning Tree State\s*:\s*(.+?)\s*$", line)
+        if m:
+            result["state"] = m.group(1)
+            continue
+
+    for section_key, section_re in [("root", r"Root Bridge Information"),
+                                    ("bridge", r"(?<!Root )Bridge Information")]:
+        in_section = False
+        info = {}
+        for line in output.splitlines():
+            if re.search(section_re, line):
+                in_section = True
+                continue
+            if in_section and line.strip() == "":
+                if info:
+                    break
+                continue
+            if not in_section:
+                continue
+            m = re.match(r"^\s*Priority\s*:\s*(\d+)", line)
+            if m:
+                info["priority"] = int(m.group(1))
+                continue
+            m = re.match(r"^\s*MAC Address\s*:\s*(\S+)", line)
+            if m:
+                info["mac_address"] = m.group(1)
+                continue
+            m = re.match(r"^\s*Hello Time\s*:\s*(\d+)", line)
+            if m:
+                info["hello_time"] = int(m.group(1))
+                continue
+            m = re.match(r"^\s*Max Age\s*:\s*(\d+)", line)
+            if m:
+                info["max_age"] = int(m.group(1))
+                continue
+            m = re.match(r"^\s*Forward Delay\s*:\s*(\d+)", line)
+            if m:
+                info["forward_delay"] = int(m.group(1))
+                continue
+        if info:
+            result[section_key] = info
+
+    return result
+
+
+def parse_static_routes(output):
+    """Parse 'show ip route static' output into a list of dicts."""
+    routes = []
+    for line in output.splitlines():
+        m = re.match(
+            r"^\s*S\s+(\S+)/(\d+)\s+\[(\d+)\]\s+via\s+(\S+)\s*$",
+            line,
+        )
+        if m:
+            routes.append({
+                "prefix": m.group(1),
+                "prefix_length": int(m.group(2)),
+                "metric": int(m.group(3)),
+                "next_hop": m.group(4),
+            })
+    return routes

@@ -89,7 +89,7 @@ The collection defines an `action_group` named `dgs1250` that covers all modules
 
 | Module | Description | CLI Reference |
 |--------|-------------|---------------|
-| `dgs1250_facts` | Collect facts (version, unit, environment, CPU, interfaces, VLANs, MAC table) and expose as `ansible_facts` | — |
+| `dgs1250_facts` | Collect facts (version, unit, environment, CPU, interfaces, VLANs, MAC table, SNMP, LLDP neighbors, STP, static routes) and expose as `ansible_facts` | — |
 
 ### Resource Modules
 

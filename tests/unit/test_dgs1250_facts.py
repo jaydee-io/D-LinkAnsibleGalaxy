@@ -9,6 +9,10 @@ from dgs1250_parsers import (
     parse_interfaces,
     parse_vlans,
     parse_mac_table,
+    parse_snmp,
+    parse_lldp_neighbors,
+    parse_stp,
+    parse_static_routes,
 )
 
 
@@ -19,7 +23,8 @@ from dgs1250_parsers import (
 def test_build_commands_all():
     subsets, cmds = _build_commands(["all"])
     assert subsets == ["version", "unit", "environment", "cpu",
-                       "interfaces", "vlans", "mac_table"]
+                       "interfaces", "vlans", "mac_table",
+                       "snmp", "lldp_neighbors", "stp", "static_routes"]
     assert cmds == [
         "show version",
         "show unit",
@@ -28,6 +33,10 @@ def test_build_commands_all():
         "show interfaces status",
         "show vlan",
         "show mac-address-table",
+        "show snmp community",
+        "show lldp neighbors",
+        "show spanning-tree",
+        "show ip route static",
     ]
 
 
@@ -56,6 +65,17 @@ def test_build_commands_new_subsets():
         "show interfaces status",
         "show vlan",
         "show mac-address-table",
+    ]
+
+
+def test_build_commands_v2_subsets():
+    subsets, cmds = _build_commands(["snmp", "lldp_neighbors", "stp", "static_routes"])
+    assert subsets == ["snmp", "lldp_neighbors", "stp", "static_routes"]
+    assert cmds == [
+        "show snmp community",
+        "show lldp neighbors",
+        "show spanning-tree",
+        "show ip route static",
     ]
 
 
@@ -365,3 +385,254 @@ Total Entries: 1
     result = parse_mac_table(output)
     assert len(result) == 1
     assert result[0]["mac_address"] == "00:02:4B:28:C4:82"
+
+
+# ---------------------------------------------------------------------------
+# parse_snmp
+# ---------------------------------------------------------------------------
+
+SHOW_SNMP_COMMUNITY_OUTPUT = """\
+SNMP Community Table:
+Community Name       View Name        Access Right
+-------------------  ---------------  ------------
+public               CommunityView    Read-Only
+private              CommunityView    Read-Write
+
+Total Entries: 2
+"""
+
+
+def test_parse_snmp():
+    result = parse_snmp(SHOW_SNMP_COMMUNITY_OUTPUT)
+    assert len(result) == 2
+    assert result[0]["community"] == "public"
+    assert result[0]["view"] == "CommunityView"
+    assert result[0]["access"] == "Read-Only"
+
+
+def test_parse_snmp_rw():
+    result = parse_snmp(SHOW_SNMP_COMMUNITY_OUTPUT)
+    assert result[1]["community"] == "private"
+    assert result[1]["access"] == "Read-Write"
+
+
+def test_parse_snmp_single():
+    output = """\
+SNMP Community Table:
+Community Name       View Name        Access Right
+-------------------  ---------------  ------------
+monitor              DefaultView      Read-Only
+
+Total Entries: 1
+"""
+    result = parse_snmp(output)
+    assert len(result) == 1
+    assert result[0]["community"] == "monitor"
+    assert result[0]["view"] == "DefaultView"
+
+
+def test_parse_snmp_empty():
+    result = parse_snmp("")
+    assert result == []
+
+
+# ---------------------------------------------------------------------------
+# parse_lldp_neighbors
+# ---------------------------------------------------------------------------
+
+SHOW_LLDP_NEIGHBORS_OUTPUT = """\
+System Name    : DGS-1250-28XMP
+System Capabilities Supported : Bridge, Router
+
+Local Port  Chassis ID             Port ID            System Name     Hold Time
+----------  ---------------------  -----------------  ------------    ---------
+eth1/0/1    F0-7D-68-AA-BB-CC      eth1/0/24          Switch-A        120
+eth1/0/24   00-11-22-33-44-55      eth1/0/1           Switch-B         90
+
+Total Entries: 2
+"""
+
+
+def test_parse_lldp_neighbors():
+    result = parse_lldp_neighbors(SHOW_LLDP_NEIGHBORS_OUTPUT)
+    assert len(result) == 2
+    assert result[0]["local_port"] == "eth1/0/1"
+    assert result[0]["chassis_id"] == "F0-7D-68-AA-BB-CC"
+    assert result[0]["port_id"] == "eth1/0/24"
+    assert result[0]["system_name"] == "Switch-A"
+    assert result[0]["hold_time"] == 120
+
+
+def test_parse_lldp_neighbors_second():
+    result = parse_lldp_neighbors(SHOW_LLDP_NEIGHBORS_OUTPUT)
+    assert result[1]["local_port"] == "eth1/0/24"
+    assert result[1]["chassis_id"] == "00-11-22-33-44-55"
+    assert result[1]["system_name"] == "Switch-B"
+    assert result[1]["hold_time"] == 90
+
+
+def test_parse_lldp_neighbors_single():
+    output = """\
+Local Port  Chassis ID             Port ID            System Name     Hold Time
+----------  ---------------------  -----------------  ------------    ---------
+eth1/0/5    AA-BB-CC-DD-EE-FF      ge0/0/1            Router-1        110
+
+Total Entries: 1
+"""
+    result = parse_lldp_neighbors(output)
+    assert len(result) == 1
+    assert result[0]["local_port"] == "eth1/0/5"
+    assert result[0]["port_id"] == "ge0/0/1"
+
+
+def test_parse_lldp_neighbors_empty():
+    result = parse_lldp_neighbors("")
+    assert result == []
+
+
+# ---------------------------------------------------------------------------
+# parse_stp
+# ---------------------------------------------------------------------------
+
+SHOW_SPANNING_TREE_OUTPUT = """\
+Spanning Tree Mode : RSTP
+Spanning Tree State : Enabled
+
+Root Bridge Information:
+  Priority   : 32768
+  MAC Address: F0-7D-68-12-50-01
+  Hello Time : 2
+  Max Age    : 20
+  Forward Delay : 15
+
+Bridge Information:
+  Priority   : 32768
+  MAC Address: F0-7D-68-12-50-01
+  Hello Time : 2
+  Max Age    : 20
+  Forward Delay : 15
+"""
+
+
+def test_parse_stp_mode():
+    result = parse_stp(SHOW_SPANNING_TREE_OUTPUT)
+    assert result["mode"] == "RSTP"
+    assert result["state"] == "Enabled"
+
+
+def test_parse_stp_root():
+    result = parse_stp(SHOW_SPANNING_TREE_OUTPUT)
+    assert result["root"]["priority"] == 32768
+    assert result["root"]["mac_address"] == "F0-7D-68-12-50-01"
+    assert result["root"]["hello_time"] == 2
+    assert result["root"]["max_age"] == 20
+    assert result["root"]["forward_delay"] == 15
+
+
+def test_parse_stp_bridge():
+    result = parse_stp(SHOW_SPANNING_TREE_OUTPUT)
+    assert result["bridge"]["priority"] == 32768
+    assert result["bridge"]["mac_address"] == "F0-7D-68-12-50-01"
+    assert result["bridge"]["hello_time"] == 2
+    assert result["bridge"]["forward_delay"] == 15
+
+
+def test_parse_stp_different_root():
+    output = """\
+Spanning Tree Mode : STP
+Spanning Tree State : Enabled
+
+Root Bridge Information:
+  Priority   : 4096
+  MAC Address: AA-BB-CC-DD-EE-FF
+  Hello Time : 1
+  Max Age    : 10
+  Forward Delay : 8
+
+Bridge Information:
+  Priority   : 32768
+  MAC Address: F0-7D-68-12-50-01
+  Hello Time : 2
+  Max Age    : 20
+  Forward Delay : 15
+"""
+    result = parse_stp(output)
+    assert result["mode"] == "STP"
+    assert result["root"]["priority"] == 4096
+    assert result["root"]["mac_address"] == "AA-BB-CC-DD-EE-FF"
+    assert result["bridge"]["priority"] == 32768
+
+
+def test_parse_stp_disabled():
+    output = """\
+Spanning Tree Mode : RSTP
+Spanning Tree State : Disabled
+"""
+    result = parse_stp(output)
+    assert result["state"] == "Disabled"
+    assert result["root"] == {}
+    assert result["bridge"] == {}
+
+
+def test_parse_stp_empty():
+    result = parse_stp("")
+    assert result["mode"] == ""
+    assert result["state"] == ""
+    assert result["root"] == {}
+    assert result["bridge"] == {}
+
+
+# ---------------------------------------------------------------------------
+# parse_static_routes
+# ---------------------------------------------------------------------------
+
+SHOW_IP_ROUTE_STATIC_OUTPUT = """\
+Codes: C - Connected, S - Static, R - RIP, O - OSPF
+
+S    10.0.0.0/24 [1] via 192.168.1.1
+S    172.16.0.0/16 [10] via 192.168.1.1
+S    10.10.0.0/16 [1] via 10.0.0.254
+
+Total Routes: 3
+"""
+
+
+def test_parse_static_routes():
+    result = parse_static_routes(SHOW_IP_ROUTE_STATIC_OUTPUT)
+    assert len(result) == 3
+    assert result[0]["prefix"] == "10.0.0.0"
+    assert result[0]["prefix_length"] == 24
+    assert result[0]["metric"] == 1
+    assert result[0]["next_hop"] == "192.168.1.1"
+
+
+def test_parse_static_routes_second():
+    result = parse_static_routes(SHOW_IP_ROUTE_STATIC_OUTPUT)
+    assert result[1]["prefix"] == "172.16.0.0"
+    assert result[1]["prefix_length"] == 16
+    assert result[1]["metric"] == 10
+
+
+def test_parse_static_routes_third():
+    result = parse_static_routes(SHOW_IP_ROUTE_STATIC_OUTPUT)
+    assert result[2]["prefix"] == "10.10.0.0"
+    assert result[2]["next_hop"] == "10.0.0.254"
+
+
+def test_parse_static_routes_ignores_connected():
+    output = """\
+Codes: C - Connected, S - Static
+
+C    192.168.1.0/24 is directly connected, VLAN1
+S    10.0.0.0/24 [1] via 192.168.1.1
+
+Total Routes: 2
+"""
+    result = parse_static_routes(output)
+    assert len(result) == 1
+    assert result[0]["prefix"] == "10.0.0.0"
+
+
+def test_parse_static_routes_empty():
+    result = parse_static_routes("")
+    assert result == []
