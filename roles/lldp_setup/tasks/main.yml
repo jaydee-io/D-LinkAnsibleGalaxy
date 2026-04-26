@@ -13,7 +13,7 @@
 
 - name: Configure LLDP hold multiplier
   jaydee_io.dlink_dgs1250.lldp_hold_multiplier:
-    multiplier: "{{ lldp_setup_hold_multiplier }}"
+    value: "{{ lldp_setup_hold_multiplier }}"
   notify: Save config
   when: lldp_setup_hold_multiplier is not none
 
@@ -31,15 +31,9 @@
 
 - name: Configure LLDP fast count
   jaydee_io.dlink_dgs1250.lldp_fast_count:
-    count: "{{ lldp_setup_fast_count }}"
+    value: "{{ lldp_setup_fast_count }}"
   notify: Save config
   when: lldp_setup_fast_count is not none
-
-- name: Configure LLDP notification
-  jaydee_io.dlink_dgs1250.lldp_notification_enable:
-    state: "{{ lldp_setup_notification }}"
-  notify: Save config
-  when: lldp_setup_notification is not none
 
 - name: Configure LLDP SNMP traps
   jaydee_io.dlink_dgs1250.lldp_snmp_traps:
@@ -47,47 +41,11 @@
   notify: Save config
   when: lldp_setup_snmp_traps is not none
 
-- name: Configure LLDP management address
-  jaydee_io.dlink_dgs1250.lldp_management_address:
-    address: "{{ lldp_setup_management_address }}"
-  notify: Save config
-  when: lldp_setup_management_address is not none
-
 - name: Configure LLDP forwarding
   jaydee_io.dlink_dgs1250.lldp_forward:
     state: "{{ lldp_setup_forward }}"
   notify: Save config
   when: lldp_setup_forward is not none
-
-- name: Configure LLDP TLV selection
-  jaydee_io.dlink_dgs1250.lldp_tlv_select:
-    tlv: "{{ lldp_setup_tlv_select }}"
-  notify: Save config
-  when: lldp_setup_tlv_select is not none
-
-- name: Configure LLDP 802.1 TLV selection
-  jaydee_io.dlink_dgs1250.lldp_dot1_tlv_select:
-    tlv: "{{ lldp_setup_dot1_tlv_select }}"
-  notify: Save config
-  when: lldp_setup_dot1_tlv_select is not none
-
-- name: Configure LLDP 802.3 TLV selection
-  jaydee_io.dlink_dgs1250.lldp_dot3_tlv_select:
-    tlv: "{{ lldp_setup_dot3_tlv_select }}"
-  notify: Save config
-  when: lldp_setup_dot3_tlv_select is not none
-
-- name: Configure LLDP MED TLV selection
-  jaydee_io.dlink_dgs1250.lldp_med_tlv_select:
-    tlv: "{{ lldp_setup_med_tlv_select }}"
-  notify: Save config
-  when: lldp_setup_med_tlv_select is not none
-
-- name: Configure LLDP subtype
-  jaydee_io.dlink_dgs1250.lldp_subtype:
-    subtype: "{{ lldp_setup_subtype }}"
-  notify: Save config
-  when: lldp_setup_subtype is not none
 
 # --- Per-interface LLDP settings ---
 - name: Configure LLDP transmit on interfaces
@@ -105,3 +63,11 @@
   notify: Save config
   loop: "{{ lldp_setup_interfaces }}"
   when: item.receive is defined
+
+- name: Configure LLDP notification on interfaces
+  jaydee_io.dlink_dgs1250.lldp_notification_enable:
+    interface: "{{ item.interface }}"
+    state: "{{ item.notification | ternary('enabled', 'disabled') }}"
+  notify: Save config
+  loop: "{{ lldp_setup_interfaces }}"
+  when: item.notification is defined

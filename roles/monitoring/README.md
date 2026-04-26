@@ -20,7 +20,6 @@ Configure monitoring on a D-Link DGS-1250 switch: SNMP, syslog, SNTP, LLDP, and 
 | `monitoring_snmp_host_version` | `2c` | Single trap version |
 | `monitoring_snmp_host_community` | — | Single trap community |
 | `monitoring_snmp_traps` | `[]` | Trap categories to enable (snmp, stp, storm_control, rmon, safeguard_engine, errdisable, mac_notification_change, gratuitous_arp) |
-| `monitoring_snmp_trap_sending` | — | Trap sending state |
 | `monitoring_snmp_service_port` | — | SNMP service port |
 
 ### Syslog
@@ -52,7 +51,7 @@ Configure monitoring on a D-Link DGS-1250 switch: SNMP, syslog, SNTP, LLDP, and 
 | `monitoring_lldp_hold_multiplier` | — | LLDP hold multiplier |
 | `monitoring_lldp_reinit` | — | LLDP reinit delay (seconds) |
 | `monitoring_lldp_tx_delay` | — | LLDP TX delay (seconds) |
-| `monitoring_lldp_notification` | — | LLDP notification state |
+| `monitoring_lldp_notification` | — | LLDP SNMP traps state |
 
 ### RMON
 

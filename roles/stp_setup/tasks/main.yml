@@ -19,7 +19,7 @@
 
 - name: Configure STP TX hold count
   jaydee_io.dlink_dgs1250.spanning_tree_tx_hold_count:
-    count: "{{ stp_setup_tx_hold_count }}"
+    value: "{{ stp_setup_tx_hold_count }}"
   notify: Save config
   when: stp_setup_tx_hold_count is not none
 
@@ -75,7 +75,7 @@
 - name: Configure STP link type
   jaydee_io.dlink_dgs1250.spanning_tree_link_type:
     interface: "{{ item.interface }}"
-    type: "{{ item.link_type }}"
+    link_type: "{{ item.link_type }}"
   notify: Save config
   loop: "{{ stp_setup_interfaces }}"
   when: item.link_type is defined

@@ -1331,7 +1331,6 @@ Configures LLDP: global settings (TX interval, hold multiplier, TLV selection) a
       vars:
         lldp_setup_tx_interval: 30
         lldp_setup_hold_multiplier: 4
-        lldp_setup_notification: enabled
         lldp_setup_interfaces:
           - { interface: eth1/0/1, transmit: false, receive: false }
 ```
@@ -1365,7 +1364,7 @@ Configures DNS: name servers, domain lookup, and static host entries.
           - 8.8.8.8
           - 8.8.4.4
         dns_setup_hosts:
-          - { hostname: switch1, address: 10.0.0.1 }
+          - { host_name: switch1, address: 10.0.0.1 }
 ```
 
 ### `static_routes_setup`
@@ -1378,10 +1377,10 @@ Configures IPv4 and IPv6 static routes.
     - role: jaydee_io.dlink_dgs1250.static_routes_setup
       vars:
         static_routes_setup_ipv4:
-          - { prefix: 10.0.0.0, mask: 255.255.255.0, next_hop: 192.168.1.1 }
-          - { prefix: 172.16.0.0, mask: 255.255.0.0, next_hop: 192.168.1.1, metric: 10 }
+          - { network_prefix: 10.0.0.0, network_mask: 255.255.255.0, next_hop: 192.168.1.1 }
+          - { network_prefix: 172.16.0.0, network_mask: 255.255.0.0, next_hop: 192.168.1.1, route_type: backup }
         static_routes_setup_ipv6:
-          - { prefix: "2001:db8::/32", next_hop: "fe80::1" }
+          - { network_prefix: "2001:db8::/32", next_hop: "fe80::1" }
 ```
 
 ## Example playbooks

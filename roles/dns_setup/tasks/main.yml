@@ -19,7 +19,7 @@
 
 - name: Configure static host entries
   jaydee_io.dlink_dgs1250.dns_ip_host:
-    hostname: "{{ item.hostname }}"
+    host_name: "{{ item.host_name }}"
     address: "{{ item.address }}"
   notify: Save config
   loop: "{{ dns_setup_hosts }}"

@@ -31,8 +31,7 @@ monitoring_snmp_host_community: "{{ monitoring_snmp_community | default(omit) }}
 # Example: [snmp, stp, storm_control]
 monitoring_snmp_traps: []
 
-# SNMP trap sending and service port
-monitoring_snmp_trap_sending: ~
+# SNMP service port (optional)
 monitoring_snmp_service_port: ~
 
 # Syslog configuration

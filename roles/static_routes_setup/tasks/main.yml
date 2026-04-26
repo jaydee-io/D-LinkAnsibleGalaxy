@@ -1,17 +1,17 @@
 ---
 - name: Configure IPv4 static routes
   jaydee_io.dlink_dgs1250.ip_route:
-    prefix: "{{ item.prefix }}"
-    mask: "{{ item.mask }}"
+    network_prefix: "{{ item.network_prefix }}"
+    network_mask: "{{ item.network_mask }}"
     next_hop: "{{ item.next_hop }}"
-    metric: "{{ item.metric | default(omit) }}"
+    route_type: "{{ item.route_type | default(omit) }}"
   notify: Save config
   loop: "{{ static_routes_setup_ipv4 }}"
 
 - name: Configure IPv6 static routes
   jaydee_io.dlink_dgs1250.ipv6_route:
-    prefix: "{{ item.prefix }}"
+    network_prefix: "{{ item.network_prefix }}"
     next_hop: "{{ item.next_hop }}"
-    metric: "{{ item.metric | default(omit) }}"
+    route_type: "{{ item.route_type | default(omit) }}"
   notify: Save config
   loop: "{{ static_routes_setup_ipv6 }}"

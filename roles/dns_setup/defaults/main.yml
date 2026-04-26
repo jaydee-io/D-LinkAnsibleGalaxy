@@ -9,9 +9,9 @@ dns_setup_servers: []
 # DNS name server timeout (optional)
 dns_setup_timeout: ~
 
-# Static host entries — list of dicts: {hostname, address}
+# Static host entries — list of dicts: {host_name, address}
 # Example:
-#   - { hostname: switch1, address: 10.0.0.1 }
+#   - { host_name: switch1, address: 10.0.0.1 }
 dns_setup_hosts: []
 
 # Save running-config to startup-config after applying the role

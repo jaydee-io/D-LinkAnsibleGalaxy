@@ -55,12 +55,6 @@
   notify: Save config
   when: monitoring_snmp_hosts | length == 0 and monitoring_snmp_host is not none
 
-- name: Configure SNMP trap sending
-  jaydee_io.dlink_dgs1250.snmp_server_trap_sending:
-    state: "{{ monitoring_snmp_trap_sending }}"
-  notify: Save config
-  when: monitoring_snmp_trap_sending is not none
-
 - name: Configure SNMP service port
   jaydee_io.dlink_dgs1250.snmp_server_service_port:
     port: "{{ monitoring_snmp_service_port }}"
@@ -75,49 +69,49 @@
 
 - name: Enable SNMP SNMP traps
   jaydee_io.dlink_dgs1250.snmp_server_enable_traps_snmp:
-    state: enabled
+    state: present
   notify: Save config
   when: "'snmp' in monitoring_snmp_traps"
 
 - name: Enable SNMP STP traps
   jaydee_io.dlink_dgs1250.snmp_server_enable_traps_stp:
-    state: enabled
+    state: present
   notify: Save config
   when: "'stp' in monitoring_snmp_traps"
 
 - name: Enable SNMP storm control traps
   jaydee_io.dlink_dgs1250.snmp_server_enable_traps_storm_control:
-    state: enabled
+    state: present
   notify: Save config
   when: "'storm_control' in monitoring_snmp_traps"
 
 - name: Enable SNMP RMON traps
   jaydee_io.dlink_dgs1250.snmp_server_enable_traps_rmon:
-    state: enabled
+    state: present
   notify: Save config
   when: "'rmon' in monitoring_snmp_traps"
 
 - name: Enable SNMP safeguard engine traps
   jaydee_io.dlink_dgs1250.snmp_server_enable_traps_safeguard_engine:
-    state: enabled
+    state: present
   notify: Save config
   when: "'safeguard_engine' in monitoring_snmp_traps"
 
 - name: Enable SNMP errdisable traps
   jaydee_io.dlink_dgs1250.snmp_server_enable_traps_errdisable:
-    state: enabled
+    state: present
   notify: Save config
   when: "'errdisable' in monitoring_snmp_traps"
 
 - name: Enable SNMP MAC notification traps
   jaydee_io.dlink_dgs1250.snmp_server_enable_traps_mac_notification_change:
-    state: enabled
+    state: present
   notify: Save config
   when: "'mac_notification_change' in monitoring_snmp_traps"
 
 - name: Enable SNMP gratuitous ARP traps
   jaydee_io.dlink_dgs1250.snmp_server_enable_traps_gratuitous_arp:
-    state: enabled
+    state: present
   notify: Save config
   when: "'gratuitous_arp' in monitoring_snmp_traps"
 
@@ -187,7 +181,7 @@
 
 - name: Configure LLDP hold multiplier
   jaydee_io.dlink_dgs1250.lldp_hold_multiplier:
-    multiplier: "{{ monitoring_lldp_hold_multiplier }}"
+    value: "{{ monitoring_lldp_hold_multiplier }}"
   notify: Save config
   when: monitoring_lldp_hold_multiplier is not none
 
@@ -203,8 +197,8 @@
   notify: Save config
   when: monitoring_lldp_tx_delay is not none
 
-- name: Configure LLDP notification
-  jaydee_io.dlink_dgs1250.lldp_notification_enable:
+- name: Configure LLDP SNMP traps
+  jaydee_io.dlink_dgs1250.lldp_snmp_traps:
     state: "{{ monitoring_lldp_notification }}"
   notify: Save config
   when: monitoring_lldp_notification is not none

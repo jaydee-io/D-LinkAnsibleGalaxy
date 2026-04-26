@@ -7,7 +7,7 @@ galaxy_info:
   galaxy_tags:
     - networking
     - stp
-    - spanning_tree
+    - spanningtree
     - dlink
 
 dependencies: []
