@@ -1393,6 +1393,8 @@ Sample playbooks are available in [`docs/examples/`](docs/examples/):
 | `backup_restore.yml` | Backup and restore configuration via TFTP |
 | `security_audit.yml` | Audit switch for common security issues |
 | `firmware_update.yml` | Download and apply firmware update via TFTP |
+| `full_monitoring.yml` | Deploy full monitoring stack (SNMP, syslog, NTP, LLDP, STP) |
+| `network_baseline.yml` | Establish network foundations (DNS, NTP, static routes, STP, LLDP) |
 
 ## Running tests
 

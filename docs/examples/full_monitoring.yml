@@ -1,0 +1,57 @@
+---
+# Full monitoring stack playbook
+# Deploys SNMP, syslog, NTP, LLDP, and STP monitoring on DGS-1250 switches.
+#
+# Usage:
+#   ansible-playbook -i inventory.yml docs/examples/full_monitoring.yml
+#
+- name: Deploy full monitoring stack on DGS-1250 switches
+  hosts: switches
+  gather_facts: false
+
+  roles:
+    - role: jaydee_io.dlink_dgs1250.ntp_setup
+      vars:
+        ntp_setup_servers:
+          - pool.ntp.org
+          - time.google.com
+
+    - role: jaydee_io.dlink_dgs1250.stp_setup
+      vars:
+        stp_setup_mode: rstp
+        stp_setup_interfaces:
+          - { interface: eth1/0/1, portfast: true }
+          - { interface: eth1/0/2, portfast: true }
+          - { interface: eth1/0/3, portfast: true }
+          - { interface: eth1/0/4, portfast: true }
+          - { interface: eth1/0/24, guard_root: true }
+
+    - role: jaydee_io.dlink_dgs1250.lldp_setup
+      vars:
+        lldp_setup_tx_interval: 30
+        lldp_setup_hold_multiplier: 4
+
+    - role: jaydee_io.dlink_dgs1250.monitoring
+      vars:
+        monitoring_snmp_communities:
+          - { community: monitor-ro, access_type: ro }
+        monitoring_snmp_hosts:
+          - { host: 10.0.0.50, version: "2c", community: monitor-ro }
+          - { host: 10.0.0.51, version: "2c", community: monitor-ro }
+        monitoring_snmp_traps:
+          - snmp
+          - stp
+          - storm_control
+        monitoring_snmp_location: "Datacenter A - Row 3 - Rack 7"
+        monitoring_snmp_contact: "noc@example.com"
+        monitoring_syslog_servers:
+          - { address: 10.0.0.50, severity: warnings }
+          - { address: 10.0.0.51, severity: informational, facility: local7 }
+        monitoring_sntp_servers:
+          - pool.ntp.org
+          - time.google.com
+        monitoring_lldp_enabled: enabled
+        monitoring_rmon_interfaces:
+          - "ethernet 1/0/1"
+          - "ethernet 1/0/24"
+        monitoring_save_config: true

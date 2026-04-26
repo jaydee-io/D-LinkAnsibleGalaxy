@@ -1,0 +1,49 @@
+---
+# Network baseline playbook
+# Establishes network foundations: DNS, NTP, static routes, STP, and LLDP.
+#
+# Usage:
+#   ansible-playbook -i inventory.yml docs/examples/network_baseline.yml
+#
+- name: Establish network baseline on DGS-1250 switches
+  hosts: switches
+  gather_facts: false
+
+  roles:
+    - role: jaydee_io.dlink_dgs1250.dns_setup
+      vars:
+        dns_setup_domain_lookup: enabled
+        dns_setup_servers:
+          - 8.8.8.8
+          - 8.8.4.4
+        dns_setup_hosts:
+          - { host_name: nms, address: 10.0.0.50 }
+          - { host_name: syslog, address: 10.0.0.51 }
+
+    - role: jaydee_io.dlink_dgs1250.ntp_setup
+      vars:
+        ntp_setup_servers:
+          - pool.ntp.org
+          - time.google.com
+        ntp_setup_interval: 360
+
+    - role: jaydee_io.dlink_dgs1250.static_routes_setup
+      vars:
+        static_routes_setup_ipv4:
+          - { network_prefix: 10.10.0.0, network_mask: 255.255.0.0, next_hop: 192.168.1.1 }
+          - { network_prefix: 172.16.0.0, network_mask: 255.255.0.0, next_hop: 192.168.1.1 }
+
+    - role: jaydee_io.dlink_dgs1250.stp_setup
+      vars:
+        stp_setup_mode: rstp
+        stp_setup_priority: 32768
+
+    - role: jaydee_io.dlink_dgs1250.lldp_setup
+      vars:
+        lldp_setup_tx_interval: 30
+        lldp_setup_hold_multiplier: 4
+        lldp_setup_save_config: true
+
+  tasks:
+    - name: Save configuration
+      jaydee_io.dlink_dgs1250.save_config:
