@@ -139,3 +139,30 @@ class TestDeleted:
         want = [{"vlan_id": 1}]
         cmds = _build_commands_deleted(want, _have_idx())
         assert cmds == []
+
+
+# ---- diff output ----
+
+class TestDiff:
+    def test_diff_prepared_format(self):
+        commands = _build_commands_merged(
+            [{"vlan_id": 300, "name": "guests"}], _have_idx())
+        diff = {'prepared': '\n'.join(commands) + '\n'}
+        assert diff['prepared'] == "vlan 300\nname guests\nexit\n"
+
+    def test_diff_not_set_when_no_commands(self):
+        commands = _build_commands_merged(
+            [{"vlan_id": 100, "name": "management"}], _have_idx())
+        assert commands == []
+
+    def test_diff_prepared_deleted(self):
+        commands = _build_commands_deleted(
+            [{"vlan_id": 200}], _have_idx())
+        diff = {'prepared': '\n'.join(commands) + '\n'}
+        assert diff['prepared'] == "no vlan 200\n"
+
+    def test_diff_prepared_overridden(self):
+        commands = _build_commands_overridden(
+            [{"vlan_id": 100, "name": "management"}], _have_idx())
+        diff = {'prepared': '\n'.join(commands) + '\n'}
+        assert "no vlan 200" in diff['prepared']

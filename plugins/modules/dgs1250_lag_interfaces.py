@@ -216,8 +216,9 @@ def main():
         except Exception as e:
             module.fail_json(msg="Command failed: %s" % str(e))
         result["after"] = _gather(module)
-    elif changed:
-        result["after"] = []
+
+    if module._diff and commands:
+        result['diff'] = {'prepared': '\n'.join(commands) + '\n'}
 
     module.exit_json(**result)
 
