@@ -1,0 +1,29 @@
+---
+# Integration tests for the aaa_setup role.
+# Note: these tests configure RADIUS/TACACS+ servers but do NOT enable
+# AAA enforcement on login lines, so the admin remains able to log in.
+
+- name: Apply aaa_setup role with test RADIUS server
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.aaa_setup
+  vars:
+    aaa_setup_enabled: true
+    aaa_setup_radius_servers:
+      - host: "{{ test_radius_server }}"
+        key: "integration-test-key"
+
+- name: Verify AAA configuration
+  jaydee_io.dlink_dgs1250.aaa_show:
+  register: aaa
+
+- name: Assert AAA output is present
+  ansible.builtin.assert:
+    that: aaa.raw_output | length > 0
+    quiet: true
+
+# --- Cleanup ---
+- name: Remove test RADIUS server
+  jaydee_io.dlink_dgs1250.aaa_radius_server_host:
+    host: "{{ test_radius_server }}"
+    state: absent
+  failed_when: false

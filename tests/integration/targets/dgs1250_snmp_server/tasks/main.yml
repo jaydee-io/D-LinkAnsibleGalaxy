@@ -1,0 +1,45 @@
+---
+# Integration tests for the dgs1250_snmp_server resource module.
+
+- name: Configure test SNMP community (merged)
+  jaydee_io.dlink_dgs1250.dgs1250_snmp_server:
+    config:
+      - community: "{{ test_snmp_community }}"
+        access_type: ro
+    state: merged
+  register: result
+
+- name: Assert merged changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Re-apply same community (idempotency)
+  jaydee_io.dlink_dgs1250.dgs1250_snmp_server:
+    config:
+      - community: "{{ test_snmp_community }}"
+        access_type: ro
+    state: merged
+  register: result
+
+- name: Assert idempotency
+  ansible.builtin.assert:
+    that: not result.changed
+    quiet: true
+
+- name: Gather SNMP communities
+  jaydee_io.dlink_dgs1250.dgs1250_snmp_server:
+    state: gathered
+  register: gathered
+
+- name: Assert test community is present
+  ansible.builtin.assert:
+    that: "gathered.gathered | selectattr('community', 'equalto', test_snmp_community) | list | length == 1"
+    quiet: true
+
+# --- Cleanup ---
+- name: Delete test community
+  jaydee_io.dlink_dgs1250.dgs1250_snmp_server:
+    config:
+      - community: "{{ test_snmp_community }}"
+    state: deleted

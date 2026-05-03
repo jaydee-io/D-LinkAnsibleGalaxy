@@ -1,0 +1,20 @@
+---
+# Integration tests for the hardening role.
+# Run in check mode only — disabling Telnet/HTTP and tightening session
+# timeouts could lock out the test administrator.
+
+- name: Apply hardening role in check mode
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.hardening
+  vars:
+    hardening_http_server: disabled
+    hardening_telnet_server: disabled
+    hardening_ssh_server: enabled
+    hardening_password_encryption: enabled
+  check_mode: true
+  register: result
+
+- name: Assert role completes in check mode
+  ansible.builtin.assert:
+    that: result is not failed
+    quiet: true

@@ -1,0 +1,27 @@
+---
+# Integration tests for the lldp_setup role.
+
+- name: Apply lldp_setup role
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.lldp_setup
+  vars:
+    lldp_setup_enabled: enabled
+    lldp_setup_interfaces:
+      - { interface: "{{ test_interface }}", transmit: false, receive: false }
+
+- name: Verify LLDP config on test interface
+  jaydee_io.dlink_dgs1250.show_lldp_interface:
+    interface_id: "{{ test_interface }}"
+  register: lldp
+
+- name: Assert LLDP output is present
+  ansible.builtin.assert:
+    that: lldp.raw_output | length > 0
+    quiet: true
+
+# --- Cleanup ---
+- name: Reset LLDP on test interface
+  jaydee_io.dlink_dgs1250.dgs1250_lldp_interfaces:
+    config:
+      - name: "{{ test_interface }}"
+    state: deleted

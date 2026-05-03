@@ -1,0 +1,25 @@
+---
+# Integration tests for the dns_setup role.
+
+- name: Apply dns_setup role with test server
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.dns_setup
+  vars:
+    dns_setup_servers:
+      - "{{ test_dns_server }}"
+
+- name: Verify DNS server is configured
+  jaydee_io.dlink_dgs1250.dns_show_ip_name_server:
+  register: dns
+
+- name: Assert test DNS server is configured
+  ansible.builtin.assert:
+    that: test_dns_server in dns.raw_output
+    quiet: true
+
+# --- Cleanup ---
+- name: Remove test DNS server
+  jaydee_io.dlink_dgs1250.dgs1250_dns:
+    config:
+      - address: "{{ test_dns_server }}"
+    state: deleted

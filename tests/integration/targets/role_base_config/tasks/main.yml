@@ -1,0 +1,31 @@
+---
+# Integration tests for the base_config role.
+# Note: tests safe fields only — timezone (easily reverted) and STP mode.
+
+- name: Save current STP mode
+  jaydee_io.dlink_dgs1250.show_spanning_tree:
+  register: stp_before
+
+- name: Apply base_config role with timezone setting
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.base_config
+  vars:
+    base_config_timezone_sign: "+"
+    base_config_timezone_hours: 1
+    base_config_timezone_minutes: 0
+    base_config_stp_mode: rstp
+
+- name: Verify clock timezone
+  jaydee_io.dlink_dgs1250.show_clock:
+  register: clock
+
+- name: Assert clock output is present
+  ansible.builtin.assert:
+    that: clock.raw_output | length > 0
+    quiet: true
+
+# --- Cleanup ---
+- name: Reset timezone to UTC
+  jaydee_io.dlink_dgs1250.clock_timezone:
+    state: absent
+  failed_when: false

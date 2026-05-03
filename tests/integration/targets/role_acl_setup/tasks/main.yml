@@ -1,0 +1,28 @@
+---
+# Integration tests for the acl_setup role.
+
+- name: Apply acl_setup role with test ACL
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.acl_setup
+  vars:
+    acl_setup_ip_access_lists:
+      - name: "{{ test_acl_name }}"
+        rules:
+          - "permit 10.0.0.0 0.0.0.255"
+          - "deny any"
+
+- name: Verify test ACL is configured
+  jaydee_io.dlink_dgs1250.acl_show_access_list:
+  register: acls
+
+- name: Assert test ACL is visible
+  ansible.builtin.assert:
+    that: test_acl_name in acls.raw_output
+    quiet: true
+
+# --- Cleanup ---
+- name: Delete test ACL
+  jaydee_io.dlink_dgs1250.dgs1250_acls:
+    config:
+      - name: "{{ test_acl_name }}"
+    state: deleted

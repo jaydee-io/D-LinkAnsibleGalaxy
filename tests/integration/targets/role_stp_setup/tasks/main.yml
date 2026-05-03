@@ -1,0 +1,26 @@
+---
+# Integration tests for the stp_setup role.
+
+- name: Apply stp_setup role
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.stp_setup
+  vars:
+    stp_setup_global_state: enabled
+    stp_setup_interfaces:
+      - { interface: "{{ test_interface }}", portfast: true, cost: 20000 }
+
+- name: Verify STP is configured
+  jaydee_io.dlink_dgs1250.show_spanning_tree:
+  register: stp
+
+- name: Assert STP output is present
+  ansible.builtin.assert:
+    that: stp.raw_output | length > 0
+    quiet: true
+
+# --- Cleanup ---
+- name: Reset STP on test interface
+  jaydee_io.dlink_dgs1250.dgs1250_spanning_tree:
+    config:
+      - name: "{{ test_interface }}"
+    state: deleted

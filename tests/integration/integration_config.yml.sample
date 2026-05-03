@@ -12,6 +12,34 @@ ansible_port: 22
 ansible_connection: ansible.netcommon.network_cli
 ansible_network_os: jaydee_io.dlink_dgs1250.dgs1250
 
-# Test VLAN ID (must not conflict with existing VLANs)
+# --- Common test values ---
+# All tests use safe placeholder values from RFC 5737 (TEST-NET) and
+# reserved VLAN IDs that should not conflict with production config.
+
+# Test VLAN IDs (must not conflict with existing VLANs)
 test_vlan_id: 3999
+test_vlan_id_alt: 3998
 test_vlan_name: integration-test
+
+# Test interface (used by per-port tests — pick an unused port)
+test_interface: eth1/0/1
+
+# Test IP addresses (RFC 5737 TEST-NET-1)
+test_syslog_server: 192.0.2.100
+test_ntp_server: 192.0.2.10
+test_dns_server: 192.0.2.20
+test_radius_server: 192.0.2.30
+test_tacacs_server: 192.0.2.40
+test_snmp_host: 192.0.2.50
+test_static_route_prefix: 192.0.2.0
+test_static_route_mask: 255.255.255.0
+test_static_route_next_hop: 192.0.2.254
+
+# Test ACL name
+test_acl_name: integration-test-acl
+
+# Test SNMP community
+test_snmp_community: integration-test-rw
+
+# Test LAG channel number (must not conflict with existing channels)
+test_lag_channel: 8

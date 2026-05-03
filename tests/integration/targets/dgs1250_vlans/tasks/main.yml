@@ -1,0 +1,45 @@
+---
+# Integration tests for the dgs1250_vlans resource module.
+
+- name: Configure test VLAN (merged)
+  jaydee_io.dlink_dgs1250.dgs1250_vlans:
+    config:
+      - vlan_id: "{{ test_vlan_id }}"
+        name: "{{ test_vlan_name }}"
+    state: merged
+  register: result
+
+- name: Assert merged changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Re-apply same config (idempotency)
+  jaydee_io.dlink_dgs1250.dgs1250_vlans:
+    config:
+      - vlan_id: "{{ test_vlan_id }}"
+        name: "{{ test_vlan_name }}"
+    state: merged
+  register: result
+
+- name: Assert idempotency
+  ansible.builtin.assert:
+    that: not result.changed
+    quiet: true
+
+- name: Gather VLAN config
+  jaydee_io.dlink_dgs1250.dgs1250_vlans:
+    state: gathered
+  register: gathered
+
+- name: Assert test VLAN is gathered
+  ansible.builtin.assert:
+    that: "gathered.gathered | selectattr('vlan_id', 'equalto', test_vlan_id|int) | list | length == 1"
+    quiet: true
+
+# --- Cleanup ---
+- name: Delete test VLAN
+  jaydee_io.dlink_dgs1250.dgs1250_vlans:
+    config:
+      - vlan_id: "{{ test_vlan_id }}"
+    state: deleted

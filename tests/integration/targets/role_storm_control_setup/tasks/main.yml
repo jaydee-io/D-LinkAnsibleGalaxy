@@ -1,0 +1,30 @@
+---
+# Integration tests for the storm_control_setup role.
+
+- name: Apply storm_control_setup role
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.storm_control_setup
+  vars:
+    storm_control_setup_ports:
+      - interface: "{{ test_interface }}"
+        traffic_type: broadcast
+        level_mode: percent
+        rise: 80
+        action: drop
+
+- name: Verify storm control settings
+  jaydee_io.dlink_dgs1250.show_storm_control:
+    interface: "{{ test_interface }}"
+  register: storm
+
+- name: Assert storm control output is present
+  ansible.builtin.assert:
+    that: storm.raw_output | length > 0
+    quiet: true
+
+# --- Cleanup ---
+- name: Reset storm control on test interface
+  jaydee_io.dlink_dgs1250.dgs1250_storm_control:
+    config:
+      - name: "{{ test_interface }}"
+    state: deleted

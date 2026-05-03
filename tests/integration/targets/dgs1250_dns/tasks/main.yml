@@ -1,0 +1,33 @@
+---
+# Integration tests for the dgs1250_dns resource module.
+
+- name: Configure test DNS server (merged)
+  jaydee_io.dlink_dgs1250.dgs1250_dns:
+    config:
+      - address: "{{ test_dns_server }}"
+    state: merged
+  register: result
+
+- name: Assert merged changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Re-apply same DNS server (idempotency)
+  jaydee_io.dlink_dgs1250.dgs1250_dns:
+    config:
+      - address: "{{ test_dns_server }}"
+    state: merged
+  register: result
+
+- name: Assert idempotency
+  ansible.builtin.assert:
+    that: not result.changed
+    quiet: true
+
+# --- Cleanup ---
+- name: Delete test DNS server
+  jaydee_io.dlink_dgs1250.dgs1250_dns:
+    config:
+      - address: "{{ test_dns_server }}"
+    state: deleted

@@ -1,0 +1,33 @@
+---
+# Integration tests for the dgs1250_ntp resource module.
+
+- name: Configure test NTP server (merged)
+  jaydee_io.dlink_dgs1250.dgs1250_ntp:
+    config:
+      - address: "{{ test_ntp_server }}"
+    state: merged
+  register: result
+
+- name: Assert merged changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Re-apply same NTP server (idempotency)
+  jaydee_io.dlink_dgs1250.dgs1250_ntp:
+    config:
+      - address: "{{ test_ntp_server }}"
+    state: merged
+  register: result
+
+- name: Assert idempotency
+  ansible.builtin.assert:
+    that: not result.changed
+    quiet: true
+
+# --- Cleanup ---
+- name: Delete test NTP server
+  jaydee_io.dlink_dgs1250.dgs1250_ntp:
+    config:
+      - address: "{{ test_ntp_server }}"
+    state: deleted

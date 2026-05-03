@@ -1,0 +1,26 @@
+---
+# Integration tests for the port_security role.
+
+- name: Apply port_security role
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.port_security
+  vars:
+    port_security_dot1x_enabled: false
+    port_security_ports:
+      - { interface: "{{ test_interface }}", maximum: 5, violation: protect }
+
+- name: Verify port security on test interface
+  jaydee_io.dlink_dgs1250.show_port_security:
+  register: psec
+
+- name: Assert port security output is present
+  ansible.builtin.assert:
+    that: psec.raw_output | length > 0
+    quiet: true
+
+# --- Cleanup ---
+- name: Reset port security on test interface
+  jaydee_io.dlink_dgs1250.switchport_port_security:
+    interface: "{{ test_interface }}"
+    state: absent
+  failed_when: false

@@ -1,0 +1,39 @@
+---
+# Integration tests for the dgs1250_static_routes resource module.
+
+- name: Configure test static route (merged)
+  jaydee_io.dlink_dgs1250.dgs1250_static_routes:
+    config:
+      - prefix: "{{ test_static_route_prefix }}"
+        mask: "{{ test_static_route_mask }}"
+        next_hop: "{{ test_static_route_next_hop }}"
+    state: merged
+  register: result
+
+- name: Assert merged changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Re-apply same route (idempotency)
+  jaydee_io.dlink_dgs1250.dgs1250_static_routes:
+    config:
+      - prefix: "{{ test_static_route_prefix }}"
+        mask: "{{ test_static_route_mask }}"
+        next_hop: "{{ test_static_route_next_hop }}"
+    state: merged
+  register: result
+
+- name: Assert idempotency
+  ansible.builtin.assert:
+    that: not result.changed
+    quiet: true
+
+# --- Cleanup ---
+- name: Delete test route
+  jaydee_io.dlink_dgs1250.dgs1250_static_routes:
+    config:
+      - prefix: "{{ test_static_route_prefix }}"
+        mask: "{{ test_static_route_mask }}"
+        next_hop: "{{ test_static_route_next_hop }}"
+    state: deleted

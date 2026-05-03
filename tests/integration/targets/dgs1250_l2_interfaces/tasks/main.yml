@@ -1,0 +1,51 @@
+---
+# Integration tests for the dgs1250_l2_interfaces resource module.
+
+- name: Create test VLAN for access port
+  jaydee_io.dlink_dgs1250.dgs1250_vlans:
+    config:
+      - vlan_id: "{{ test_vlan_id }}"
+    state: merged
+
+- name: Configure test interface as access port (merged)
+  jaydee_io.dlink_dgs1250.dgs1250_l2_interfaces:
+    config:
+      - name: "{{ test_interface }}"
+        mode: access
+        access:
+          vlan_id: "{{ test_vlan_id }}"
+    state: merged
+  register: result
+
+- name: Assert merged changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Re-apply same config (idempotency)
+  jaydee_io.dlink_dgs1250.dgs1250_l2_interfaces:
+    config:
+      - name: "{{ test_interface }}"
+        mode: access
+        access:
+          vlan_id: "{{ test_vlan_id }}"
+    state: merged
+  register: result
+
+- name: Assert idempotency
+  ansible.builtin.assert:
+    that: not result.changed
+    quiet: true
+
+# --- Cleanup ---
+- name: Reset interface to default
+  jaydee_io.dlink_dgs1250.dgs1250_l2_interfaces:
+    config:
+      - name: "{{ test_interface }}"
+    state: deleted
+
+- name: Delete test VLAN
+  jaydee_io.dlink_dgs1250.dgs1250_vlans:
+    config:
+      - vlan_id: "{{ test_vlan_id }}"
+    state: deleted

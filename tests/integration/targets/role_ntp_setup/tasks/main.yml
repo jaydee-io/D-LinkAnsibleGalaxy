@@ -1,0 +1,25 @@
+---
+# Integration tests for the ntp_setup role.
+
+- name: Apply ntp_setup role with test server
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.ntp_setup
+  vars:
+    ntp_setup_servers:
+      - "{{ test_ntp_server }}"
+
+- name: Verify NTP server is configured
+  jaydee_io.dlink_dgs1250.show_sntp:
+  register: sntp
+
+- name: Assert test NTP server is configured
+  ansible.builtin.assert:
+    that: test_ntp_server in sntp.raw_output
+    quiet: true
+
+# --- Cleanup ---
+- name: Remove test NTP server
+  jaydee_io.dlink_dgs1250.dgs1250_ntp:
+    config:
+      - address: "{{ test_ntp_server }}"
+    state: deleted

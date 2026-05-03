@@ -1,0 +1,29 @@
+---
+# Integration tests for the static_routes_setup role.
+
+- name: Apply static_routes_setup role
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.static_routes_setup
+  vars:
+    static_routes_setup_ipv4:
+      - network_prefix: "{{ test_static_route_prefix }}"
+        network_mask: "{{ test_static_route_mask }}"
+        next_hop: "{{ test_static_route_next_hop }}"
+
+- name: Verify route is configured
+  jaydee_io.dlink_dgs1250.show_ip_route:
+  register: routes
+
+- name: Assert test route is visible
+  ansible.builtin.assert:
+    that: test_static_route_prefix in routes.raw_output
+    quiet: true
+
+# --- Cleanup ---
+- name: Remove test route
+  jaydee_io.dlink_dgs1250.dgs1250_static_routes:
+    config:
+      - prefix: "{{ test_static_route_prefix }}"
+        mask: "{{ test_static_route_mask }}"
+        next_hop: "{{ test_static_route_next_hop }}"
+    state: deleted

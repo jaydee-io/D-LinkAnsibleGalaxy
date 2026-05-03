@@ -1,0 +1,35 @@
+---
+# Integration tests for the dgs1250_logging resource module.
+
+- name: Configure test syslog server (merged)
+  jaydee_io.dlink_dgs1250.dgs1250_logging:
+    config:
+      - address: "{{ test_syslog_server }}"
+        severity: warnings
+    state: merged
+  register: result
+
+- name: Assert merged changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Re-apply same syslog server (idempotency)
+  jaydee_io.dlink_dgs1250.dgs1250_logging:
+    config:
+      - address: "{{ test_syslog_server }}"
+        severity: warnings
+    state: merged
+  register: result
+
+- name: Assert idempotency
+  ansible.builtin.assert:
+    that: not result.changed
+    quiet: true
+
+# --- Cleanup ---
+- name: Delete test syslog server
+  jaydee_io.dlink_dgs1250.dgs1250_logging:
+    config:
+      - address: "{{ test_syslog_server }}"
+    state: deleted

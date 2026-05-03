@@ -1,0 +1,28 @@
+---
+# Integration tests for the link_aggregation role.
+
+- name: Apply link_aggregation role
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.link_aggregation
+  vars:
+    link_aggregation_port_channels:
+      - channel_no: "{{ test_lag_channel }}"
+        mode: active
+        members:
+          - { interface: "{{ test_interface }}" }
+
+- name: Verify channel group config
+  jaydee_io.dlink_dgs1250.show_channel_group:
+  register: lag
+
+- name: Assert LAG output is present
+  ansible.builtin.assert:
+    that: lag.raw_output | length > 0
+    quiet: true
+
+# --- Cleanup ---
+- name: Remove test interface from LAG
+  jaydee_io.dlink_dgs1250.dgs1250_lag_interfaces:
+    config:
+      - name: "{{ test_interface }}"
+    state: deleted

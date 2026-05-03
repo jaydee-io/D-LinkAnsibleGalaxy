@@ -1,0 +1,43 @@
+---
+# Integration tests for the dgs1250_acls resource module.
+
+- name: Configure test ACL (merged)
+  jaydee_io.dlink_dgs1250.dgs1250_acls:
+    config:
+      - name: "{{ test_acl_name }}"
+        rules:
+          - action: permit
+            source: "10.0.0.0 0.0.0.255"
+          - action: deny
+            source: any
+    state: merged
+  register: result
+
+- name: Assert merged changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Re-apply same ACL (idempotency)
+  jaydee_io.dlink_dgs1250.dgs1250_acls:
+    config:
+      - name: "{{ test_acl_name }}"
+        rules:
+          - action: permit
+            source: "10.0.0.0 0.0.0.255"
+          - action: deny
+            source: any
+    state: merged
+  register: result
+
+- name: Assert idempotency
+  ansible.builtin.assert:
+    that: not result.changed
+    quiet: true
+
+# --- Cleanup ---
+- name: Delete test ACL
+  jaydee_io.dlink_dgs1250.dgs1250_acls:
+    config:
+      - name: "{{ test_acl_name }}"
+    state: deleted

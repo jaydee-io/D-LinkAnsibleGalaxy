@@ -1,0 +1,34 @@
+---
+# Integration tests for the monitoring role.
+
+- name: Apply monitoring role with test SNMP community and syslog
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.monitoring
+  vars:
+    monitoring_snmp_communities:
+      - { community: "{{ test_snmp_community }}", access_type: ro }
+    monitoring_syslog_servers:
+      - { host: "{{ test_syslog_server }}", severity: warnings }
+
+- name: Verify SNMP community is configured
+  jaydee_io.dlink_dgs1250.show_snmp:
+    category: community
+  register: snmp
+
+- name: Assert test SNMP community is present
+  ansible.builtin.assert:
+    that: test_snmp_community in snmp.raw_output
+    quiet: true
+
+# --- Cleanup ---
+- name: Remove test SNMP community
+  jaydee_io.dlink_dgs1250.dgs1250_snmp_server:
+    config:
+      - community: "{{ test_snmp_community }}"
+    state: deleted
+
+- name: Remove test syslog server
+  jaydee_io.dlink_dgs1250.dgs1250_logging:
+    config:
+      - address: "{{ test_syslog_server }}"
+    state: deleted

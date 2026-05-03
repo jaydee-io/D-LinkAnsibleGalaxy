@@ -1430,6 +1430,14 @@ cp tests/integration/integration_config.yml.sample tests/integration/integration
 ansible-test integration --local
 ```
 
+The collection ships with 32 integration test targets covering:
+
+- **Resource modules** (12 targets, `dgs1250_*`): merge → idempotency → cleanup pattern for VLANs, L2 interfaces, SNMP, logging, NTP, static routes, ACLs, LAG, storm control, STP, LLDP, DNS.
+- **Roles** (17 targets, `role_*`): apply → verify → cleanup pattern for all 17 roles. `firmware_upgrade` and `hardening` run in check mode only to avoid reboots and lockouts.
+- **Legacy** (3 targets, `dgs1250_facts`, `dgs1250_mgmt`, `dgs1250_vlan`): facts collection and individual CLI module exercises.
+
+Run a specific target with `ansible-test integration <target_name>`. All test values use RFC 5737 TEST-NET addresses and reserved VLAN IDs (3998-3999) to avoid conflicts.
+
 ## Changelog
 
 A detailed changelog in [antsibull-changelog](https://github.com/ansible-community/antsibull-changelog) format is available in [`changelogs/changelog.yaml`](changelogs/changelog.yaml).

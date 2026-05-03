@@ -1,0 +1,39 @@
+---
+# Integration tests for the dgs1250_storm_control resource module.
+
+- name: Configure test storm control (merged)
+  jaydee_io.dlink_dgs1250.dgs1250_storm_control:
+    config:
+      - name: "{{ test_interface }}"
+        broadcast: 80
+        multicast: 80
+        action: drop
+    state: merged
+  register: result
+
+- name: Assert merged changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Re-apply same storm control (idempotency)
+  jaydee_io.dlink_dgs1250.dgs1250_storm_control:
+    config:
+      - name: "{{ test_interface }}"
+        broadcast: 80
+        multicast: 80
+        action: drop
+    state: merged
+  register: result
+
+- name: Assert idempotency
+  ansible.builtin.assert:
+    that: not result.changed
+    quiet: true
+
+# --- Cleanup ---
+- name: Reset storm control on test interface
+  jaydee_io.dlink_dgs1250.dgs1250_storm_control:
+    config:
+      - name: "{{ test_interface }}"
+    state: deleted

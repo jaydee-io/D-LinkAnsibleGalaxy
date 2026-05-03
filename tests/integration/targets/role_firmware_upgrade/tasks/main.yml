@@ -1,0 +1,20 @@
+---
+# Integration tests for the firmware_upgrade role.
+# Run in check mode only — actually upgrading firmware would reboot the switch
+# and is not safe for automated testing.
+
+- name: Apply firmware_upgrade role in check mode
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.firmware_upgrade
+  vars:
+    firmware_upgrade_tftp_source: "tftp://{{ test_dns_server }}/test-fw.had"
+    firmware_upgrade_boot_image: Image2
+    firmware_upgrade_save_before: false
+    firmware_upgrade_reboot: false
+  check_mode: true
+  register: result
+
+- name: Assert role completes in check mode
+  ansible.builtin.assert:
+    that: result is not failed
+    quiet: true

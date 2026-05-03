@@ -1,0 +1,37 @@
+---
+# Integration tests for the dgs1250_lag_interfaces resource module.
+
+- name: Configure test LAG (merged)
+  jaydee_io.dlink_dgs1250.dgs1250_lag_interfaces:
+    config:
+      - name: "{{ test_interface }}"
+        channel_group: "{{ test_lag_channel }}"
+        mode: active
+    state: merged
+  register: result
+
+- name: Assert merged changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Re-apply same LAG (idempotency)
+  jaydee_io.dlink_dgs1250.dgs1250_lag_interfaces:
+    config:
+      - name: "{{ test_interface }}"
+        channel_group: "{{ test_lag_channel }}"
+        mode: active
+    state: merged
+  register: result
+
+- name: Assert idempotency
+  ansible.builtin.assert:
+    that: not result.changed
+    quiet: true
+
+# --- Cleanup ---
+- name: Remove interface from LAG
+  jaydee_io.dlink_dgs1250.dgs1250_lag_interfaces:
+    config:
+      - name: "{{ test_interface }}"
+    state: deleted

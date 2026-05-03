@@ -261,3 +261,34 @@ releases:
           subsets (11 total).
         - Add action_groups in meta/runtime.yml and antsibull-changelog configuration.
         - Add 2 example playbooks — full_monitoring and network_baseline.
+
+  1.9.0:
+    release_date: "2026-05-03"
+    changes:
+      release_summary: >-
+        Expand integration test coverage with 29 new ansible-test targets —
+        one per resource module (12) and one per role (17) — bringing the
+        total to 32. Tests follow merge → idempotency → cleanup pattern with
+        RFC 5737 TEST-NET addresses and reserved VLAN IDs.
+      minor_changes:
+        - >-
+          Add 12 integration test targets, one per resource module
+          (dgs1250_vlans, dgs1250_l2_interfaces, dgs1250_snmp_server,
+          dgs1250_logging, dgs1250_ntp, dgs1250_static_routes, dgs1250_acls,
+          dgs1250_lag_interfaces, dgs1250_storm_control, dgs1250_spanning_tree,
+          dgs1250_lldp_interfaces, dgs1250_dns).
+        - >-
+          Add 17 integration test targets, one per role (role_aaa_setup,
+          role_acl_setup, role_base_config, role_dhcp_snooping_setup,
+          role_dns_setup, role_firmware_upgrade, role_hardening,
+          role_link_aggregation, role_lldp_setup, role_monitoring,
+          role_ntp_setup, role_port_security, role_qos_setup,
+          role_static_routes_setup, role_storm_control_setup,
+          role_stp_setup, role_vlan_setup).
+        - >-
+          Extend integration_config.yml.sample with safe test values
+          (RFC 5737 TEST-NET-1 IPs, reserved VLAN IDs 3998-3999,
+          test interface, ACL/community/LAG names).
+        - >-
+          firmware_upgrade and hardening role tests run in check mode only
+          to avoid reboots and admin lockouts.

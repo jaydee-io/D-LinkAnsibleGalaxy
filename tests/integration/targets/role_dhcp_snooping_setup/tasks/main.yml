@@ -1,0 +1,42 @@
+---
+# Integration tests for the dhcp_snooping_setup role.
+
+- name: Create test VLAN for DHCP snooping
+  jaydee_io.dlink_dgs1250.dgs1250_vlans:
+    config:
+      - vlan_id: "{{ test_vlan_id }}"
+    state: merged
+
+- name: Apply dhcp_snooping_setup role
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.dhcp_snooping_setup
+  vars:
+    dhcp_snooping_setup_enabled: true
+    dhcp_snooping_setup_vlans:
+      - "{{ test_vlan_id }}"
+
+- name: Verify DHCP snooping is configured
+  jaydee_io.dlink_dgs1250.dhcp_snooping_show:
+  register: snoop
+
+- name: Assert DHCP snooping output is present
+  ansible.builtin.assert:
+    that: snoop.raw_output | length > 0
+    quiet: true
+
+# --- Cleanup ---
+- name: Disable DHCP snooping globally
+  jaydee_io.dlink_dgs1250.dhcp_snooping_enable:
+    state: disabled
+
+- name: Remove DHCP snooping VLAN binding
+  jaydee_io.dlink_dgs1250.dhcp_snooping_vlan:
+    vlan_id: "{{ test_vlan_id }}"
+    state: absent
+  failed_when: false
+
+- name: Delete test VLAN
+  jaydee_io.dlink_dgs1250.dgs1250_vlans:
+    config:
+      - vlan_id: "{{ test_vlan_id }}"
+    state: deleted

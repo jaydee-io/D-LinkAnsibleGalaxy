@@ -1,0 +1,27 @@
+---
+# Integration tests for the qos_setup role.
+
+- name: Apply qos_setup role
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.qos_setup
+  vars:
+    qos_setup_trust_ports:
+      - { interface: "{{ test_interface }}", trust: dscp }
+
+- name: Verify QoS settings on test interface
+  jaydee_io.dlink_dgs1250.show_mls_qos_interface:
+    interface: "{{ test_interface }}"
+    info: trust
+  register: qos
+
+- name: Assert QoS output is present
+  ansible.builtin.assert:
+    that: qos.raw_output | length > 0
+    quiet: true
+
+# --- Cleanup ---
+- name: Remove QoS trust on test interface
+  jaydee_io.dlink_dgs1250.mls_qos_trust:
+    interface: "{{ test_interface }}"
+    state: absent
+  failed_when: false

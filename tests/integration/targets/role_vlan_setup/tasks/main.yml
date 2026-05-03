@@ -1,0 +1,30 @@
+---
+# Integration tests for the vlan_setup role.
+
+- name: Apply vlan_setup role with test VLANs
+  ansible.builtin.import_role:
+    name: jaydee_io.dlink_dgs1250.vlan_setup
+  vars:
+    vlan_setup_vlans:
+      - { id: "{{ test_vlan_id }}", name: "{{ test_vlan_name }}" }
+      - { id: "{{ test_vlan_id_alt }}", name: "{{ test_vlan_name }}-alt" }
+
+- name: Verify VLANs are created
+  jaydee_io.dlink_dgs1250.show_vlan:
+  register: vlans
+
+- name: Assert test VLANs are visible
+  ansible.builtin.assert:
+    that:
+      - test_vlan_id | string in vlans.raw_output
+      - test_vlan_id_alt | string in vlans.raw_output
+    quiet: true
+
+# --- Cleanup ---
+- name: Delete test VLANs
+  jaydee_io.dlink_dgs1250.vlan:
+    vlan_id: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ test_vlan_id }}"
+    - "{{ test_vlan_id_alt }}"
