@@ -313,3 +313,24 @@ releases:
           Add integration test target for dgs1250_config covering
           idempotency and match=none behaviour.
         - "20 new unit tests for dgs1250_config helpers."
+
+  1.11.0:
+    release_date: "2026-05-03"
+    changes:
+      release_summary: >-
+        Documentation pass — align README, CHANGELOG.md, and all 17 role
+        READMEs with the current state of the collection. No code changes.
+      minor_changes:
+        - >-
+          README: correct Ansible requirement to >=2.15.0 (matches
+          meta/runtime.yml), bump integration target count from 32 to 33,
+          add a "Utility" category for the dgs1250_config target, and
+          document the [validate] tag in the Roles section.
+        - >-
+          CHANGELOG.md: rebuild from changelogs/changelog.yaml — was
+          frozen at v1.0.0, now covers all 30 releases up to v1.11.0
+          with proper compare links.
+        - >-
+          All 17 role READMEs: add a "Variable validation" section
+          explaining the validate.yml task and the --tags validate
+          shortcut for safe validation runs.

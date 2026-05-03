@@ -4,6 +4,12 @@ All notable changes to the `jaydee_io.dlink_dgs1250` Ansible Collection will be 
 
 This file is generated from [`changelogs/changelog.yaml`](changelogs/changelog.yaml), the antsibull-changelog source of truth.
 
+## [1.11.0] - 2026-05-03
+### Changed
+- README: corrected Ansible requirement to `>=2.15.0` (now matches `meta/runtime.yml`), bumped integration target count from 32 to 33, added a "Utility" category for the `dgs1250_config` target, and documented the `[validate]` tag in the Roles section.
+- CHANGELOG.md: rebuilt from `changelogs/changelog.yaml` — was frozen at v1.0.0, now covers all releases up to v1.11.0 with proper compare links.
+- All 17 role READMEs: added a "Variable validation" section explaining the `validate.yml` task and the `--tags validate` shortcut for safe validation runs.
+
 ## [1.10.0] - 2026-05-03
 ### Added
 - `dgs1250_config` module — a generic configuration module for pushing arbitrary CLI commands with parent/child contexts, idempotency against running-config, and selective save. Similar in spirit to `ios_config`.
@@ -168,6 +174,7 @@ This file is generated from [`changelogs/changelog.yaml`](changelogs/changelog.y
 - GitHub Actions workflows for unit tests and Galaxy publishing.
 - `meta/runtime.yml` with `requires_ansible` constraint.
 
+[1.11.0]: https://github.com/jaydee-io/D-LinkAnsibleGalaxy/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/jaydee-io/D-LinkAnsibleGalaxy/compare/v1.9.0...v1.10.0
 [1.9.0]: https://github.com/jaydee-io/D-LinkAnsibleGalaxy/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/jaydee-io/D-LinkAnsibleGalaxy/compare/v1.7.0...v1.8.0
