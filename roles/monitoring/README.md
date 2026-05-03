@@ -88,6 +88,14 @@ Configure monitoring on a D-Link DGS-1250 switch: SNMP, syslog, SNTP, LLDP, and 
       monitoring_save_config: true
 ```
 
+## Variable validation
+
+The role imports a `validate.yml` task file that uses `ansible.builtin.assert` to validate user-provided variables (types, ranges, required fields) before any configuration is applied. The validation step is tagged `[validate]`, so you can run validation only — without touching the switch — with `--tags validate`:
+
+```bash
+ansible-playbook play.yml --tags validate
+```
+
 ## License
 
 GPL-2.0-or-later

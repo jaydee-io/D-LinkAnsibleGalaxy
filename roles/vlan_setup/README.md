@@ -29,6 +29,14 @@ Create VLANs and configure access/trunk ports on a D-Link DGS-1250 switch.
         - { interface: eth1/0/24, allowed_vlans: "100,200,300", native_vlan: 100 }
 ```
 
+## Variable validation
+
+The role imports a `validate.yml` task file that uses `ansible.builtin.assert` to validate user-provided variables (types, ranges, required fields) before any configuration is applied. The validation step is tagged `[validate]`, so you can run validation only — without touching the switch — with `--tags validate`:
+
+```bash
+ansible-playbook play.yml --tags validate
+```
+
 ## License
 
 GPL-2.0-or-later

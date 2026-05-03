@@ -8,7 +8,7 @@ Ansible Galaxy collection for administering D-Link DGS-1250 Series Gigabit Ether
 
 ## Requirements
 
-- Ansible >= 2.14
+- Ansible >= 2.15.0
 - Python >= 3.9
 - `ansible.netcommon` collection >= 2.0.0
 
@@ -1103,6 +1103,12 @@ The collection includes ready-to-use roles for common switch administration task
 
 All roles support a `<role_name>_save_config` variable (default: `false`). Set it to `true` to automatically save the running-config to startup-config after the role applies changes.
 
+All roles also import a `validate.yml` task file that runs `ansible.builtin.assert` checks on user-provided variables (types, ranges, required fields) before applying any configuration. The validation step is tagged `[validate]`, so you can run validation only — without touching the switch — with `--tags validate`:
+
+```bash
+ansible-playbook play.yml --tags validate
+```
+
 ### `hardening`
 
 Secures a switch by disabling insecure protocols and enforcing best practices:
@@ -1431,10 +1437,11 @@ cp tests/integration/integration_config.yml.sample tests/integration/integration
 ansible-test integration --local
 ```
 
-The collection ships with 32 integration test targets covering:
+The collection ships with 33 integration test targets covering:
 
 - **Resource modules** (12 targets, `dgs1250_*`): merge → idempotency → cleanup pattern for VLANs, L2 interfaces, SNMP, logging, NTP, static routes, ACLs, LAG, storm control, STP, LLDP, DNS.
 - **Roles** (17 targets, `role_*`): apply → verify → cleanup pattern for all 17 roles. `firmware_upgrade` and `hardening` run in check mode only to avoid reboots and lockouts.
+- **Utility** (1 target, `dgs1250_config`): idempotency and `match=none` exercise for the generic config module.
 - **Legacy** (3 targets, `dgs1250_facts`, `dgs1250_mgmt`, `dgs1250_vlan`): facts collection and individual CLI module exercises.
 
 Run a specific target with `ansible-test integration <target_name>`. All test values use RFC 5737 TEST-NET addresses and reserved VLAN IDs (3998-3999) to avoid conflicts.
