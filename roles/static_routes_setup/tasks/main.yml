@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 - name: Configure IPv4 static routes
   jaydee_io.dlink_dgs1250.ip_route:
     network_prefix: "{{ item.network_prefix }}"

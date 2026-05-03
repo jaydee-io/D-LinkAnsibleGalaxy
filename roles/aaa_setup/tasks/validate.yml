@@ -1,0 +1,83 @@
+---
+- name: Validate aaa_setup_radius_servers is a list
+  ansible.builtin.assert:
+    that:
+      - aaa_setup_radius_servers is sequence
+      - aaa_setup_radius_servers is not string
+      - aaa_setup_radius_servers is not mapping
+    quiet: true
+    fail_msg: "aaa_setup_radius_servers must be a list"
+
+- name: Validate aaa_setup_radius_servers items
+  ansible.builtin.assert:
+    that:
+      - item.host is defined
+      - item.key is defined
+    quiet: true
+    fail_msg: "Each RADIUS server must have 'host' and 'key' keys, got {{ item }}"
+  loop: "{{ aaa_setup_radius_servers }}"
+  when: aaa_setup_radius_servers | length > 0
+
+- name: Validate aaa_setup_radius_servers port ranges
+  ansible.builtin.assert:
+    that:
+      - item.auth_port | int >= 1
+      - item.auth_port | int <= 65535
+    quiet: true
+    fail_msg: "auth_port must be between 1 and 65535, got {{ item.auth_port }}"
+  loop: "{{ aaa_setup_radius_servers }}"
+  when:
+    - aaa_setup_radius_servers | length > 0
+    - item.auth_port is defined
+
+- name: Validate aaa_setup_radius_servers acct_port ranges
+  ansible.builtin.assert:
+    that:
+      - item.acct_port | int >= 1
+      - item.acct_port | int <= 65535
+    quiet: true
+    fail_msg: "acct_port must be between 1 and 65535, got {{ item.acct_port }}"
+  loop: "{{ aaa_setup_radius_servers }}"
+  when:
+    - aaa_setup_radius_servers | length > 0
+    - item.acct_port is defined
+
+- name: Validate aaa_setup_tacacs_servers is a list
+  ansible.builtin.assert:
+    that:
+      - aaa_setup_tacacs_servers is sequence
+      - aaa_setup_tacacs_servers is not string
+      - aaa_setup_tacacs_servers is not mapping
+    quiet: true
+    fail_msg: "aaa_setup_tacacs_servers must be a list"
+
+- name: Validate aaa_setup_tacacs_servers items
+  ansible.builtin.assert:
+    that:
+      - item.host is defined
+      - item.key is defined
+    quiet: true
+    fail_msg: "Each TACACS+ server must have 'host' and 'key' keys, got {{ item }}"
+  loop: "{{ aaa_setup_tacacs_servers }}"
+  when: aaa_setup_tacacs_servers | length > 0
+
+- name: Validate aaa_setup_tacacs_servers port ranges
+  ansible.builtin.assert:
+    that:
+      - item.port | int >= 1
+      - item.port | int <= 65535
+    quiet: true
+    fail_msg: "port must be between 1 and 65535, got {{ item.port }}"
+  loop: "{{ aaa_setup_tacacs_servers }}"
+  when:
+    - aaa_setup_tacacs_servers | length > 0
+    - item.port is defined
+
+- name: Validate aaa_setup_login_lines values
+  ansible.builtin.assert:
+    that:
+      - item in ['ssh', 'telnet', 'console']
+    quiet: true
+    fail_msg: "Each login line must be 'ssh', 'telnet', or 'console', got '{{ item }}'"
+  loop: "{{ aaa_setup_login_lines }}"
+  when: aaa_setup_login_lines | length > 0

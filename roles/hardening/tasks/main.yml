@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 - name: Disable HTTP server
   jaydee_io.dlink_dgs1250.mgmt_ip_http_server:
     state: "{{ hardening_http_server }}"

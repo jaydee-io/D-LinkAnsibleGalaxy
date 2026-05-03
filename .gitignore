@@ -18,6 +18,7 @@ htmlcov/
 # Ansible
 *.retry
 *.tar.gz
+.ansible/
 
 # Secrets
 *.vault
@@ -30,3 +31,6 @@ vault_password*
 
 # macOS
 .DS_Store
+
+# AI
+.claude

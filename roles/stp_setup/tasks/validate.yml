@@ -1,0 +1,108 @@
+---
+- name: Validate stp_setup_global_state
+  ansible.builtin.assert:
+    that:
+      - stp_setup_global_state in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "stp_setup_global_state must be 'enabled' or 'disabled', got '{{ stp_setup_global_state }}'"
+
+- name: Validate stp_setup_mode
+  ansible.builtin.assert:
+    that:
+      - stp_setup_mode in ['mstp', 'rstp', 'stp']
+    quiet: true
+    fail_msg: "stp_setup_mode must be 'mstp', 'rstp', or 'stp', got '{{ stp_setup_mode }}'"
+  when: stp_setup_mode is not none
+
+- name: Validate stp_setup_priority range and alignment
+  ansible.builtin.assert:
+    that:
+      - stp_setup_priority | int >= 0
+      - stp_setup_priority | int <= 61440
+      - stp_setup_priority | int % 4096 == 0
+    quiet: true
+    fail_msg: "stp_setup_priority must be a multiple of 4096 between 0 and 61440, got {{ stp_setup_priority }}"
+  when: stp_setup_priority is not none
+
+- name: Validate stp_setup_tx_hold_count range
+  ansible.builtin.assert:
+    that:
+      - stp_setup_tx_hold_count | int >= 1
+      - stp_setup_tx_hold_count | int <= 10
+    quiet: true
+    fail_msg: "stp_setup_tx_hold_count must be between 1 and 10, got {{ stp_setup_tx_hold_count }}"
+  when: stp_setup_tx_hold_count is not none
+
+- name: Validate stp_setup_timers hello_time range
+  ansible.builtin.assert:
+    that:
+      - stp_setup_timers.hello_time | int >= 1
+      - stp_setup_timers.hello_time | int <= 10
+    quiet: true
+    fail_msg: "hello_time must be between 1 and 10, got {{ stp_setup_timers.hello_time }}"
+  when:
+    - stp_setup_timers is not none
+    - stp_setup_timers.hello_time is defined
+
+- name: Validate stp_setup_timers max_age range
+  ansible.builtin.assert:
+    that:
+      - stp_setup_timers.max_age | int >= 6
+      - stp_setup_timers.max_age | int <= 40
+    quiet: true
+    fail_msg: "max_age must be between 6 and 40, got {{ stp_setup_timers.max_age }}"
+  when:
+    - stp_setup_timers is not none
+    - stp_setup_timers.max_age is defined
+
+- name: Validate stp_setup_timers forward_delay range
+  ansible.builtin.assert:
+    that:
+      - stp_setup_timers.forward_delay | int >= 4
+      - stp_setup_timers.forward_delay | int <= 30
+    quiet: true
+    fail_msg: "forward_delay must be between 4 and 30, got {{ stp_setup_timers.forward_delay }}"
+  when:
+    - stp_setup_timers is not none
+    - stp_setup_timers.forward_delay is defined
+
+- name: Validate stp_setup_interfaces is a list
+  ansible.builtin.assert:
+    that:
+      - stp_setup_interfaces is sequence
+      - stp_setup_interfaces is not string
+      - stp_setup_interfaces is not mapping
+    quiet: true
+    fail_msg: "stp_setup_interfaces must be a list"
+
+- name: Validate stp_setup_interfaces items have interface key
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+    quiet: true
+    fail_msg: "Each item in stp_setup_interfaces must have an 'interface' key, got {{ item }}"
+  loop: "{{ stp_setup_interfaces }}"
+  when: stp_setup_interfaces | length > 0
+
+- name: Validate stp_setup_interfaces state values
+  ansible.builtin.assert:
+    that:
+      - item.state in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "Interface state must be 'enabled' or 'disabled', got '{{ item.state }}'"
+  loop: "{{ stp_setup_interfaces }}"
+  when:
+    - stp_setup_interfaces | length > 0
+    - item.state is defined
+
+- name: Validate stp_setup_interfaces port_priority range
+  ansible.builtin.assert:
+    that:
+      - item.port_priority | int >= 0
+      - item.port_priority | int <= 240
+    quiet: true
+    fail_msg: "port_priority must be between 0 and 240, got {{ item.port_priority }}"
+  loop: "{{ stp_setup_interfaces }}"
+  when:
+    - stp_setup_interfaces | length > 0
+    - item.port_priority is defined

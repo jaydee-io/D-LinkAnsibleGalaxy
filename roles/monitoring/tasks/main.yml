@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 # --- SNMP ---
 - name: Configure SNMP server
   jaydee_io.dlink_dgs1250.snmp_server:

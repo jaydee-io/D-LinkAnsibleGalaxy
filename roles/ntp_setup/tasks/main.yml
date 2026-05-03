@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 - name: Enable SNTP
   jaydee_io.dlink_dgs1250.sntp_enable:
     state: "{{ ntp_setup_enabled }}"

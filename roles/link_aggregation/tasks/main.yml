@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 # --- Load balancing ---
 - name: Configure port-channel load balancing
   jaydee_io.dlink_dgs1250.port_channel_load_balance:

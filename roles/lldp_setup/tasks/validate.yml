@@ -1,0 +1,70 @@
+---
+- name: Validate lldp_setup_enabled
+  ansible.builtin.assert:
+    that:
+      - lldp_setup_enabled in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "lldp_setup_enabled must be 'enabled' or 'disabled', got '{{ lldp_setup_enabled }}'"
+
+- name: Validate lldp_setup_tx_interval range
+  ansible.builtin.assert:
+    that:
+      - lldp_setup_tx_interval | int >= 5
+      - lldp_setup_tx_interval | int <= 32768
+    quiet: true
+    fail_msg: "lldp_setup_tx_interval must be between 5 and 32768, got {{ lldp_setup_tx_interval }}"
+  when: lldp_setup_tx_interval is not none
+
+- name: Validate lldp_setup_hold_multiplier range
+  ansible.builtin.assert:
+    that:
+      - lldp_setup_hold_multiplier | int >= 2
+      - lldp_setup_hold_multiplier | int <= 10
+    quiet: true
+    fail_msg: "lldp_setup_hold_multiplier must be between 2 and 10, got {{ lldp_setup_hold_multiplier }}"
+  when: lldp_setup_hold_multiplier is not none
+
+- name: Validate lldp_setup_reinit range
+  ansible.builtin.assert:
+    that:
+      - lldp_setup_reinit | int >= 1
+      - lldp_setup_reinit | int <= 10
+    quiet: true
+    fail_msg: "lldp_setup_reinit must be between 1 and 10, got {{ lldp_setup_reinit }}"
+  when: lldp_setup_reinit is not none
+
+- name: Validate lldp_setup_tx_delay range
+  ansible.builtin.assert:
+    that:
+      - lldp_setup_tx_delay | int >= 1
+      - lldp_setup_tx_delay | int <= 8192
+    quiet: true
+    fail_msg: "lldp_setup_tx_delay must be between 1 and 8192, got {{ lldp_setup_tx_delay }}"
+  when: lldp_setup_tx_delay is not none
+
+- name: Validate lldp_setup_fast_count range
+  ansible.builtin.assert:
+    that:
+      - lldp_setup_fast_count | int >= 1
+      - lldp_setup_fast_count | int <= 10
+    quiet: true
+    fail_msg: "lldp_setup_fast_count must be between 1 and 10, got {{ lldp_setup_fast_count }}"
+  when: lldp_setup_fast_count is not none
+
+- name: Validate lldp_setup_interfaces is a list
+  ansible.builtin.assert:
+    that:
+      - lldp_setup_interfaces is sequence
+      - lldp_setup_interfaces is not string
+      - lldp_setup_interfaces is not mapping
+    quiet: true
+    fail_msg: "lldp_setup_interfaces must be a list"
+
+- name: Validate lldp_setup_interfaces items have interface key
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+    quiet: true
+    fail_msg: "Each item in lldp_setup_interfaces must have an 'interface' key, got {{ item }}"
+  loop: "{{ lldp_setup_interfaces }}"
+  when: lldp_setup_interfaces | length > 0

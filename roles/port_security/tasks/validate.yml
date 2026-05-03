@@ -1,0 +1,77 @@
+---
+- name: Validate port_security_dot1x_ports is a list
+  ansible.builtin.assert:
+    that:
+      - port_security_dot1x_ports is sequence
+      - port_security_dot1x_ports is not string
+      - port_security_dot1x_ports is not mapping
+    quiet: true
+    fail_msg: "port_security_dot1x_ports must be a list"
+
+- name: Validate port_security_dot1x_ports items
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+      - item.control is defined
+      - item.control in ['auto', 'force-authorized', 'force-unauthorized']
+    quiet: true
+    fail_msg: >-
+      Each 802.1X port must have 'interface' and 'control'
+      (auto/force-authorized/force-unauthorized), got {{ item }}
+  loop: "{{ port_security_dot1x_ports }}"
+  when: port_security_dot1x_ports | length > 0
+
+- name: Validate port_security_dot1x_ports host_mode values
+  ansible.builtin.assert:
+    that:
+      - item.host_mode in ['multi-host', 'multi-auth']
+    quiet: true
+    fail_msg: "host_mode must be 'multi-host' or 'multi-auth', got '{{ item.host_mode }}'"
+  loop: "{{ port_security_dot1x_ports }}"
+  when:
+    - port_security_dot1x_ports | length > 0
+    - item.host_mode is defined
+
+- name: Validate port_security_dot1x_ports max_users
+  ansible.builtin.assert:
+    that:
+      - item.max_users | int >= 1
+    quiet: true
+    fail_msg: "max_users must be a positive integer, got {{ item.max_users }}"
+  loop: "{{ port_security_dot1x_ports }}"
+  when:
+    - port_security_dot1x_ports | length > 0
+    - item.max_users is defined
+
+- name: Validate port_security_ports is a list
+  ansible.builtin.assert:
+    that:
+      - port_security_ports is sequence
+      - port_security_ports is not string
+      - port_security_ports is not mapping
+    quiet: true
+    fail_msg: "port_security_ports must be a list"
+
+- name: Validate port_security_ports items
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+      - item.maximum is defined
+      - item.maximum | int >= 1
+      - item.violation is defined
+      - item.violation in ['protect', 'restrict', 'shutdown']
+    quiet: true
+    fail_msg: >-
+      Each port security entry must have 'interface', 'maximum' (positive integer),
+      and 'violation' (protect/restrict/shutdown), got {{ item }}
+  loop: "{{ port_security_ports }}"
+  when: port_security_ports | length > 0
+
+- name: Validate port_security_mac_auth_ports is a list
+  ansible.builtin.assert:
+    that:
+      - port_security_mac_auth_ports is sequence
+      - port_security_mac_auth_ports is not string
+      - port_security_mac_auth_ports is not mapping
+    quiet: true
+    fail_msg: "port_security_mac_auth_ports must be a list"

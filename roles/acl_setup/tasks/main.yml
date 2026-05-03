@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 # --- Create IP access lists ---
 - name: Create IP access lists
   jaydee_io.dlink_dgs1250.acl_ip_access_list:

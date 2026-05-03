@@ -1,0 +1,72 @@
+---
+- name: Validate link_aggregation_load_balance
+  ansible.builtin.assert:
+    that:
+      - link_aggregation_load_balance in ['dst-ip', 'dst-mac', 'src-dst-ip', 'src-dst-mac', 'src-ip', 'src-mac']
+    quiet: true
+    fail_msg: >-
+      link_aggregation_load_balance must be one of: dst-ip, dst-mac, src-dst-ip,
+      src-dst-mac, src-ip, src-mac — got '{{ link_aggregation_load_balance }}'
+
+- name: Validate link_aggregation_system_priority range
+  ansible.builtin.assert:
+    that:
+      - link_aggregation_system_priority | int >= 0
+      - link_aggregation_system_priority | int <= 65535
+    quiet: true
+    fail_msg: "link_aggregation_system_priority must be between 0 and 65535, got {{ link_aggregation_system_priority }}"
+  when: link_aggregation_system_priority is not none
+
+- name: Validate link_aggregation_port_channels is a list
+  ansible.builtin.assert:
+    that:
+      - link_aggregation_port_channels is sequence
+      - link_aggregation_port_channels is not string
+      - link_aggregation_port_channels is not mapping
+    quiet: true
+    fail_msg: "link_aggregation_port_channels must be a list"
+
+- name: Validate link_aggregation_port_channels items
+  ansible.builtin.assert:
+    that:
+      - item.channel_no is defined
+      - item.channel_no | int >= 1
+      - item.channel_no | int <= 8
+      - item.mode is defined
+      - item.mode in ['on', 'active', 'passive']
+      - item.members is defined
+      - item.members is sequence
+    quiet: true
+    fail_msg: >-
+      Each port channel must have 'channel_no' (1-8), 'mode' (on/active/passive),
+      and 'members' (list) — got {{ item }}
+  loop: "{{ link_aggregation_port_channels }}"
+  when: link_aggregation_port_channels | length > 0
+
+- name: Validate port channel members have interface key
+  ansible.builtin.assert:
+    that:
+      - member.interface is defined
+    quiet: true
+    fail_msg: "Each port channel member must have an 'interface' key"
+  loop: "{{ link_aggregation_port_channels | subelements('members') }}"
+  loop_control:
+    loop_var: _member_pair
+  vars:
+    member: "{{ _member_pair.1 }}"
+  when: link_aggregation_port_channels | length > 0
+
+- name: Validate port channel member lacp_timeout values
+  ansible.builtin.assert:
+    that:
+      - member.lacp_timeout in ['short', 'long']
+    quiet: true
+    fail_msg: "lacp_timeout must be 'short' or 'long', got '{{ member.lacp_timeout }}'"
+  loop: "{{ link_aggregation_port_channels | subelements('members') }}"
+  loop_control:
+    loop_var: _member_pair
+  vars:
+    member: "{{ _member_pair.1 }}"
+  when:
+    - link_aggregation_port_channels | length > 0
+    - member.lacp_timeout is defined

@@ -1,0 +1,51 @@
+---
+- name: Validate acl_setup_ip_access_lists is a list
+  ansible.builtin.assert:
+    that:
+      - acl_setup_ip_access_lists is sequence
+      - acl_setup_ip_access_lists is not string
+      - acl_setup_ip_access_lists is not mapping
+    quiet: true
+    fail_msg: "acl_setup_ip_access_lists must be a list"
+
+- name: Validate acl_setup_ip_access_lists items
+  ansible.builtin.assert:
+    that:
+      - item.name is defined
+      - item.name is string
+      - item.name | length > 0
+    quiet: true
+    fail_msg: "Each ACL must have a non-empty 'name', got {{ item }}"
+  loop: "{{ acl_setup_ip_access_lists }}"
+  when: acl_setup_ip_access_lists | length > 0
+
+- name: Validate acl_setup_ip_access_lists rules are lists
+  ansible.builtin.assert:
+    that:
+      - item.rules is sequence
+      - item.rules is not string
+    quiet: true
+    fail_msg: "ACL rules must be a list of strings, got {{ item.rules }}"
+  loop: "{{ acl_setup_ip_access_lists }}"
+  when:
+    - acl_setup_ip_access_lists | length > 0
+    - item.rules is defined
+
+- name: Validate acl_setup_interface_bindings is a list
+  ansible.builtin.assert:
+    that:
+      - acl_setup_interface_bindings is sequence
+      - acl_setup_interface_bindings is not string
+      - acl_setup_interface_bindings is not mapping
+    quiet: true
+    fail_msg: "acl_setup_interface_bindings must be a list"
+
+- name: Validate acl_setup_interface_bindings items
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+      - item.acl_name is defined
+    quiet: true
+    fail_msg: "Each interface binding must have 'interface' and 'acl_name' keys, got {{ item }}"
+  loop: "{{ acl_setup_interface_bindings }}"
+  when: acl_setup_interface_bindings | length > 0

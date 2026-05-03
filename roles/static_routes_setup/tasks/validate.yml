@@ -1,0 +1,39 @@
+---
+- name: Validate static_routes_setup_ipv4 is a list
+  ansible.builtin.assert:
+    that:
+      - static_routes_setup_ipv4 is sequence
+      - static_routes_setup_ipv4 is not string
+      - static_routes_setup_ipv4 is not mapping
+    quiet: true
+    fail_msg: "static_routes_setup_ipv4 must be a list"
+
+- name: Validate static_routes_setup_ipv4 items
+  ansible.builtin.assert:
+    that:
+      - item.network_prefix is defined
+      - item.network_mask is defined
+      - item.next_hop is defined
+    quiet: true
+    fail_msg: "Each IPv4 route must have 'network_prefix', 'network_mask', and 'next_hop', got {{ item }}"
+  loop: "{{ static_routes_setup_ipv4 }}"
+  when: static_routes_setup_ipv4 | length > 0
+
+- name: Validate static_routes_setup_ipv6 is a list
+  ansible.builtin.assert:
+    that:
+      - static_routes_setup_ipv6 is sequence
+      - static_routes_setup_ipv6 is not string
+      - static_routes_setup_ipv6 is not mapping
+    quiet: true
+    fail_msg: "static_routes_setup_ipv6 must be a list"
+
+- name: Validate static_routes_setup_ipv6 items
+  ansible.builtin.assert:
+    that:
+      - item.network_prefix is defined
+      - item.next_hop is defined
+    quiet: true
+    fail_msg: "Each IPv6 route must have 'network_prefix' and 'next_hop', got {{ item }}"
+  loop: "{{ static_routes_setup_ipv6 }}"
+  when: static_routes_setup_ipv6 | length > 0

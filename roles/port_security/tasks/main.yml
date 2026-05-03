@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 # --- 802.1X global ---
 - name: Enable 802.1X system auth control
   jaydee_io.dlink_dgs1250.dot1x_system_auth_control:

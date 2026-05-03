@@ -1,0 +1,226 @@
+---
+# --- SNMP ---
+- name: Validate monitoring_snmp_server
+  ansible.builtin.assert:
+    that:
+      - monitoring_snmp_server in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "monitoring_snmp_server must be 'enabled' or 'disabled', got '{{ monitoring_snmp_server }}'"
+
+- name: Validate monitoring_snmp_community_access
+  ansible.builtin.assert:
+    that:
+      - monitoring_snmp_community_access in ['ro', 'rw']
+    quiet: true
+    fail_msg: "monitoring_snmp_community_access must be 'ro' or 'rw', got '{{ monitoring_snmp_community_access }}'"
+
+- name: Validate monitoring_snmp_communities is a list
+  ansible.builtin.assert:
+    that:
+      - monitoring_snmp_communities is sequence
+      - monitoring_snmp_communities is not string
+      - monitoring_snmp_communities is not mapping
+    quiet: true
+    fail_msg: "monitoring_snmp_communities must be a list"
+
+- name: Validate monitoring_snmp_communities items
+  ansible.builtin.assert:
+    that:
+      - item.community is defined
+    quiet: true
+    fail_msg: "Each item in monitoring_snmp_communities must have a 'community' key, got {{ item }}"
+  loop: "{{ monitoring_snmp_communities }}"
+  when: monitoring_snmp_communities | length > 0
+
+- name: Validate monitoring_snmp_communities access_type values
+  ansible.builtin.assert:
+    that:
+      - item.access_type in ['ro', 'rw']
+    quiet: true
+    fail_msg: "access_type must be 'ro' or 'rw', got '{{ item.access_type }}'"
+  loop: "{{ monitoring_snmp_communities }}"
+  when:
+    - monitoring_snmp_communities | length > 0
+    - item.access_type is defined
+
+- name: Validate monitoring_snmp_hosts is a list
+  ansible.builtin.assert:
+    that:
+      - monitoring_snmp_hosts is sequence
+      - monitoring_snmp_hosts is not string
+      - monitoring_snmp_hosts is not mapping
+    quiet: true
+    fail_msg: "monitoring_snmp_hosts must be a list"
+
+- name: Validate monitoring_snmp_hosts items
+  ansible.builtin.assert:
+    that:
+      - item.host is defined
+    quiet: true
+    fail_msg: "Each item in monitoring_snmp_hosts must have a 'host' key, got {{ item }}"
+  loop: "{{ monitoring_snmp_hosts }}"
+  when: monitoring_snmp_hosts | length > 0
+
+- name: Validate monitoring_snmp_host_version
+  ansible.builtin.assert:
+    that:
+      - monitoring_snmp_host_version in ['2c', '3']
+    quiet: true
+    fail_msg: "monitoring_snmp_host_version must be '2c' or '3', got '{{ monitoring_snmp_host_version }}'"
+
+- name: Validate monitoring_snmp_traps is a list
+  ansible.builtin.assert:
+    that:
+      - monitoring_snmp_traps is sequence
+      - monitoring_snmp_traps is not string
+      - monitoring_snmp_traps is not mapping
+    quiet: true
+    fail_msg: "monitoring_snmp_traps must be a list"
+
+- name: Validate monitoring_snmp_traps values
+  ansible.builtin.assert:
+    that:
+      - item in ['snmp', 'stp', 'storm_control', 'rmon', 'safeguard_engine', 'errdisable', 'mac_notification_change', 'gratuitous_arp']
+    quiet: true
+    fail_msg: >-
+      Each trap must be one of: snmp, stp, storm_control, rmon, safeguard_engine,
+      errdisable, mac_notification_change, gratuitous_arp — got '{{ item }}'
+  loop: "{{ monitoring_snmp_traps }}"
+  when: monitoring_snmp_traps | length > 0
+
+- name: Validate monitoring_snmp_service_port range
+  ansible.builtin.assert:
+    that:
+      - monitoring_snmp_service_port | int >= 1
+      - monitoring_snmp_service_port | int <= 65535
+    quiet: true
+    fail_msg: "monitoring_snmp_service_port must be between 1 and 65535, got {{ monitoring_snmp_service_port }}"
+  when: monitoring_snmp_service_port is not none
+
+# --- Syslog ---
+- name: Validate monitoring_syslog_buffered
+  ansible.builtin.assert:
+    that:
+      - monitoring_syslog_buffered in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "monitoring_syslog_buffered must be 'enabled' or 'disabled', got '{{ monitoring_syslog_buffered }}'"
+
+- name: Validate monitoring_syslog_buffered_severity
+  ansible.builtin.assert:
+    that:
+      - monitoring_syslog_buffered_severity in ['emergencies', 'alerts', 'critical', 'errors', 'warnings', 'notifications', 'informational', 'debugging']
+    quiet: true
+    fail_msg: >-
+      monitoring_syslog_buffered_severity must be a valid severity level, got '{{ monitoring_syslog_buffered_severity }}'
+
+- name: Validate monitoring_syslog_servers is a list
+  ansible.builtin.assert:
+    that:
+      - monitoring_syslog_servers is sequence
+      - monitoring_syslog_servers is not string
+      - monitoring_syslog_servers is not mapping
+    quiet: true
+    fail_msg: "monitoring_syslog_servers must be a list"
+
+- name: Validate monitoring_syslog_servers items
+  ansible.builtin.assert:
+    that:
+      - item.address is defined
+    quiet: true
+    fail_msg: "Each item in monitoring_syslog_servers must have an 'address' key, got {{ item }}"
+  loop: "{{ monitoring_syslog_servers }}"
+  when: monitoring_syslog_servers | length > 0
+
+- name: Validate monitoring_syslog_server_severity
+  ansible.builtin.assert:
+    that:
+      - monitoring_syslog_server_severity in ['emergencies', 'alerts', 'critical', 'errors', 'warnings', 'notifications', 'informational', 'debugging']
+    quiet: true
+    fail_msg: >-
+      monitoring_syslog_server_severity must be a valid severity level, got '{{ monitoring_syslog_server_severity }}'
+
+# --- SNTP ---
+- name: Validate monitoring_sntp_enabled
+  ansible.builtin.assert:
+    that:
+      - monitoring_sntp_enabled in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "monitoring_sntp_enabled must be 'enabled' or 'disabled', got '{{ monitoring_sntp_enabled }}'"
+
+- name: Validate monitoring_sntp_interval range
+  ansible.builtin.assert:
+    that:
+      - monitoring_sntp_interval | int >= 60
+      - monitoring_sntp_interval | int <= 65535
+    quiet: true
+    fail_msg: "monitoring_sntp_interval must be between 60 and 65535, got {{ monitoring_sntp_interval }}"
+
+- name: Validate monitoring_sntp_servers is a list
+  ansible.builtin.assert:
+    that:
+      - monitoring_sntp_servers is sequence
+      - monitoring_sntp_servers is not string
+      - monitoring_sntp_servers is not mapping
+    quiet: true
+    fail_msg: "monitoring_sntp_servers must be a list"
+
+# --- LLDP ---
+- name: Validate monitoring_lldp_enabled
+  ansible.builtin.assert:
+    that:
+      - monitoring_lldp_enabled in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "monitoring_lldp_enabled must be 'enabled' or 'disabled', got '{{ monitoring_lldp_enabled }}'"
+
+- name: Validate monitoring_lldp_tx_interval range
+  ansible.builtin.assert:
+    that:
+      - monitoring_lldp_tx_interval | int >= 5
+      - monitoring_lldp_tx_interval | int <= 32768
+    quiet: true
+    fail_msg: "monitoring_lldp_tx_interval must be between 5 and 32768, got {{ monitoring_lldp_tx_interval }}"
+  when: monitoring_lldp_tx_interval is not none
+
+- name: Validate monitoring_lldp_hold_multiplier range
+  ansible.builtin.assert:
+    that:
+      - monitoring_lldp_hold_multiplier | int >= 2
+      - monitoring_lldp_hold_multiplier | int <= 10
+    quiet: true
+    fail_msg: "monitoring_lldp_hold_multiplier must be between 2 and 10, got {{ monitoring_lldp_hold_multiplier }}"
+  when: monitoring_lldp_hold_multiplier is not none
+
+- name: Validate monitoring_lldp_reinit range
+  ansible.builtin.assert:
+    that:
+      - monitoring_lldp_reinit | int >= 1
+      - monitoring_lldp_reinit | int <= 10
+    quiet: true
+    fail_msg: "monitoring_lldp_reinit must be between 1 and 10, got {{ monitoring_lldp_reinit }}"
+  when: monitoring_lldp_reinit is not none
+
+- name: Validate monitoring_lldp_tx_delay range
+  ansible.builtin.assert:
+    that:
+      - monitoring_lldp_tx_delay | int >= 1
+      - monitoring_lldp_tx_delay | int <= 8192
+    quiet: true
+    fail_msg: "monitoring_lldp_tx_delay must be between 1 and 8192, got {{ monitoring_lldp_tx_delay }}"
+  when: monitoring_lldp_tx_delay is not none
+
+# --- RMON ---
+- name: Validate monitoring_rmon_interfaces is a list
+  ansible.builtin.assert:
+    that:
+      - monitoring_rmon_interfaces is sequence
+      - monitoring_rmon_interfaces is not string
+      - monitoring_rmon_interfaces is not mapping
+    quiet: true
+    fail_msg: "monitoring_rmon_interfaces must be a list"
+
+- name: Validate monitoring_rmon_stats_index_start range
+  ansible.builtin.assert:
+    that:
+      - monitoring_rmon_stats_index_start | int >= 1
+    quiet: true
+    fail_msg: "monitoring_rmon_stats_index_start must be a positive integer, got {{ monitoring_rmon_stats_index_start }}"

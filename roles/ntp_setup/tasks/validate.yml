@@ -1,0 +1,33 @@
+---
+- name: Validate ntp_setup_enabled
+  ansible.builtin.assert:
+    that:
+      - ntp_setup_enabled in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "ntp_setup_enabled must be 'enabled' or 'disabled', got '{{ ntp_setup_enabled }}'"
+
+- name: Validate ntp_setup_interval range
+  ansible.builtin.assert:
+    that:
+      - ntp_setup_interval | int >= 60
+      - ntp_setup_interval | int <= 65535
+    quiet: true
+    fail_msg: "ntp_setup_interval must be between 60 and 65535, got {{ ntp_setup_interval }}"
+
+- name: Validate ntp_setup_servers is a list
+  ansible.builtin.assert:
+    that:
+      - ntp_setup_servers is sequence
+      - ntp_setup_servers is not string
+      - ntp_setup_servers is not mapping
+    quiet: true
+    fail_msg: "ntp_setup_servers must be a list"
+
+- name: Validate ntp_setup_servers items are strings
+  ansible.builtin.assert:
+    that:
+      - item is string
+    quiet: true
+    fail_msg: "Each item in ntp_setup_servers must be a string, got '{{ item }}'"
+  loop: "{{ ntp_setup_servers }}"
+  when: ntp_setup_servers | length > 0

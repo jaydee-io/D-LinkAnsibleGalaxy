@@ -1,0 +1,59 @@
+---
+- name: Validate base_config_timezone_sign
+  ansible.builtin.assert:
+    that:
+      - base_config_timezone_sign in ['+', '-']
+    quiet: true
+    fail_msg: "base_config_timezone_sign must be '+' or '-', got '{{ base_config_timezone_sign }}'"
+
+- name: Validate base_config_timezone_hours range
+  ansible.builtin.assert:
+    that:
+      - base_config_timezone_hours | int >= 0
+      - base_config_timezone_hours | int <= 23
+    quiet: true
+    fail_msg: "base_config_timezone_hours must be between 0 and 23, got {{ base_config_timezone_hours }}"
+
+- name: Validate base_config_timezone_minutes range
+  ansible.builtin.assert:
+    that:
+      - base_config_timezone_minutes | int >= 0
+      - base_config_timezone_minutes | int <= 59
+    quiet: true
+    fail_msg: "base_config_timezone_minutes must be between 0 and 59, got {{ base_config_timezone_minutes }}"
+
+- name: Validate base_config_syslog_severity
+  ansible.builtin.assert:
+    that:
+      - base_config_syslog_severity in ['emergencies', 'alerts', 'critical', 'errors', 'warnings', 'notifications', 'informational', 'debugging']
+    quiet: true
+    fail_msg: >-
+      base_config_syslog_severity must be one of: emergencies, alerts, critical, errors,
+      warnings, notifications, informational, debugging — got '{{ base_config_syslog_severity }}'
+
+- name: Validate base_config_stp_mode
+  ansible.builtin.assert:
+    that:
+      - base_config_stp_mode in ['mstp', 'rstp', 'stp']
+    quiet: true
+    fail_msg: "base_config_stp_mode must be 'mstp', 'rstp', or 'stp', got '{{ base_config_stp_mode }}'"
+
+- name: Validate base_config_vlans is a list
+  ansible.builtin.assert:
+    that:
+      - base_config_vlans is sequence
+      - base_config_vlans is not string
+      - base_config_vlans is not mapping
+    quiet: true
+    fail_msg: "base_config_vlans must be a list"
+
+- name: Validate base_config_vlans items
+  ansible.builtin.assert:
+    that:
+      - item.id is defined
+      - item.id | int >= 1
+      - item.id | int <= 4094
+    quiet: true
+    fail_msg: "Each VLAN must have an 'id' between 1 and 4094, got {{ item }}"
+  loop: "{{ base_config_vlans }}"
+  when: base_config_vlans | length > 0

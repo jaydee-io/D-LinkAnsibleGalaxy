@@ -1,0 +1,127 @@
+---
+- name: Validate qos_setup_trust_ports is a list
+  ansible.builtin.assert:
+    that:
+      - qos_setup_trust_ports is sequence
+      - qos_setup_trust_ports is not string
+      - qos_setup_trust_ports is not mapping
+    quiet: true
+    fail_msg: "qos_setup_trust_ports must be a list"
+
+- name: Validate qos_setup_trust_ports items
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+      - item.trust is defined
+      - item.trust in ['cos', 'dscp']
+    quiet: true
+    fail_msg: "Each trust port must have 'interface' and 'trust' (cos/dscp), got {{ item }}"
+  loop: "{{ qos_setup_trust_ports }}"
+  when: qos_setup_trust_ports | length > 0
+
+- name: Validate qos_setup_cos_ports is a list
+  ansible.builtin.assert:
+    that:
+      - qos_setup_cos_ports is sequence
+      - qos_setup_cos_ports is not string
+      - qos_setup_cos_ports is not mapping
+    quiet: true
+    fail_msg: "qos_setup_cos_ports must be a list"
+
+- name: Validate qos_setup_cos_ports items
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+      - item.cos_value is defined
+      - item.cos_value | int >= 0
+      - item.cos_value | int <= 7
+    quiet: true
+    fail_msg: "Each CoS port must have 'interface' and 'cos_value' (0-7), got {{ item }}"
+  loop: "{{ qos_setup_cos_ports }}"
+  when: qos_setup_cos_ports | length > 0
+
+- name: Validate qos_setup_scheduler_ports is a list
+  ansible.builtin.assert:
+    that:
+      - qos_setup_scheduler_ports is sequence
+      - qos_setup_scheduler_ports is not string
+      - qos_setup_scheduler_ports is not mapping
+    quiet: true
+    fail_msg: "qos_setup_scheduler_ports must be a list"
+
+- name: Validate qos_setup_scheduler_ports items
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+      - item.algorithm is defined
+      - item.algorithm in ['sp', 'rr', 'wrr', 'wdrr']
+    quiet: true
+    fail_msg: "Each scheduler port must have 'interface' and 'algorithm' (sp/rr/wrr/wdrr), got {{ item }}"
+  loop: "{{ qos_setup_scheduler_ports }}"
+  when: qos_setup_scheduler_ports | length > 0
+
+- name: Validate qos_setup_class_maps is a list
+  ansible.builtin.assert:
+    that:
+      - qos_setup_class_maps is sequence
+      - qos_setup_class_maps is not string
+      - qos_setup_class_maps is not mapping
+    quiet: true
+    fail_msg: "qos_setup_class_maps must be a list"
+
+- name: Validate qos_setup_class_maps items
+  ansible.builtin.assert:
+    that:
+      - item.name is defined
+    quiet: true
+    fail_msg: "Each class map must have a 'name' key, got {{ item }}"
+  loop: "{{ qos_setup_class_maps }}"
+  when: qos_setup_class_maps | length > 0
+
+- name: Validate qos_setup_class_maps match_type values
+  ansible.builtin.assert:
+    that:
+      - item.match_type in ['match-all', 'match-any']
+    quiet: true
+    fail_msg: "match_type must be 'match-all' or 'match-any', got '{{ item.match_type }}'"
+  loop: "{{ qos_setup_class_maps }}"
+  when:
+    - qos_setup_class_maps | length > 0
+    - item.match_type is defined
+
+- name: Validate qos_setup_policy_maps is a list
+  ansible.builtin.assert:
+    that:
+      - qos_setup_policy_maps is sequence
+      - qos_setup_policy_maps is not string
+      - qos_setup_policy_maps is not mapping
+    quiet: true
+    fail_msg: "qos_setup_policy_maps must be a list"
+
+- name: Validate qos_setup_policy_maps items
+  ansible.builtin.assert:
+    that:
+      - item.name is defined
+    quiet: true
+    fail_msg: "Each policy map must have a 'name' key, got {{ item }}"
+  loop: "{{ qos_setup_policy_maps }}"
+  when: qos_setup_policy_maps | length > 0
+
+- name: Validate qos_setup_service_policies is a list
+  ansible.builtin.assert:
+    that:
+      - qos_setup_service_policies is sequence
+      - qos_setup_service_policies is not string
+      - qos_setup_service_policies is not mapping
+    quiet: true
+    fail_msg: "qos_setup_service_policies must be a list"
+
+- name: Validate qos_setup_service_policies items
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+      - item.policy_name is defined
+    quiet: true
+    fail_msg: "Each service policy must have 'interface' and 'policy_name' keys, got {{ item }}"
+  loop: "{{ qos_setup_service_policies }}"
+  when: qos_setup_service_policies | length > 0

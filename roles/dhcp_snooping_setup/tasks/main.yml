@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 # --- DHCP Snooping ---
 - name: Enable DHCP snooping globally
   jaydee_io.dlink_dgs1250.dhcp_snooping_enable:

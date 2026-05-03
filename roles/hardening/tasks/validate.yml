@@ -1,0 +1,68 @@
+---
+- name: Validate hardening_http_server
+  ansible.builtin.assert:
+    that:
+      - hardening_http_server in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "hardening_http_server must be 'enabled' or 'disabled', got '{{ hardening_http_server }}'"
+
+- name: Validate hardening_https_server
+  ansible.builtin.assert:
+    that:
+      - hardening_https_server in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "hardening_https_server must be 'enabled' or 'disabled', got '{{ hardening_https_server }}'"
+
+- name: Validate hardening_ssh_server
+  ansible.builtin.assert:
+    that:
+      - hardening_ssh_server in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "hardening_ssh_server must be 'enabled' or 'disabled', got '{{ hardening_ssh_server }}'"
+
+- name: Validate hardening_telnet_server
+  ansible.builtin.assert:
+    that:
+      - hardening_telnet_server in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "hardening_telnet_server must be 'enabled' or 'disabled', got '{{ hardening_telnet_server }}'"
+
+- name: Validate hardening_password_encryption
+  ansible.builtin.assert:
+    that:
+      - hardening_password_encryption in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "hardening_password_encryption must be 'enabled' or 'disabled', got '{{ hardening_password_encryption }}'"
+
+- name: Validate hardening_session_timeout_console range
+  ansible.builtin.assert:
+    that:
+      - hardening_session_timeout_console | int >= 1
+      - hardening_session_timeout_console | int <= 160
+    quiet: true
+    fail_msg: "hardening_session_timeout_console must be between 1 and 160 minutes, got {{ hardening_session_timeout_console }}"
+
+- name: Validate hardening_session_timeout_telnet range
+  ansible.builtin.assert:
+    that:
+      - hardening_session_timeout_telnet | int >= 1
+      - hardening_session_timeout_telnet | int <= 160
+    quiet: true
+    fail_msg: "hardening_session_timeout_telnet must be between 1 and 160 minutes, got {{ hardening_session_timeout_telnet }}"
+
+- name: Validate hardening_session_timeout_ssh range
+  ansible.builtin.assert:
+    that:
+      - hardening_session_timeout_ssh | int >= 1
+      - hardening_session_timeout_ssh | int <= 160
+    quiet: true
+    fail_msg: "hardening_session_timeout_ssh must be between 1 and 160 minutes, got {{ hardening_session_timeout_ssh }}"
+
+- name: Validate hardening_mgmt_acl_lines values
+  ansible.builtin.assert:
+    that:
+      - item in ['ssh', 'telnet', 'console']
+    quiet: true
+    fail_msg: "Each item in hardening_mgmt_acl_lines must be 'ssh', 'telnet', or 'console', got '{{ item }}'"
+  loop: "{{ hardening_mgmt_acl_lines }}"
+  when: hardening_mgmt_acl_lines | length > 0

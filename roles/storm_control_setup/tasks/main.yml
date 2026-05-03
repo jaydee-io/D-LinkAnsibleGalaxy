@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 # --- Storm control per-port ---
 - name: Configure storm control on ports
   jaydee_io.dlink_dgs1250.storm_control:

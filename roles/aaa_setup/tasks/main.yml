@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 # --- Enable AAA ---
 - name: Enable AAA new-model
   jaydee_io.dlink_dgs1250.aaa_new_model:

@@ -1,0 +1,72 @@
+---
+- name: Validate vlan_setup_vlans is a list
+  ansible.builtin.assert:
+    that:
+      - vlan_setup_vlans is sequence
+      - vlan_setup_vlans is not string
+      - vlan_setup_vlans is not mapping
+    quiet: true
+    fail_msg: "vlan_setup_vlans must be a list"
+
+- name: Validate vlan_setup_vlans items
+  ansible.builtin.assert:
+    that:
+      - item.id is defined
+      - item.id | int >= 1
+      - item.id | int <= 4094
+    quiet: true
+    fail_msg: "Each VLAN must have an 'id' between 1 and 4094, got {{ item }}"
+  loop: "{{ vlan_setup_vlans }}"
+  when: vlan_setup_vlans | length > 0
+
+- name: Validate vlan_setup_access_ports is a list
+  ansible.builtin.assert:
+    that:
+      - vlan_setup_access_ports is sequence
+      - vlan_setup_access_ports is not string
+      - vlan_setup_access_ports is not mapping
+    quiet: true
+    fail_msg: "vlan_setup_access_ports must be a list"
+
+- name: Validate vlan_setup_access_ports items
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+      - item.vlan_id is defined
+      - item.vlan_id | int >= 1
+      - item.vlan_id | int <= 4094
+    quiet: true
+    fail_msg: "Each access port must have 'interface' and 'vlan_id' (1-4094), got {{ item }}"
+  loop: "{{ vlan_setup_access_ports }}"
+  when: vlan_setup_access_ports | length > 0
+
+- name: Validate vlan_setup_trunk_ports is a list
+  ansible.builtin.assert:
+    that:
+      - vlan_setup_trunk_ports is sequence
+      - vlan_setup_trunk_ports is not string
+      - vlan_setup_trunk_ports is not mapping
+    quiet: true
+    fail_msg: "vlan_setup_trunk_ports must be a list"
+
+- name: Validate vlan_setup_trunk_ports items
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+      - item.allowed_vlans is defined
+    quiet: true
+    fail_msg: "Each trunk port must have 'interface' and 'allowed_vlans' keys, got {{ item }}"
+  loop: "{{ vlan_setup_trunk_ports }}"
+  when: vlan_setup_trunk_ports | length > 0
+
+- name: Validate vlan_setup_trunk_ports native_vlan range
+  ansible.builtin.assert:
+    that:
+      - item.native_vlan | int >= 1
+      - item.native_vlan | int <= 4094
+    quiet: true
+    fail_msg: "native_vlan must be between 1 and 4094, got {{ item.native_vlan }}"
+  loop: "{{ vlan_setup_trunk_ports }}"
+  when:
+    - vlan_setup_trunk_ports | length > 0
+    - item.native_vlan is defined

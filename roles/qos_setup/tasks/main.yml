@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 # --- Per-port QoS trust ---
 - name: Configure QoS trust mode on ports
   jaydee_io.dlink_dgs1250.mls_qos_trust:

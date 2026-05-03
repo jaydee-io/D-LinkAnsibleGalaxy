@@ -1,0 +1,16 @@
+---
+- name: Validate firmware_upgrade_tftp_source is defined
+  ansible.builtin.assert:
+    that:
+      - firmware_upgrade_tftp_source is not none
+      - firmware_upgrade_tftp_source is string
+      - firmware_upgrade_tftp_source | length > 0
+    quiet: true
+    fail_msg: "firmware_upgrade_tftp_source is required and must be a non-empty TFTP URL"
+
+- name: Validate firmware_upgrade_boot_image
+  ansible.builtin.assert:
+    that:
+      - firmware_upgrade_boot_image in ['Image1', 'Image2']
+    quiet: true
+    fail_msg: "firmware_upgrade_boot_image must be 'Image1' or 'Image2', got '{{ firmware_upgrade_boot_image }}'"

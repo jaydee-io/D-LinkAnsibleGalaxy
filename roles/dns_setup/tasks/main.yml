@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 - name: Configure DNS domain lookup
   jaydee_io.dlink_dgs1250.dns_ip_domain_lookup:
     state: "{{ dns_setup_domain_lookup }}"

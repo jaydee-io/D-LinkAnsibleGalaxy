@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 # --- Global STP settings ---
 - name: Configure STP global state
   jaydee_io.dlink_dgs1250.spanning_tree_global_state:

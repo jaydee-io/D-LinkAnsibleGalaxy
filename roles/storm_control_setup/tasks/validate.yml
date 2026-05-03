@@ -1,0 +1,68 @@
+---
+- name: Validate storm_control_setup_ports is a list
+  ansible.builtin.assert:
+    that:
+      - storm_control_setup_ports is sequence
+      - storm_control_setup_ports is not string
+      - storm_control_setup_ports is not mapping
+    quiet: true
+    fail_msg: "storm_control_setup_ports must be a list"
+
+- name: Validate storm_control_setup_ports items
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+      - item.traffic_type is defined
+      - item.traffic_type in ['broadcast', 'multicast', 'unicast']
+      - item.level_mode is defined
+      - item.level_mode in ['pps', 'kbps', 'percent']
+      - item.rise is defined
+      - item.action is defined
+      - item.action in ['shutdown', 'drop', 'none']
+    quiet: true
+    fail_msg: >-
+      Each storm control port must have: interface, traffic_type (broadcast/multicast/unicast),
+      level_mode (pps/kbps/percent), rise, action (shutdown/drop/none) — got {{ item }}
+  loop: "{{ storm_control_setup_ports }}"
+  when: storm_control_setup_ports | length > 0
+
+- name: Validate storm_control_setup_polling_interval
+  ansible.builtin.assert:
+    that:
+      - storm_control_setup_polling_interval | int >= 1
+    quiet: true
+    fail_msg: "storm_control_setup_polling_interval must be a positive integer, got {{ storm_control_setup_polling_interval }}"
+  when: storm_control_setup_polling_interval is not none
+
+- name: Validate storm_control_setup_polling_retries
+  ansible.builtin.assert:
+    that:
+      - storm_control_setup_polling_retries | int >= 1
+    quiet: true
+    fail_msg: "storm_control_setup_polling_retries must be a positive integer, got {{ storm_control_setup_polling_retries }}"
+  when: storm_control_setup_polling_retries is not none
+
+- name: Validate storm_control_setup_loopback_mode
+  ansible.builtin.assert:
+    that:
+      - storm_control_setup_loopback_mode in ['port-based', 'vlan-based']
+    quiet: true
+    fail_msg: "storm_control_setup_loopback_mode must be 'port-based' or 'vlan-based', got '{{ storm_control_setup_loopback_mode }}'"
+  when: storm_control_setup_loopback_mode is not none
+
+- name: Validate storm_control_setup_loopback_interval
+  ansible.builtin.assert:
+    that:
+      - storm_control_setup_loopback_interval | int >= 1
+    quiet: true
+    fail_msg: "storm_control_setup_loopback_interval must be a positive integer, got {{ storm_control_setup_loopback_interval }}"
+  when: storm_control_setup_loopback_interval is not none
+
+- name: Validate storm_control_setup_loopback_ports is a list
+  ansible.builtin.assert:
+    that:
+      - storm_control_setup_loopback_ports is sequence
+      - storm_control_setup_loopback_ports is not string
+      - storm_control_setup_loopback_ports is not mapping
+    quiet: true
+    fail_msg: "storm_control_setup_loopback_ports must be a list"

@@ -1,0 +1,44 @@
+---
+- name: Validate dns_setup_domain_lookup
+  ansible.builtin.assert:
+    that:
+      - dns_setup_domain_lookup in ['enabled', 'disabled']
+    quiet: true
+    fail_msg: "dns_setup_domain_lookup must be 'enabled' or 'disabled', got '{{ dns_setup_domain_lookup }}'"
+  when: dns_setup_domain_lookup is not none
+
+- name: Validate dns_setup_servers is a list
+  ansible.builtin.assert:
+    that:
+      - dns_setup_servers is sequence
+      - dns_setup_servers is not string
+      - dns_setup_servers is not mapping
+    quiet: true
+    fail_msg: "dns_setup_servers must be a list"
+
+- name: Validate dns_setup_timeout range
+  ansible.builtin.assert:
+    that:
+      - dns_setup_timeout | int >= 1
+    quiet: true
+    fail_msg: "dns_setup_timeout must be a positive integer, got {{ dns_setup_timeout }}"
+  when: dns_setup_timeout is not none
+
+- name: Validate dns_setup_hosts is a list
+  ansible.builtin.assert:
+    that:
+      - dns_setup_hosts is sequence
+      - dns_setup_hosts is not string
+      - dns_setup_hosts is not mapping
+    quiet: true
+    fail_msg: "dns_setup_hosts must be a list"
+
+- name: Validate dns_setup_hosts items have required keys
+  ansible.builtin.assert:
+    that:
+      - item.host_name is defined
+      - item.address is defined
+    quiet: true
+    fail_msg: "Each item in dns_setup_hosts must have 'host_name' and 'address' keys"
+  loop: "{{ dns_setup_hosts }}"
+  when: dns_setup_hosts | length > 0

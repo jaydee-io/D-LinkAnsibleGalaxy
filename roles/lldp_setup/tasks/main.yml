@@ -1,4 +1,8 @@
 ---
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
+
 # --- Global LLDP settings ---
 - name: Configure LLDP global state
   jaydee_io.dlink_dgs1250.lldp_run:

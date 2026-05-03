@@ -1,0 +1,85 @@
+---
+- name: Validate dhcp_snooping_setup_vlans is a list
+  ansible.builtin.assert:
+    that:
+      - dhcp_snooping_setup_vlans is sequence
+      - dhcp_snooping_setup_vlans is not string
+      - dhcp_snooping_setup_vlans is not mapping
+    quiet: true
+    fail_msg: "dhcp_snooping_setup_vlans must be a list"
+
+- name: Validate dhcp_snooping_setup_vlans items range
+  ansible.builtin.assert:
+    that:
+      - item | int >= 1
+      - item | int <= 4094
+    quiet: true
+    fail_msg: "Each VLAN ID must be between 1 and 4094, got {{ item }}"
+  loop: "{{ dhcp_snooping_setup_vlans }}"
+  when: dhcp_snooping_setup_vlans | length > 0
+
+- name: Validate dhcp_snooping_setup_trusted_ports is a list
+  ansible.builtin.assert:
+    that:
+      - dhcp_snooping_setup_trusted_ports is sequence
+      - dhcp_snooping_setup_trusted_ports is not string
+      - dhcp_snooping_setup_trusted_ports is not mapping
+    quiet: true
+    fail_msg: "dhcp_snooping_setup_trusted_ports must be a list"
+
+- name: Validate dhcp_snooping_setup_rate_limits is a list
+  ansible.builtin.assert:
+    that:
+      - dhcp_snooping_setup_rate_limits is sequence
+      - dhcp_snooping_setup_rate_limits is not string
+      - dhcp_snooping_setup_rate_limits is not mapping
+    quiet: true
+    fail_msg: "dhcp_snooping_setup_rate_limits must be a list"
+
+- name: Validate dhcp_snooping_setup_rate_limits items
+  ansible.builtin.assert:
+    that:
+      - item.interface is defined
+      - item.rate is defined
+      - item.rate | int >= 1
+    quiet: true
+    fail_msg: "Each rate limit must have 'interface' and 'rate' (positive integer), got {{ item }}"
+  loop: "{{ dhcp_snooping_setup_rate_limits }}"
+  when: dhcp_snooping_setup_rate_limits | length > 0
+
+- name: Validate dhcp_snooping_setup_dai_vlans is a list
+  ansible.builtin.assert:
+    that:
+      - dhcp_snooping_setup_dai_vlans is sequence
+      - dhcp_snooping_setup_dai_vlans is not string
+      - dhcp_snooping_setup_dai_vlans is not mapping
+    quiet: true
+    fail_msg: "dhcp_snooping_setup_dai_vlans must be a list"
+
+- name: Validate dhcp_snooping_setup_dai_vlans items range
+  ansible.builtin.assert:
+    that:
+      - item | int >= 1
+      - item | int <= 4094
+    quiet: true
+    fail_msg: "Each DAI VLAN ID must be between 1 and 4094, got {{ item }}"
+  loop: "{{ dhcp_snooping_setup_dai_vlans }}"
+  when: dhcp_snooping_setup_dai_vlans | length > 0
+
+- name: Validate dhcp_snooping_setup_dai_trusted_ports is a list
+  ansible.builtin.assert:
+    that:
+      - dhcp_snooping_setup_dai_trusted_ports is sequence
+      - dhcp_snooping_setup_dai_trusted_ports is not string
+      - dhcp_snooping_setup_dai_trusted_ports is not mapping
+    quiet: true
+    fail_msg: "dhcp_snooping_setup_dai_trusted_ports must be a list"
+
+- name: Validate dhcp_snooping_setup_ip_verify_source_ports is a list
+  ansible.builtin.assert:
+    that:
+      - dhcp_snooping_setup_ip_verify_source_ports is sequence
+      - dhcp_snooping_setup_ip_verify_source_ports is not string
+      - dhcp_snooping_setup_ip_verify_source_ports is not mapping
+    quiet: true
+    fail_msg: "dhcp_snooping_setup_ip_verify_source_ports must be a list"

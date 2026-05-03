@@ -1,9 +1,7 @@
 ---
-- name: Validate firmware source is defined
-  ansible.builtin.assert:
-    that:
-      - firmware_upgrade_tftp_source is not none
-    msg: "firmware_upgrade_tftp_source must be set to a TFTP URL"
+- name: Validate role variables
+  ansible.builtin.import_tasks: validate.yml
+  tags: [validate]
 
 # --- Save running config ---
 - name: Save running-config before upgrade
