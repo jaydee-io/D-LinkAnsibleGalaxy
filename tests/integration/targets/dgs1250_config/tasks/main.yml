@@ -1,0 +1,49 @@
+---
+# Integration tests for the dgs1250_config module.
+
+- name: Configure interface description (idempotency baseline)
+  jaydee_io.dlink_dgs1250.dgs1250_config:
+    parents: "interface {{ test_interface }}"
+    lines:
+      - description integration-test-config
+  register: result
+
+- name: Assert first run changed
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+- name: Re-apply same configuration (idempotency)
+  jaydee_io.dlink_dgs1250.dgs1250_config:
+    parents: "interface {{ test_interface }}"
+    lines:
+      - description integration-test-config
+  register: result
+
+- name: Assert second run did not change
+  ansible.builtin.assert:
+    that:
+      - not result.changed
+      - result.updates | length == 0
+    quiet: true
+
+- name: Force re-apply with match=none
+  jaydee_io.dlink_dgs1250.dgs1250_config:
+    parents: "interface {{ test_interface }}"
+    lines:
+      - description integration-test-config
+    match: none
+  register: result
+
+- name: Assert match=none forces apply
+  ansible.builtin.assert:
+    that: result.changed
+    quiet: true
+
+# --- Cleanup ---
+- name: Remove test description
+  jaydee_io.dlink_dgs1250.dgs1250_config:
+    parents: "interface {{ test_interface }}"
+    lines:
+      - no description
+    match: none

@@ -117,6 +117,7 @@ The collection defines an `action_group` named `dgs1250` that covers all modules
 | `config_restore` | Restore a configuration backup to the switch | — |
 | `config_diff` | Compare running-config vs startup-config and report differences | — |
 | `dgs1250_command` | Send arbitrary CLI commands to the switch | — |
+| `dgs1250_config` | Manage configuration sections with parents/before/after, idempotency, and selective save | — |
 
 ### Basic Switch Commands
 

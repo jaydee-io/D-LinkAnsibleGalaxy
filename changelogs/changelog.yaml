@@ -292,3 +292,24 @@ releases:
         - >-
           firmware_upgrade and hardening role tests run in check mode only
           to avoid reboots and admin lockouts.
+
+  1.10.0:
+    release_date: "2026-05-03"
+    changes:
+      release_summary: >-
+        Add dgs1250_config module — a generic configuration module for pushing
+        arbitrary CLI commands with parent/child contexts, idempotency against
+        running-config, and selective save. Similar in spirit to ios_config.
+      minor_changes:
+        - >-
+          Add dgs1250_config module supporting lines, parents (single or list),
+          before, after, match (line/none), running_config, and save_when
+          (always/modified/never). Implements idempotent section-aware
+          comparison against the running-config.
+        - "dgs1250_config: support check_mode and --diff."
+        - >-
+          Add dgs1250_config to action_groups in meta/runtime.yml.
+        - >-
+          Add integration test target for dgs1250_config covering
+          idempotency and match=none behaviour.
+        - "20 new unit tests for dgs1250_config helpers."

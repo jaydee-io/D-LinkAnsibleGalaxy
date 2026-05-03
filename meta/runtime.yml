@@ -130,6 +130,7 @@ action_groups:
     - delete_file
     - dgs1250_acls
     - dgs1250_command
+    - dgs1250_config
     - dgs1250_dns
     - dgs1250_facts
     - dgs1250_l2_interfaces
